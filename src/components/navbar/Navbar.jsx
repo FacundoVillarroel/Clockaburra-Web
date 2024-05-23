@@ -2,6 +2,8 @@ import React from "react";
 import styled from "styled-components";
 import { NavLink } from "react-router-dom";
 
+import { FaUserCircle } from "react-icons/fa";
+
 const NavbarContainer = styled.nav`
   display: flex;
   justify-content: space-between;
@@ -33,6 +35,9 @@ const NavLinks = styled.div`
 `;
 
 const NavLinkStyled = styled(NavLink)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   margin-left: 1rem;
   text-decoration: none;
   color: white;
@@ -57,9 +62,14 @@ const Navbar = ({ isLoggedIn, setIsLoggedIn }) => {
             </NavLinkStyled>
           </>
         ) : (
-          <NavLinkStyled to="/login">Login / Sign In</NavLinkStyled>
+          <>
+            <NavLinkStyled to="/login">
+              <FaUserCircle />
+              Login
+            </NavLinkStyled>
+            <NavLinkStyled to="/register">Start Now, its free!</NavLinkStyled>
+          </>
         )}
-        <NavLinkStyled to="/aboutUs">About Us</NavLinkStyled>
       </NavLinks>
     </NavbarContainer>
   );
