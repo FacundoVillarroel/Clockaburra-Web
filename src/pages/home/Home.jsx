@@ -64,13 +64,6 @@ const FeatureDescription = styled.p`
   color: #666;
 `;
 
-const Footer = styled.footer`
-  padding: 20px;
-  background-color: #111f4d;
-  text-align: center;
-  color: white;
-`;
-
 const Home = () => {
   return (
     <Container>
@@ -99,9 +92,6 @@ const Home = () => {
           </FeatureDescription>
         </Feature>
       </FeaturesSection>
-      <Footer>
-        &copy; {new Date().getFullYear()} Clockaburra. All rights reserved.
-      </Footer>
     </Container>
   );
 };

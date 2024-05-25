@@ -56,6 +56,7 @@ const Navbar = ({ isLoggedIn, setIsLoggedIn }) => {
           <>
             <NavLinkStyled to="/employees">Employees</NavLinkStyled>
             <NavLinkStyled to="/shifts">Shifts</NavLinkStyled>
+            <NavLinkStyled to="/timesheets">Timesheets</NavLinkStyled>
             <NavLinkStyled to="/statistics">Statistics</NavLinkStyled>
             <NavLinkStyled to="/" onClick={() => setIsLoggedIn(false)}>
               Logout
