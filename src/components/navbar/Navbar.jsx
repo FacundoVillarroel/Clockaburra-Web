@@ -2,7 +2,9 @@ import React from "react";
 import styled from "styled-components";
 import { NavLink } from "react-router-dom";
 
+import CustomNavLink from "./customNavLink/CustomNavLink";
 import { FaUserCircle } from "react-icons/fa";
+import Colors from "../../constants/Colors";
 
 const NavbarContainer = styled.nav`
   display: flex;
@@ -34,16 +36,6 @@ const NavLinks = styled.div`
   display: flex;
 `;
 
-const NavLinkStyled = styled(NavLink)`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-left: 1rem;
-  text-decoration: none;
-  color: white;
-  cursor: pointer;
-`;
-
 const Navbar = ({ isLoggedIn, setIsLoggedIn }) => {
   return (
     <NavbarContainer>
@@ -54,21 +46,35 @@ const Navbar = ({ isLoggedIn, setIsLoggedIn }) => {
       <NavLinks>
         {isLoggedIn ? (
           <>
-            <NavLinkStyled to="/employees">Employees</NavLinkStyled>
-            <NavLinkStyled to="/shifts">Shifts</NavLinkStyled>
-            <NavLinkStyled to="/timesheets">Timesheets</NavLinkStyled>
-            <NavLinkStyled to="/statistics">Statistics</NavLinkStyled>
-            <NavLinkStyled to="/" onClick={() => setIsLoggedIn(false)}>
+            <CustomNavLink to="/employees">Employees</CustomNavLink>
+            <CustomNavLink to="/shifts">Shifts</CustomNavLink>
+            <CustomNavLink to="/timesheets">Timesheets</CustomNavLink>
+            <CustomNavLink to="/statistics">Statistics</CustomNavLink>
+            <CustomNavLink to="/" onClick={() => setIsLoggedIn(false)}>
               Logout
-            </NavLinkStyled>
+            </CustomNavLink>
           </>
         ) : (
           <>
-            <NavLinkStyled to="/login">
+            <CustomNavLink
+              to="/login"
+              color={Colors.primary}
+              bgColor={"#fff"}
+              hoverColor={"#fff"}
+              hoverBgColor={Colors.primary}
+            >
               <FaUserCircle />
-              Login
-            </NavLinkStyled>
-            <NavLinkStyled to="/register">Start Now, its free!</NavLinkStyled>
+              <div>Login</div>
+            </CustomNavLink>
+            <CustomNavLink
+              to="/register"
+              border={`2px solid ${Colors.accent}`}
+              color={Colors.accent}
+              hoverBorder={"2px solid #fff"}
+              hoverColor={"#fff"}
+            >
+              Start Now, its free!
+            </CustomNavLink>
           </>
         )}
       </NavLinks>
