@@ -1,6 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 
+import Button from "../../components/ui/button/Button";
+
 const LoginContainer = styled.div`
   max-width: 400px;
   margin: 0 auto;
@@ -23,15 +25,6 @@ const Input = styled.input`
   padding: 0.5rem;
   border: 1px solid #ccc;
   border-radius: 3px;
-`;
-
-const Button = styled.button`
-  padding: 0.5rem;
-  border: none;
-  border-radius: 3px;
-  background-color: #007bff;
-  color: white;
-  cursor: pointer;
 `;
 
 const ForgotPasswordLink = styled.a`

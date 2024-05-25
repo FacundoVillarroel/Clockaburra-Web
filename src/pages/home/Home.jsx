@@ -1,6 +1,10 @@
 // Import necessary libraries and components
 import React from "react";
 import styled from "styled-components";
+import Button from "../../components/ui/button/Button";
+
+import Card from "../../components/ui/card/Card";
+import Colors from "../../constants/Colors";
 
 // Styled components
 const Container = styled.div`
@@ -19,7 +23,7 @@ const Header = styled.header`
 
 const Headline = styled.h1`
   font-size: 36px;
-  color: #333;
+  color: ${Colors.primary};
   margin-bottom: 20px;
 `;
 
@@ -27,20 +31,6 @@ const SubHeadline = styled.p`
   font-size: 18px;
   color: #666;
   margin-bottom: 40px;
-`;
-
-const CallToAction = styled.button`
-  padding: 15px 30px;
-  font-size: 16px;
-  color: #fff;
-  background-color: #007bff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-
-  &:hover {
-    background-color: #0056b3;
-  }
 `;
 
 const FeaturesSection = styled.section`
@@ -68,9 +58,16 @@ const Home = () => {
   return (
     <Container>
       <Header>
-        <Headline>Welcome to Clockaburra</Headline>
-        <SubHeadline>Your ultimate timesheet management solution.</SubHeadline>
-        <CallToAction>Get Started</CallToAction>
+        <Card
+          padding={"2rem 16rem"}
+          boxShadow={"0 2px 5px rgba(17,31,77,0.1);"}
+        >
+          <Headline>Welcome to Clockaburra</Headline>
+          <SubHeadline>
+            Your ultimate timesheet management solution.
+          </SubHeadline>
+          <Button>Get Started</Button>
+        </Card>
       </Header>
       <FeaturesSection>
         <Feature>
