@@ -23,7 +23,13 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route
           path="/login"
-          element={<Login setIsLoggedIn={setIsLoggedIn} />}
+          element={
+            isLoggedIn ? (
+              <Navigate to="employees" />
+            ) : (
+              <Login setIsLoggedIn={setIsLoggedIn} />
+            )
+          }
         />
         <Route path="/employees" element={<Employees />} />
         <Route path="/shifts" element={<Shifts />} />

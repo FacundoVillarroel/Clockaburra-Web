@@ -1,11 +1,12 @@
 import React from "react";
 import styled from "styled-components";
+import { NavLink } from "react-router-dom";
 
 import Button from "../../components/ui/button/Button";
 
 const LoginContainer = styled.div`
   max-width: 400px;
-  margin: 0 auto;
+  margin: 4rem auto;
   padding: 2rem;
   border: 1px solid #ccc;
   border-radius: 5px;
@@ -27,15 +28,22 @@ const Input = styled.input`
   border-radius: 3px;
 `;
 
-const ForgotPasswordLink = styled.a`
+const ForgotPasswordLink = styled(NavLink)`
   text-align: right;
   margin-bottom: 1rem;
   display: block;
+  text-decoration: none;
+  color: black;
+  margin-top: 1rem;
 `;
 
-const NewMemberLink = styled.a`
-  text-align: center;
-  display: block;
+const NewMemberLink = styled(NavLink)`
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: black;
+  margin-top: 1rem;
+  cursor: pointer;
 `;
 
 const Login = ({ setIsLoggedIn }) => {
@@ -54,7 +62,7 @@ const Login = ({ setIsLoggedIn }) => {
         <Button type="submit">Login</Button>
       </Form>
       <ForgotPasswordLink href="#">Forgot password?</ForgotPasswordLink>
-      <NewMemberLink href="#">New member?</NewMemberLink>
+      <NewMemberLink to="/register">New member?</NewMemberLink>
     </LoginContainer>
   );
 };

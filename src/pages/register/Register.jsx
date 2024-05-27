@@ -1,5 +1,8 @@
 import React from "react";
 import styled from "styled-components";
+import { NavLink } from "react-router-dom";
+
+import Button from "../../components/ui/button/Button";
 
 const RegisterContainer = styled.div`
   max-width: 400px;
@@ -25,19 +28,13 @@ const Input = styled.input`
   border-radius: 3px;
 `;
 
-const Button = styled.button`
-  padding: 0.5rem;
-  border: none;
-  border-radius: 3px;
-  background-color: #007bff;
-  color: white;
-  cursor: pointer;
-`;
-
-const NewMemberLink = styled.a`
+const NewMemberLink = styled(NavLink)`
   margin-top: 1rem;
-  text-align: center;
-  display: block;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: black;
+  cursor: pointer;
 `;
 
 const Register = ({ setIsLoggedIn }) => {
@@ -55,7 +52,7 @@ const Register = ({ setIsLoggedIn }) => {
         <Input type="password" placeholder="Password" />
         <Button type="submit">Register</Button>
       </Form>
-      <NewMemberLink href="#">Already a member?</NewMemberLink>
+      <NewMemberLink to="/login">Already a member?</NewMemberLink>
     </RegisterContainer>
   );
 };

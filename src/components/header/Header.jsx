@@ -1,11 +1,16 @@
 import React from "react";
 import Navbar from "../navbar/Navbar";
+import styled from "styled-components";
+
+const HeaderContainer = styled.header`
+  margin-bottom: 7rem;
+`;
 
 const Header = ({ isLoggedIn, setIsLoggedIn }) => {
   return (
-    <header>
+    <HeaderContainer>
       <Navbar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
-    </header>
+    </HeaderContainer>
   );
 };
 
