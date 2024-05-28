@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { NavLink } from "react-router-dom";
-import axios from "axios";
 
 import Button from "../../components/ui/button/Button";
+import Loading from "../../components/ui/loading/Loading";
 
 const LoginContainer = styled.div`
   max-width: 400px;
-  margin: 4rem auto;
+  margin: 10rem auto 4rem auto;
   padding: 2rem;
   border: 1px solid #ccc;
   border-radius: 5px;
@@ -62,31 +62,25 @@ const Login = ({ setIsLoggedIn }) => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
     try {
+      e.preventDefault();
       setLoading(true);
-      const response = await fetch(
-        `${process.env.REACT_APP_BACKEND_IP}/auth/login`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            email: values.email,
-            password: values.password,
-          }),
-        }
-      );
-      const user = await response.json();
-      console.log("USER", user);
+      const response = await fetch(`/api/auth/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: values.email,
+          password: values.password,
+        }),
+      });
       const token =
         response.headers.get("Authorization")?.split(" ")[1] || null;
       if (!token) {
         setLoading(false);
-        console.log("no token", token);
+        throw new Error("Email o contraseña inválidos");
       }
-      console.log("TOKEN:", token);
       setLoading(false);
     } catch (error) {
       console.log(error);
@@ -96,24 +90,28 @@ const Login = ({ setIsLoggedIn }) => {
   return (
     <LoginContainer>
       <Title>Login</Title>
-      <Form onSubmit={handleSubmit}>
-        <Input
-          type="email"
-          placeholder="Email"
-          value={values.email}
-          name="email"
-          onChange={handleInputChange}
-          required
-        />
-        <Input
-          type="password"
-          placeholder="Password"
-          value={values.password}
-          onChange={handleInputChange}
-          name="password"
-        />
-        <Button type="submit">Login</Button>
-      </Form>
+      {loading ? (
+        <Loading />
+      ) : (
+        <Form onSubmit={handleSubmit}>
+          <Input
+            type="email"
+            placeholder="Email"
+            value={values.email}
+            name="email"
+            onChange={handleInputChange}
+            required
+          />
+          <Input
+            type="password"
+            placeholder="Password"
+            value={values.password}
+            onChange={handleInputChange}
+            name="password"
+          />
+          <Button type="submit">Login</Button>
+        </Form>
+      )}
       <ForgotPasswordLink href="#">Forgot password?</ForgotPasswordLink>
       <NewMemberLink to="/register">New member?</NewMemberLink>
     </LoginContainer>

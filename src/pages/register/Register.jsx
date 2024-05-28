@@ -6,7 +6,7 @@ import Button from "../../components/ui/button/Button";
 
 const RegisterContainer = styled.div`
   max-width: 400px;
-  margin: 0 auto;
+  margin: 10rem auto 4rem auto;
   padding: 2rem;
   border: 1px solid #ccc;
   border-radius: 5px;
