@@ -14,8 +14,6 @@ import Footer from "./components/footer/Footer";
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  console.log("IS LOGGED IN ?: ", isLoggedIn);
-
   return (
     <BrowserRouter>
       <Header isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />

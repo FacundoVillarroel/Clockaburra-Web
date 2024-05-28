@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { NavLink } from "react-router-dom";
+import axios from "axios";
 
 import Button from "../../components/ui/button/Button";
 
@@ -47,18 +48,70 @@ const NewMemberLink = styled(NavLink)`
 `;
 
 const Login = ({ setIsLoggedIn }) => {
-  const handleSubmit = (e) => {
+  const [loading, setLoading] = useState(false);
+  const [values, setValues] = useState({
+    email: "",
+    password: "",
+  });
+
+  const handleInputChange = (e) => {
+    setValues({
+      ...values,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Clicked");
-    setIsLoggedIn(true);
+    try {
+      setLoading(true);
+      const response = await fetch(
+        `${process.env.REACT_APP_BACKEND_IP}/auth/login`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: values.email,
+            password: values.password,
+          }),
+        }
+      );
+      const user = await response.json();
+      console.log("USER", user);
+      const token =
+        response.headers.get("Authorization")?.split(" ")[1] || null;
+      if (!token) {
+        setLoading(false);
+        console.log("no token", token);
+      }
+      console.log("TOKEN:", token);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
     <LoginContainer>
       <Title>Login</Title>
       <Form onSubmit={handleSubmit}>
-        <Input type="email" placeholder="Email" />
-        <Input type="password" placeholder="Password" />
+        <Input
+          type="email"
+          placeholder="Email"
+          value={values.email}
+          name="email"
+          onChange={handleInputChange}
+          required
+        />
+        <Input
+          type="password"
+          placeholder="Password"
+          value={values.password}
+          onChange={handleInputChange}
+          name="password"
+        />
         <Button type="submit">Login</Button>
       </Form>
       <ForgotPasswordLink href="#">Forgot password?</ForgotPasswordLink>
