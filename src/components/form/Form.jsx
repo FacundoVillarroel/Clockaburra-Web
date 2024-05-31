@@ -1,50 +1,6 @@
 import React, { useState } from "react";
-import styled from "styled-components";
 
-// Styled components
-const FormControl = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 20px;
-`;
-
-const Label = styled.label`
-  margin-bottom: 5px;
-  font-size: 14px;
-  color: #333;
-`;
-
-const Input = styled.input`
-  padding: 10px;
-  font-size: 14px;
-  border: 1px solid ${(props) => (props.error ? "#FF6347" : "#ccc")};
-  border-radius: 5px;
-  outline: none;
-
-  &:focus {
-    border-color: ${(props) => (props.error ? "#FF6347" : "#007BFF")};
-  }
-`;
-
-const ErrorMessage = styled.span`
-  margin-top: 5px;
-  font-size: 12px;
-  color: #ff6347;
-`;
-
-const Button = styled.button`
-  padding: 10px 20px;
-  font-size: 14px;
-  color: #fff;
-  background-color: #007bff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-
-  &:hover {
-    background-color: #0056b3;
-  }
-`;
+import { FormControl, Label, Input, ErrorMessage, Button } from "./Form.styles";
 
 // Reusable InputForm component
 const InputForm = ({
