@@ -13,6 +13,7 @@ import Shifts from "./pages/shifts/Shifts";
 import Timesheets from "./pages/timesheets/Timesheets";
 import Statistics from "./pages/statistics/Statistics";
 import Footer from "./components/footer/Footer";
+import PublicRoute from "./components/publicRoute/PublicRoute";
 
 function App() {
   return (
@@ -21,9 +22,22 @@ function App() {
         <Header />
         <Routes>
           <Route path="/" element={<Home />} />
-          {/* Navigate to /employees if token */}
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
+          <Route
+            path="/login"
+            element={
+              <PublicRoute>
+                <Login />
+              </PublicRoute>
+            }
+          />
+          <Route
+            path="/register"
+            element={
+              <PublicRoute>
+                <Register />
+              </PublicRoute>
+            }
+          />
           <Route
             path="/employees"
             element={
