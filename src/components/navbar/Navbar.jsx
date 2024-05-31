@@ -1,10 +1,12 @@
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { NavLink } from "react-router-dom";
 
 import CustomNavLink from "./customNavLink/CustomNavLink";
 import { FaUserCircle } from "react-icons/fa";
 import Colors from "../../constants/Colors";
+import { logout } from "../../store/reducers/authSlice";
 
 const NavbarContainer = styled.nav`
   display: flex;
@@ -40,7 +42,14 @@ const NavLinks = styled.div`
   display: flex;
 `;
 
-const Navbar = ({ isLoggedIn, setIsLoggedIn }) => {
+const Navbar = () => {
+  const { token } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+
+  const handleLogout = () => {
+    dispatch(logout());
+  };
+
   return (
     <NavbarContainer>
       <LogoContainer to="/">
@@ -48,13 +57,13 @@ const Navbar = ({ isLoggedIn, setIsLoggedIn }) => {
         <LogoText>Clockaburra</LogoText>
       </LogoContainer>
       <NavLinks>
-        {isLoggedIn ? (
+        {token ? (
           <>
             <CustomNavLink to="/employees">Employees</CustomNavLink>
             <CustomNavLink to="/shifts">Shifts</CustomNavLink>
             <CustomNavLink to="/timesheets">Timesheets</CustomNavLink>
             <CustomNavLink to="/statistics">Statistics</CustomNavLink>
-            <CustomNavLink to="/" onClick={() => setIsLoggedIn(false)}>
+            <CustomNavLink to="/" onClick={handleLogout}>
               Logout
             </CustomNavLink>
           </>

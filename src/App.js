@@ -1,6 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { Provider } from "react-redux";
+import { store } from "./store/store";
 
+import PrivateRoute from "./components/privateRoute/PrivateRoute";
 import Header from "./components/header/Header";
 import Home from "./pages/home/Home";
 import Login from "./pages/login/Login";
@@ -12,32 +15,52 @@ import Statistics from "./pages/statistics/Statistics";
 import Footer from "./components/footer/Footer";
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
   return (
-    <BrowserRouter>
-      <Header isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route
-          path="/login"
-          element={
-            isLoggedIn ? (
-              <Navigate to="employees" />
-            ) : (
-              <Login setIsLoggedIn={setIsLoggedIn} />
-            )
-          }
-        />
-        <Route path="/employees" element={<Employees />} />
-        <Route path="/shifts" element={<Shifts />} />
-        <Route path="/timesheets" element={<Timesheets />} />
-        <Route path="/statistics" element={<Statistics />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="*" element={<Navigate to="/" />} />
-      </Routes>
-      <Footer />
-    </BrowserRouter>
+    <Provider store={store}>
+      <BrowserRouter>
+        <Header />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          {/* Navigate to /employees if token */}
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route
+            path="/employees"
+            element={
+              <PrivateRoute>
+                <Employees />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/shifts"
+            element={
+              <PrivateRoute>
+                <Shifts />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/timesheets"
+            element={
+              <PrivateRoute>
+                <Timesheets />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/statistics"
+            element={
+              <PrivateRoute>
+                <Statistics />
+              </PrivateRoute>
+            }
+          />
+          <Route path="*" element={<Navigate to="/" />} />
+        </Routes>
+        <Footer />
+      </BrowserRouter>
+    </Provider>
   );
 }
 

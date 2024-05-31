@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { NavLink } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "../../store/reducers/authSlice";
 
 import Button from "../../components/ui/button/Button";
 import Loading from "../../components/ui/loading/Loading";
@@ -47,12 +49,13 @@ const NewMemberLink = styled(NavLink)`
   cursor: pointer;
 `;
 
-const Login = ({ setIsLoggedIn }) => {
-  const [loading, setLoading] = useState(false);
+const Login = () => {
   const [values, setValues] = useState({
     email: "",
     password: "",
   });
+  const dispatch = useDispatch();
+  const { status, error } = useSelector((state) => state.auth);
 
   const handleInputChange = (e) => {
     setValues({
@@ -62,35 +65,18 @@ const Login = ({ setIsLoggedIn }) => {
   };
 
   const handleSubmit = async (e) => {
+    e.preventDefault();
     try {
-      e.preventDefault();
-      setLoading(true);
-      const response = await fetch(`/api/auth/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: values.email,
-          password: values.password,
-        }),
-      });
-      const token =
-        response.headers.get("Authorization")?.split(" ")[1] || null;
-      if (!token) {
-        setLoading(false);
-        throw new Error("Email o contraseña inválidos");
-      }
-      setLoading(false);
+      dispatch(login({ email: values.email, password: values.password }));
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 
   return (
     <LoginContainer>
       <Title>Login</Title>
-      {loading ? (
+      {status === "loading" ? (
         <Loading />
       ) : (
         <Form onSubmit={handleSubmit}>
@@ -112,6 +98,7 @@ const Login = ({ setIsLoggedIn }) => {
           <Button type="submit">Login</Button>
         </Form>
       )}
+      {status === "failed" && <p>{error}</p>}
       <ForgotPasswordLink href="#">Forgot password?</ForgotPasswordLink>
       <NewMemberLink to="/register">New member?</NewMemberLink>
     </LoginContainer>
