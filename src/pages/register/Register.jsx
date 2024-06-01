@@ -10,11 +10,10 @@ import {
   NewMemberLink,
 } from "./Register.styles";
 
-const Register = ({ setIsLoggedIn }) => {
+const Register = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Clicked");
-    setIsLoggedIn(true);
   };
 
   return (

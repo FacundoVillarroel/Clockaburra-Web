@@ -20,7 +20,7 @@ const Login = () => {
     password: "",
   });
   const dispatch = useDispatch();
-  const { status, error } = useSelector((state) => state.auth);
+  const { status } = useSelector((state) => state.auth);
 
   const handleInputChange = (e) => {
     setValues({
@@ -63,7 +63,6 @@ const Login = () => {
           <Button type="submit">Login</Button>
         </Form>
       )}
-      {status === "failed" && <p>{error}</p>}
       <ForgotPasswordLink href="#">Forgot password?</ForgotPasswordLink>
       <NewMemberLink to="/register">New member?</NewMemberLink>
     </LoginContainer>

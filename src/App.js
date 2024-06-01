@@ -14,65 +14,68 @@ import Timesheets from "./pages/timesheets/Timesheets";
 import Statistics from "./pages/statistics/Statistics";
 import Footer from "./components/footer/Footer";
 import PublicRoute from "./components/publicRoute/PublicRoute";
+import AuthProvider from "./components/authProvider/AuthProvider";
 
 function App() {
   return (
     <Provider store={store}>
       <BrowserRouter>
-        <Header />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route
-            path="/login"
-            element={
-              <PublicRoute>
-                <Login />
-              </PublicRoute>
-            }
-          />
-          <Route
-            path="/register"
-            element={
-              <PublicRoute>
-                <Register />
-              </PublicRoute>
-            }
-          />
-          <Route
-            path="/employees"
-            element={
-              <PrivateRoute>
-                <Employees />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/shifts"
-            element={
-              <PrivateRoute>
-                <Shifts />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/timesheets"
-            element={
-              <PrivateRoute>
-                <Timesheets />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/statistics"
-            element={
-              <PrivateRoute>
-                <Statistics />
-              </PrivateRoute>
-            }
-          />
-          <Route path="*" element={<Navigate to="/" />} />
-        </Routes>
-        <Footer />
+        <AuthProvider>
+          <Header />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route
+              path="/login"
+              element={
+                <PublicRoute>
+                  <Login />
+                </PublicRoute>
+              }
+            />
+            <Route
+              path="/register"
+              element={
+                <PublicRoute>
+                  <Register />
+                </PublicRoute>
+              }
+            />
+            <Route
+              path="/employees"
+              element={
+                <PrivateRoute>
+                  <Employees />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/shifts"
+              element={
+                <PrivateRoute>
+                  <Shifts />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/timesheets"
+              element={
+                <PrivateRoute>
+                  <Timesheets />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/statistics"
+              element={
+                <PrivateRoute>
+                  <Statistics />
+                </PrivateRoute>
+              }
+            />
+            <Route path="*" element={<Navigate to="/" />} />
+          </Routes>
+          <Footer />
+        </AuthProvider>
       </BrowserRouter>
     </Provider>
   );

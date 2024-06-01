@@ -32,6 +32,20 @@ const authSlice = createSlice({
       .addCase(login.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.payload;
+      })
+      .addCase(validateToken.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(validateToken.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.token = action.payload.token;
+        state.user = action.payload.user;
+      })
+      .addCase(validateToken.rejected, (state, action) => {
+        state.status = "failed";
+        state.token = null;
+        state.user = null;
+        state.error = action.payload;
       });
   },
 });
@@ -58,6 +72,35 @@ export const login = createAsyncThunk(
       setCookie("token", token, 7); // Token expires in 7 days
       return { user, token };
     } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+export const validateToken = createAsyncThunk(
+  "auth/validateToken",
+  async (_, { rejectWithValue }) => {
+    const token = getCookie("token");
+    if (!token) {
+      return rejectWithValue("No token found");
+    }
+
+    try {
+      const response = await fetch(`/api/auth/me`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Token is invalid");
+      }
+
+      const user = await response.json();
+      return { user, token };
+    } catch (error) {
+      eraseCookie("token");
       return rejectWithValue(error.message);
     }
   }
