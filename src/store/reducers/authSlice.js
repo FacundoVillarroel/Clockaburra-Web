@@ -96,9 +96,10 @@ export const validateToken = createAsyncThunk(
       if (!response.ok) {
         throw new Error("Token is invalid");
       }
-
       const user = await response.json();
-      return { user, token };
+      const renewedToken = response.headers.get("Authorization").split(" ")[1];
+      setCookie("token", renewedToken, 7);
+      return { user, token: renewedToken };
     } catch (error) {
       eraseCookie("token");
       return rejectWithValue(error.message);
