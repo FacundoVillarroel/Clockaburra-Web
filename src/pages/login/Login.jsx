@@ -10,17 +10,22 @@ import {
   Title,
   Form,
   Input,
+  LinksContainer,
   ForgotPasswordLink,
   NewMemberLink,
+  ErrorText,
 } from "./Login.styles";
 
+const initialValues = {
+  email: "",
+  password: "",
+};
+
 const Login = () => {
-  const [values, setValues] = useState({
-    email: "",
-    password: "",
-  });
+  const [values, setValues] = useState(initialValues);
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const dispatch = useDispatch();
-  const { status } = useSelector((state) => state.auth);
+  const { status, error } = useSelector((state) => state.auth);
 
   const handleInputChange = (e) => {
     setValues({
@@ -33,8 +38,25 @@ const Login = () => {
     e.preventDefault();
     try {
       dispatch(login({ email: values.email, password: values.password }));
+      setIsSubmitted(true);
+      setValues((oldValues) => {
+        return { email: oldValues.email, password: "" };
+      });
     } catch (error) {
       console.error(error);
+    }
+  };
+
+  const getText = () => {
+    if (
+      error === "Incorrect email or password" &&
+      isSubmitted &&
+      !values.password &&
+      status === "failed"
+    ) {
+      return "Incorrect email or password";
+    } else {
+      return "";
     }
   };
 
@@ -63,8 +85,11 @@ const Login = () => {
           <Button type="submit">Login</Button>
         </Form>
       )}
-      <ForgotPasswordLink href="#">Forgot password?</ForgotPasswordLink>
-      <NewMemberLink to="/register">New member?</NewMemberLink>
+      <ErrorText>{getText()}</ErrorText>
+      <LinksContainer>
+        <ForgotPasswordLink href="#">Forgot password?</ForgotPasswordLink>
+        <NewMemberLink to="/register">New member?</NewMemberLink>
+      </LinksContainer>
     </LoginContainer>
   );
 };

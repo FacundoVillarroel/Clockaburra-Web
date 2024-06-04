@@ -66,8 +66,11 @@ export const login = createAsyncThunk(
       const user = await response.json();
       const token =
         response.headers.get("Authorization")?.split(" ")[1] || null;
-      if (!token) {
-        throw new Error("Email o contraseña inválidos");
+      if (response.status === 403) {
+        throw new Error("Failed to authenticate token");
+      }
+      if (response.status === 400 || !token) {
+        throw new Error("Incorrect email or password");
       }
       setCookie("token", token, 7); // Token expires in 7 days
       return { user, token };

@@ -25,9 +25,13 @@ export const Input = styled.input`
   border-radius: 3px;
 `;
 
+export const LinksContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
 export const ForgotPasswordLink = styled(NavLink)`
   text-align: right;
-  margin-bottom: 1rem;
   display: block;
   text-decoration: none;
   color: black;
@@ -41,4 +45,9 @@ export const NewMemberLink = styled(NavLink)`
   color: black;
   margin-top: 1rem;
   cursor: pointer;
+`;
+
+export const ErrorText = styled.div`
+  color: red;
+  margin-top: 1rem;
 `;
