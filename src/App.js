@@ -15,6 +15,7 @@ import Statistics from "./pages/statistics/Statistics";
 import Footer from "./components/footer/Footer";
 import PublicRoute from "./components/publicRoute/PublicRoute";
 import AuthProvider from "./components/authProvider/AuthProvider";
+import LinkToApp from "./pages/linkToApp/LinkToApp";
 
 function App() {
   return (
@@ -72,6 +73,7 @@ function App() {
                 </PrivateRoute>
               }
             />
+            <Route path="/app-for-employees-link" element={<LinkToApp />} />
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
           <Footer />

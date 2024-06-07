@@ -15,6 +15,7 @@ const authSlice = createSlice({
     logout: (state) => {
       state.user = null;
       state.token = null;
+      state.error = null;
       eraseCookie("token");
     },
   },
@@ -26,8 +27,7 @@ const authSlice = createSlice({
       .addCase(login.fulfilled, (state, action) => {
         state.status = "succeeded";
         state.token = action.payload.token;
-        // Set user data if returned from backend
-        // state.user = action.payload.user;
+        state.user = action.payload.user;
       })
       .addCase(login.rejected, (state, action) => {
         state.status = "failed";
@@ -71,6 +71,9 @@ export const login = createAsyncThunk(
       }
       if (response.status === 400 || !token) {
         throw new Error("Incorrect email or password");
+      }
+      if (user.role !== "employer") {
+        return { user: "employee", token: null };
       }
       setCookie("token", token, 7); // Token expires in 7 days
       return { user, token };

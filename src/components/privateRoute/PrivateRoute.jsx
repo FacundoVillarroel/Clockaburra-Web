@@ -4,15 +4,25 @@ import { useSelector } from "react-redux";
 import Loading from "../ui/loading/Loading";
 
 const PrivateRoute = ({ children }) => {
-  const { token, status } = useSelector((state) => state.auth);
+  const { token, status, user } = useSelector((state) => state.auth);
 
-  return status === "loading" ? (
-    <Loading />
-  ) : token ? (
-    children
-  ) : (
-    <Navigate to="/login" />
-  );
+  const renderContent = () => {
+    if (status === "loading") {
+      return <Loading />;
+    }
+
+    if (!token) {
+      return <Navigate to="/login" />;
+    }
+
+    if (user === "employee") {
+      return <Navigate to="/app-for-employees-link" />;
+    }
+
+    return children;
+  };
+
+  return renderContent();
 };
 
 export default PrivateRoute;

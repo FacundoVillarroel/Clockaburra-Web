@@ -43,7 +43,7 @@ const Login = () => {
         return { email: oldValues.email, password: "" };
       });
     } catch (error) {
-      console.error(error);
+      console.error("Login.jsx:", error);
     }
   };
 
