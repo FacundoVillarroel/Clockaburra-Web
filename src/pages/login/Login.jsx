@@ -14,7 +14,7 @@ import {
   ForgotPasswordLink,
   NewMemberLink,
   ErrorText,
-} from "./Login.styles";
+} from "./login.styles";
 
 const initialValues = {
   email: "",

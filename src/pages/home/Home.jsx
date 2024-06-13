@@ -13,7 +13,7 @@ import {
   Feature,
   FeatureTitle,
   FeatureDescription,
-} from "./Home.styles";
+} from "./home.styles";
 
 const Home = () => {
   return (

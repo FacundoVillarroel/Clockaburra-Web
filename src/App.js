@@ -42,7 +42,7 @@ function App() {
               }
             />
             <Route
-              path="/employees"
+              path="/employees/*"
               element={
                 <PrivateRoute>
                   <Employees />

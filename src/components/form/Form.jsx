@@ -1,112 +1,42 @@
 import React, { useState } from "react";
+import Input from "../input/Input";
 
-import { FormControl, Label, Input, ErrorMessage, Button } from "./Form.styles";
+import { Button } from "./form.styles";
 
-// Reusable InputForm component
-const InputForm = ({
-  label,
-  type = "text",
-  name,
-  value,
-  onChange,
-  onBlur,
-  error,
-  placeholder,
-}) => {
-  return (
-    <FormControl>
-      {label && <Label htmlFor={name}>{label}</Label>}
-      <Input
-        type={type}
-        id={name}
-        name={name}
-        value={value}
-        onChange={onChange}
-        onBlur={onBlur}
-        error={error}
-        placeholder={placeholder}
-      />
-      {error && <ErrorMessage>{error}</ErrorMessage>}
-    </FormControl>
+const Form = ({ onSubmit, fields }) => {
+  const [formData, setFormData] = useState(
+    fields.reduce((acc, field) => {
+      acc[field.name] = field.value || "";
+      return acc;
+    }, {})
   );
-};
-
-// Example usage
-const Form = () => {
-  const [formValues, setFormValues] = useState({
-    username: "",
-    email: "",
-    password: "",
-  });
-
-  const [formErrors, setFormErrors] = useState({
-    username: "",
-    email: "",
-    password: "",
-  });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormValues({
-      ...formValues,
+    setFormData({
+      ...formData,
       [name]: value,
-    });
-  };
-
-  const handleBlur = (e) => {
-    const { name, value } = e.target;
-    let error = "";
-    if (!value) {
-      error = `${name} is required`;
-    } else if (name === "email" && !/\S+@\S+\.\S+/.test(value)) {
-      error = "Invalid email address";
-    } else if (name === "password" && value.length < 6) {
-      error = "Password must be at least 6 characters";
-    }
-    setFormErrors({
-      ...formErrors,
-      [name]: error,
     });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const errors = {};
-    Object.keys(formValues).forEach((name) => {
-      if (!formValues[name]) {
-        errors[name] = `${name} is required`;
-      }
-    });
-    if (Object.keys(errors).length > 0) {
-      setFormErrors(errors);
-    } else {
-      // Handle form submission
-      console.log("Form submitted successfully:", formValues);
-    }
+    onSubmit(formData);
   };
 
   return (
     <form onSubmit={handleSubmit}>
-      <InputForm
-        label="Email"
-        type="email"
-        name="email"
-        value={formValues.email}
-        onChange={handleChange}
-        onBlur={handleBlur}
-        error={formErrors.email}
-        placeholder="Enter your email"
-      />
-      <InputForm
-        label="Password"
-        type="password"
-        name="password"
-        value={formValues.password}
-        onChange={handleChange}
-        onBlur={handleBlur}
-        error={formErrors.password}
-        placeholder="Enter your password"
-      />
+      {fields.map((field, index) => (
+        <Input
+          key={index}
+          label={field.label}
+          type={field.type}
+          name={field.name}
+          value={formData[field.name]}
+          onChange={handleChange}
+          options={field.options || []}
+        />
+      ))}
       <Button type="submit">Submit</Button>
     </form>
   );
