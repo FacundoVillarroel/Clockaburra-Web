@@ -6,7 +6,8 @@ import { Button } from "./form.styles";
 const Form = ({ onSubmit, fields }) => {
   const [formData, setFormData] = useState(
     fields.reduce((acc, field) => {
-      acc[field.name] = field.value || "";
+      acc[field.name] =
+        field.value || (field.type === "select" ? field.options[0].value : "");
       return acc;
     }, {})
   );

@@ -92,7 +92,7 @@ export const validateToken = createAsyncThunk(
     }
 
     try {
-      const response = await fetch(`/api/auth/me`, {
+      const response = await fetch("/api/auth/me", {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,

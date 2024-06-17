@@ -1,5 +1,7 @@
 import React from "react";
 import Form from "../../../components/form/Form";
+import { getCookie } from "../../../utils/cookies";
+import { DateTime } from "luxon";
 
 import { EmployeeFormContainer, Title } from "./employeeForm.styles";
 
@@ -21,8 +23,31 @@ const EmployeeForm = () => {
     { label: "Hourly Rate", type: "number", name: "hourlyRate" },
   ];
 
-  const handleSubmit = (formData) => {
-    console.log("Form Data Submitted:", formData);
+  const handleSubmit = async (formData) => {
+    const hasEmptyValue = Object.values(formData).some((value) => !value);
+    if (hasEmptyValue) {
+      return alert("There are empty values on the form");
+    }
+    console.log(formData);
+    const token = getCookie("token");
+    let startDate = DateTime.fromISO(formData.startDate);
+    startDate = startDate.startOf("day");
+    formData.startDate = startDate.toString();
+
+    try {
+      const response = await fetch("/api/users", {
+        method: "POST",
+
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const respuesta = await response.json();
+      console.log("Respuesta", respuesta);
+    } catch (error) {}
   };
 
   return (
