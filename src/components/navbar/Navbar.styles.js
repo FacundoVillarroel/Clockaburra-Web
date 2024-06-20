@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { NavLink } from "react-router-dom";
+import Colors from "../../constants/Colors";
 
 export const NavbarContainer = styled.nav`
   display: flex;
@@ -12,6 +13,8 @@ export const NavbarContainer = styled.nav`
   top: 0;
   box-sizing: border-box;
   width: 100%;
+  border-bottom: 2px solid ${Colors.accent};
+  z-index: 1000;
 `;
 
 export const LogoContainer = styled(NavLink)`
