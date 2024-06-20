@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import Colors from "../../../constants/Colors";
 
 export const StyledTable = styled.table`
   width: 100%;
@@ -6,8 +7,8 @@ export const StyledTable = styled.table`
 `;
 
 export const StyledTh = styled.th`
-  background-color: ${(props) => props.bgColor || "#f2f2f2"};
-  color: ${(props) => props.color || "#000"};
+  background-color: ${(props) => props.bgColor || Colors.primary};
+  color: ${(props) => props.color || "#fff"};
   padding: ${(props) => props.padding || ".8rem"};
   border: ${(props) => props.border || "1px solid #ddd"};
 `;
