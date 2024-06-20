@@ -2,7 +2,7 @@ import React from "react";
 
 import { StyledTable, StyledTh, StyledTd } from "./Table.styles";
 
-const Table = ({ columns, data }) => {
+const Table = ({ columns, data, onRowClick }) => {
   return (
     <StyledTable>
       <thead>
@@ -14,7 +14,7 @@ const Table = ({ columns, data }) => {
       </thead>
       <tbody>
         {data.map((row, rowIndex) => (
-          <tr key={rowIndex}>
+          <tr key={rowIndex} onClick={() => onRowClick(row)}>
             {columns.map((col, colIndex) => (
               <StyledTd key={colIndex}>{row[col]}</StyledTd>
             ))}

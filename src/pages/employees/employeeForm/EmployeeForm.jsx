@@ -46,6 +46,9 @@ const EmployeeForm = () => {
       });
 
       const respuesta = await response.json();
+      if (response.ok) {
+        alert("Employee created successfully");
+      }
       console.log("Respuesta", respuesta);
     } catch (error) {}
   };

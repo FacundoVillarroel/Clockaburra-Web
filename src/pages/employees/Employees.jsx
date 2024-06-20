@@ -1,17 +1,29 @@
 import React from "react";
-import { Routes, Route, Link } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
+import EmployeeDetails from "./employeeDetails/EmployeeDetails";
 
 import EmployeeForm from "./employeeForm/EmployeeForm";
-import { EmployeesContainer, Title } from "./employees.styles";
+import EmployeeList from "./employeeList/EmployeeList";
+import {
+  EmployeesContainer,
+  Title,
+  StyledLink,
+  Content,
+} from "./employees.styles";
 
 const Employees = () => {
   return (
     <EmployeesContainer>
       <Title>Employees</Title>
-      <Link to="new">Add New Employee</Link>
-      <Routes>
-        <Route path="new" element={<EmployeeForm />} />
-      </Routes>
+      <StyledLink to="new">Add new employee</StyledLink>
+      <StyledLink to="list">List of employees</StyledLink>
+      <Content>
+        <Routes>
+          <Route path="new" element={<EmployeeForm />} />
+          <Route path="list" element={<EmployeeList />} />
+          <Route path="details/:id" element={<EmployeeDetails />} />
+        </Routes>
+      </Content>
     </EmployeesContainer>
   );
 };
