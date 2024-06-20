@@ -21,7 +21,6 @@ const EmployeeList = () => {
         headers: { Authorization: `Bearer ${token}` },
       });
       const users = await response.json();
-      console.log("Users :", users);
       setEmployees(formatData(users));
       setLoading(false);
     } catch (error) {

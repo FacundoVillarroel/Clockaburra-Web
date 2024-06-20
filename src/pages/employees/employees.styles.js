@@ -18,8 +18,9 @@ export const Content = styled.div`
 
 export const StyledLink = styled(Link)`
   text-decoration: none;
-  color: ${Colors.secondary};
-  padding: 2rem;
-  margin-bottom: 1rem;
+  color: ${Colors.primary};
+  margin-right: 2rem;
+  margin-bottom: 3rem;
   font-size: 1.1rem;
+  font-weight: 500;
 `;
