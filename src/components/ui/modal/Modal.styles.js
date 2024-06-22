@@ -10,6 +10,7 @@ export const ModalOverlay = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 2000;
 `;
 
 export const ModalContent = styled.div`
@@ -18,4 +19,5 @@ export const ModalContent = styled.div`
   border-radius: ${(props) => props.borderRadius || "1.5rem"};
   width: ${(props) => props.width || "50rem"};
   max-width: 100%;
+  position: relative;
 `;

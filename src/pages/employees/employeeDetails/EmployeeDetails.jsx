@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import Loading from "../../../components/ui/loading/Loading";
 import { LuPenSquare, LuTrash2 } from "react-icons/lu";
@@ -16,12 +16,15 @@ import {
   Info,
 } from "./EmployeeDetails.styles";
 
+import DeleteUserModal from "../../../components/deleteUserModal/DeleteUserModal";
+
 const EmployeeDetails = () => {
   const { id } = useParams();
   const [loading, setLoading] = useState(false);
   const [employee, setEmployee] = useState({ surname: "Hola" });
+  const [modalOpen, setModalOpen] = useState(false);
 
-  const fetchUser = async () => {
+  const fetchUser = useCallback(async () => {
     try {
       const token = getCookie("token");
       setLoading(true);
@@ -37,11 +40,23 @@ const EmployeeDetails = () => {
       setLoading(false);
       console.error("EmployeeDetail", error);
     }
-  };
+  }, [id]);
 
   useEffect(() => {
     fetchUser();
-  }, [id]);
+  }, [fetchUser]);
+
+  const handleDelete = () => {
+    console.log("user Deleted:", id);
+  };
+
+  const onDelete = () => {
+    setModalOpen(true);
+  };
+
+  const handleCLose = () => {
+    setModalOpen(false);
+  };
 
   return (
     <div>
@@ -57,7 +72,7 @@ const EmployeeDetails = () => {
             <EditButton>
               <LuPenSquare color="white" fontSize={30} />
             </EditButton>
-            <DeleteButton>
+            <DeleteButton onClick={onDelete}>
               <LuTrash2 color="white" fontSize={30} />
             </DeleteButton>
           </EmployeeHeader>
@@ -86,6 +101,13 @@ const EmployeeDetails = () => {
               {employee.isRegistered ? "Yes" : "No"}
             </Card>
           </EmployeeBody>
+          {modalOpen && (
+            <DeleteUserModal
+              id={id}
+              handleCLose={handleCLose}
+              handleDelete={handleDelete}
+            />
+          )}
         </RootContainer>
       )}
     </div>

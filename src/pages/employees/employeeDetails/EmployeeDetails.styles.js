@@ -35,6 +35,12 @@ export const EditButton = styled.div`
   position: absolute;
   right: 4rem;
   top: 4rem;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+
+  &:hover {
+    transform: scale(1.1);
+  }
 `;
 export const DeleteButton = styled.div`
   min-width: 1rem;
@@ -42,6 +48,12 @@ export const DeleteButton = styled.div`
   position: absolute;
   right: 4rem;
   bottom: 4rem;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+
+  &:hover {
+    transform: scale(1.1);
+  }
 `;
 export const EmployeeBody = styled.div`
   padding-top: 2rem;

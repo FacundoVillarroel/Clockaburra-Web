@@ -16,4 +16,5 @@ export const StyledTh = styled.th`
 export const StyledTd = styled.td`
   padding: ${(props) => props.padding || ".8rem"};
   border: ${(props) => props.border || "1px solid #ddd"};
+  cursor: ${(props) => props.cursor || "default"};
 `;

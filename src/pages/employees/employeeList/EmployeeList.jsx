@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import Table from "../../../components/ui/table/Table";
 import { DateTime } from "luxon";
@@ -13,7 +13,7 @@ const EmployeeList = () => {
 
   const columns = ["Name", "Surname", "Email", "Role", "Start Date"];
 
-  const apiCall = async () => {
+  const fetchUsers = useCallback(async () => {
     try {
       setLoading(true);
       const token = getCookie("token");
@@ -27,11 +27,11 @@ const EmployeeList = () => {
       setLoading(false);
       console.error("EmployeeList", error);
     }
-  };
+  }, []);
 
   useEffect(() => {
-    apiCall();
-  }, []);
+    fetchUsers();
+  }, [fetchUsers]);
 
   const formatData = (data) => {
     return data
@@ -57,7 +57,12 @@ const EmployeeList = () => {
       {loading ? (
         <Loading />
       ) : (
-        <Table columns={columns} data={employees} onRowClick={handleRowClick} />
+        <Table
+          columns={columns}
+          data={employees}
+          onRowClick={handleRowClick}
+          cursor={"pointer"}
+        />
       )}
     </div>
   );
