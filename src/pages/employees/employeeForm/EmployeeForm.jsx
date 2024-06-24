@@ -48,11 +48,11 @@ const EmployeeForm = () => {
         body: JSON.stringify(formData),
       });
 
-      const parsedResponse = await response.json();
+      const result = await response.json();
       if (response.ok) {
         alert("Employee created successfully");
       }
-      if (parsedResponse.message === "Document already exists") {
+      if (result.message === "Document already exists") {
         alert("Email already in use");
       }
       setLoading(false);

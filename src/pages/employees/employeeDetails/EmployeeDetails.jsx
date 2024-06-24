@@ -36,7 +36,6 @@ const EmployeeDetails = () => {
         },
       });
       const user = await response.json();
-      console.log(user);
       setEmployee(user.user);
       setLoading(false);
     } catch (error) {
@@ -92,7 +91,7 @@ const EmployeeDetails = () => {
       ) : (
         <RootContainer>
           <EmployeeHeader>
-            <EmployeeImageContainer imageUrl={employee.imageUrl || logo} />
+            <EmployeeImageContainer image_url={employee.imageUrl || logo} />
             <Info>
               {employee.name} {employee.surname}
             </Info>

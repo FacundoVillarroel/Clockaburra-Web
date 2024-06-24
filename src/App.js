@@ -16,6 +16,7 @@ import Footer from "./components/footer/Footer";
 import PublicRoute from "./components/publicRoute/PublicRoute";
 import AuthProvider from "./components/authProvider/AuthProvider";
 import LinkToApp from "./pages/linkToApp/LinkToApp";
+import EmailValidation from "./pages/emailValidation/EmailValidation";
 
 function App() {
   return (
@@ -74,6 +75,7 @@ function App() {
               }
             />
             <Route path="/app-for-employees-link" element={<LinkToApp />} />
+            <Route path="/validation" element={<EmailValidation />} />
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
           <Footer />
