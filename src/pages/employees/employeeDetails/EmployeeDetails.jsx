@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Loading from "../../../components/ui/loading/Loading";
 import { LuPenSquare, LuTrash2 } from "react-icons/lu";
 
@@ -23,6 +23,7 @@ const EmployeeDetails = () => {
   const [loading, setLoading] = useState(false);
   const [employee, setEmployee] = useState({ surname: "Hola" });
   const [modalOpen, setModalOpen] = useState(false);
+  const navigate = useNavigate();
 
   const fetchUser = useCallback(async () => {
     try {
@@ -34,20 +35,45 @@ const EmployeeDetails = () => {
         },
       });
       const user = await response.json();
+      console.log(user);
       setEmployee(user.user);
       setLoading(false);
     } catch (error) {
       setLoading(false);
       console.error("EmployeeDetail", error);
+      navigate("/employees/list");
     }
-  }, [id]);
+  }, [id, navigate]);
 
   useEffect(() => {
     fetchUser();
   }, [fetchUser]);
 
-  const handleDelete = () => {
-    console.log("user Deleted:", id);
+  const handleDelete = async () => {
+    try {
+      setModalOpen(false);
+      setLoading(true);
+      const token = getCookie("token");
+      const response = await fetch(`/api/users/${id}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const user = await response.json();
+
+      if (user.deleted) {
+        alert(`user: ${id}, Deleted succesfully`);
+        navigate("/employees/list");
+      } else {
+        alert(`Error deleting user: ${id}`);
+      }
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      console.error("EmployeeDetails", error);
+    }
   };
 
   const onDelete = () => {
