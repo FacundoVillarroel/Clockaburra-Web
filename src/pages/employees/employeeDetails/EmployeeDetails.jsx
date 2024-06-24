@@ -4,6 +4,7 @@ import Loading from "../../../components/ui/loading/Loading";
 import { LuPenSquare, LuTrash2 } from "react-icons/lu";
 
 import Card from "../../../components/ui/card/Card";
+import logo from "../../../assets/logoClockaburra.png";
 
 import { getCookie } from "../../../utils/cookies";
 import {
@@ -91,7 +92,7 @@ const EmployeeDetails = () => {
       ) : (
         <RootContainer>
           <EmployeeHeader>
-            <EmployeeImageContainer />
+            <EmployeeImageContainer imageUrl={employee.imageUrl || logo} />
             <Info>
               {employee.name} {employee.surname}
             </Info>

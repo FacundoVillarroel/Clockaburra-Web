@@ -27,6 +27,9 @@ export const EmployeeImageContainer = styled.div`
   width: 7rem;
   border-radius: 3.5rem;
   border: 1px solid ${Colors.accent};
+  background-image: url(${(props) => props.imageUrl});
+  background-size: cover;
+  background-position: center;
 `;
 
 export const EditButton = styled.div`
