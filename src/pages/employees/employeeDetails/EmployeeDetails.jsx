@@ -14,15 +14,17 @@ import {
   EmployeeImageContainer,
   EditButton,
   DeleteButton,
+  ResendButtonContainer,
   Info,
 } from "./EmployeeDetails.styles";
 
 import DeleteUserModal from "../../../components/deleteUserModal/DeleteUserModal";
+import Button from "../../../components/ui/button/Button";
 
 const EmployeeDetails = () => {
   const { id } = useParams();
   const [loading, setLoading] = useState(false);
-  const [employee, setEmployee] = useState({ surname: "Hola" });
+  const [employee, setEmployee] = useState({});
   const [modalOpen, setModalOpen] = useState(false);
   const navigate = useNavigate();
 
@@ -84,6 +86,39 @@ const EmployeeDetails = () => {
     setModalOpen(false);
   };
 
+  const handleResendLink = async () => {
+    try {
+      setLoading(true);
+      const token = getCookie("token");
+      const response = await fetch(`/api/users/resend-validation-link/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          name: employee.name,
+          role: employee.role,
+        }),
+      });
+      const result = await response.json();
+      if (result.ok) {
+        alert("Validation link sent to user email successfully");
+      } else {
+        alert(
+          "There was a problem sending the validation link, please try again later."
+        );
+      }
+      setLoading(false);
+    } catch (error) {
+      console.error("EmployeeDetails: ", error);
+      alert(
+        "There was a problem sending the validation link, please try again later."
+      );
+      setLoading(false);
+    }
+  };
+
   return (
     <div>
       {loading ? (
@@ -127,6 +162,13 @@ const EmployeeDetails = () => {
               {employee.isRegistered ? "Yes" : "No"}
             </Card>
           </EmployeeBody>
+          {!employee.isRegistered && (
+            <ResendButtonContainer>
+              <Button onClick={handleResendLink}>
+                Resend registration link
+              </Button>
+            </ResendButtonContainer>
+          )}
           {modalOpen && (
             <DeleteUserModal
               id={id}

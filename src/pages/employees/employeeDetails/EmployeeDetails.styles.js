@@ -73,6 +73,12 @@ export const EmployeeBody = styled.div`
   }
 `;
 
+export const ResendButtonContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+`;
+
 export const Info = styled.div`
   margin-bottom: 10px;
   color: white;
