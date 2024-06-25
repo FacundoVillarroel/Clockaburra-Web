@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Form from "../form/Form";
 import Loading from "../ui/loading/Loading";
 
@@ -14,6 +15,7 @@ const fields = [
 
 const CompleteRegistrationForm = ({ token, user }) => {
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleSubmit = async (formData) => {
     const hasEmptyValue = Object.values(formData).some((value) => !value);
@@ -33,9 +35,10 @@ const CompleteRegistrationForm = ({ token, user }) => {
 
       const result = await response.json();
 
-      console.log("Result: ", result.message);
       alert(result.message);
-      // if (result.message === "Successful registration") navigate("/app-for-employees-link")
+      if (result.message === "Successful registration") {
+        navigate("/app-for-employees-link");
+      }
       setLoading(false);
     } catch (error) {
       setLoading(false);

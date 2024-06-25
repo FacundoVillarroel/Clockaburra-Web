@@ -51,7 +51,7 @@ const EmailValidation = () => {
                 user={validationResult.user}
               />
             ) : (
-              <Subtitle>Link invalid or expired.</Subtitle>
+              <Subtitle>{validationResult.message}</Subtitle>
             )}
           </ContentContainer>
         ) : (
