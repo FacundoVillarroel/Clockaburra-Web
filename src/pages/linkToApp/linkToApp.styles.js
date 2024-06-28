@@ -93,22 +93,23 @@ export const ScreenshotGrid = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 16px;
+  margin-top: 3rem;
+  gap: 32px;
 
   & > div {
-    flex: 1 1 calc(50% - 16px);
+    flex: 1 1 calc(66% - 32px);
   }
 
   @media (min-width: 768px) {
     & > div {
-      flex: 1 1 calc(33.3333% - 16px);
+      flex: 1 1 calc(33.3333% - 32px);
     }
   }
 `;
 
 export const Screenshot = styled.img`
-  width: 200px;
-  height: 300px;
+  width: 190px;
+  height: 375px;
   border-radius: 8px;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 4px 6px ${Colors.primary};
 `;

@@ -1,8 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../../store/reducers/authSlice";
 
 import { FaApple, FaGooglePlay } from "react-icons/fa";
+import screenshot1 from "../../assets/screenshot1.jpg";
+import screenshot2 from "../../assets/screenshot2.jpg";
+import screenshot3 from "../../assets/screenshot3.jpg";
 
 import {
   Wrapper,
@@ -17,12 +20,19 @@ import {
 } from "./linkToApp.styles";
 
 const LinkToApp = () => {
+  const hasMounted = useRef(false);
   const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (user === "employee") {
-      dispatch(logout());
+    if (!hasMounted.current) {
+      hasMounted.current = true;
+    } else {
+      return () => {
+        if (user === "employee") {
+          dispatch(logout());
+        }
+      };
     }
   }, [user, dispatch]);
 
@@ -48,9 +58,9 @@ const LinkToApp = () => {
             </ButtonLink>
           </FlexContainer>
           <ScreenshotGrid>
-            <Screenshot src="/placeholder.svg" alt="App Screenshot" />
-            <Screenshot src="/placeholder.svg" alt="App Screenshot" />
-            <Screenshot src="/placeholder.svg" alt="App Screenshot" />
+            <Screenshot src={screenshot1} alt="App Screenshot" />
+            <Screenshot src={screenshot2} alt="App Screenshot" />
+            <Screenshot src={screenshot3} alt="App Screenshot" />
           </ScreenshotGrid>
         </Content>
       </Container>
