@@ -11,7 +11,13 @@ const EmployeeList = () => {
   const [employees, setEmployees] = useState([]);
   const navigate = useNavigate();
 
-  const columns = ["Name", "Surname", "Email", "Role", "Start Date"];
+  const columns = [
+    { header: "Name", accessor: "name" },
+    { header: "Surname", accessor: "surname" },
+    { header: "Email", accessor: "email" },
+    { header: "Role", accessor: "role" },
+    { header: "Start Date", accessor: "startDate" },
+  ];
 
   const fetchUsers = useCallback(async () => {
     try {
@@ -37,13 +43,11 @@ const EmployeeList = () => {
     return data
       .filter((employee) => employee.role !== "employer")
       .map((employee) => ({
-        Name: employee.name,
-        Surname: employee.surname,
-        Email: employee.email,
-        Role: employee.role,
-        "Start Date": DateTime.fromISO(employee.startDate).toFormat(
-          "dd LLL yyyy"
-        ),
+        name: employee.name,
+        surname: employee.surname,
+        email: employee.email,
+        role: employee.role,
+        startDate: DateTime.fromISO(employee.startDate).toFormat("dd LLL yyyy"),
         id: employee.id,
       }));
   };
