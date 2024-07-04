@@ -20,7 +20,7 @@ export const CellContainer = styled.div`
 
 export const CellContent = styled.div`
   margin: 0;
-  border: 1.3px solid ${Colors.secondary};
+  border: 1.3px solid ${(props) => props.color || Colors.secondary};
   border-radius: 10px;
   padding: 0.25rem;
   display: flex;
@@ -30,6 +30,6 @@ export const CellContent = styled.div`
   align-self: center;
   font-size: 0.7rem;
   font-weight: bold;
-  color: ${Colors.secondary};
+  color: ${(props) => props.color || Colors.secondary};
   cursor: pointer;
 `;

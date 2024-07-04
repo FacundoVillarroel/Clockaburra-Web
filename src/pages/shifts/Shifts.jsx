@@ -14,7 +14,7 @@ import { getCookie } from "../../utils/cookies";
 const renderShiftCell = (value, row) => {
   return (
     <CellContainer>
-      <CellContent>
+      <CellContent color={value ? null : "black"}>
         {value ? `${value.startTime} ${value.endTime}` : "No Shift"}
       </CellContent>
     </CellContainer>

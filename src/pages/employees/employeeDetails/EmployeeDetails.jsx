@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Loading from "../../../components/ui/loading/Loading";
-import { LuPenSquare, LuTrash2 } from "react-icons/lu";
+import { LuPenSquare, LuTrash2, LuXCircle } from "react-icons/lu";
 
 import Card from "../../../components/ui/card/Card";
 import logo from "../../../assets/logoClockaburra.png";
@@ -10,8 +10,11 @@ import { getCookie } from "../../../utils/cookies";
 import {
   RootContainer,
   EmployeeHeader,
-  EmployeeBody,
   EmployeeImageContainer,
+  EmployeeBody,
+  EmployeeForm,
+  Label,
+  Input,
   EditButton,
   DeleteButton,
   ResendButtonContainer,
@@ -26,6 +29,7 @@ const EmployeeDetails = () => {
   const [loading, setLoading] = useState(false);
   const [employee, setEmployee] = useState({});
   const [modalOpen, setModalOpen] = useState(false);
+  const [editMode, setEditMode] = useState(false);
   const navigate = useNavigate();
 
   const fetchUser = useCallback(async () => {
@@ -119,6 +123,11 @@ const EmployeeDetails = () => {
     }
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(employee);
+  };
+
   return (
     <div>
       {loading ? (
@@ -130,38 +139,90 @@ const EmployeeDetails = () => {
             <Info>
               {employee.name} {employee.surname}
             </Info>
-            <EditButton>
-              <LuPenSquare color="white" fontSize={30} />
+            <EditButton
+              onClick={() => {
+                setEditMode((oldValue) => !oldValue);
+              }}
+            >
+              {editMode ? (
+                <LuXCircle color="white" fontSize={30} />
+              ) : (
+                <LuPenSquare color="white" fontSize={30} />
+              )}
             </EditButton>
             <DeleteButton onClick={onDelete}>
               <LuTrash2 color="white" fontSize={30} />
             </DeleteButton>
           </EmployeeHeader>
-          <EmployeeBody>
-            <Card box_shadow={"0 2px 5px rgba(17,31,77,1)"}>
-              <strong>Email:</strong> {employee.email}
-            </Card>
-            <Card box_shadow={"0 2px 5px rgba(17,31,77,1)"}>
-              <strong>Starting Date:</strong>{" "}
-              {employee.startDate?.split("T")[0]}
-            </Card>
-            <Card box_shadow={"0 2px 5px rgba(17,31,77,1)"}>
-              <strong>Address:</strong> {employee.address}
-            </Card>
-            <Card box_shadow={"0 2px 5px rgba(17,31,77,1)"}>
-              <strong>Phone Number:</strong> {employee.phoneNumber}
-            </Card>
-            <Card box_shadow={"0 2px 5px rgba(17,31,77,1)"}>
-              <strong>Role:</strong> {employee.role}
-            </Card>
-            <Card box_shadow={"0 2px 5px rgba(17,31,77,1)"}>
-              <strong>Hourly Rate:</strong> {employee.hourlyRate}
-            </Card>
-            <Card box_shadow={"0 2px 5px rgba(17,31,77,1)"}>
-              <strong>Complete Registration:</strong>
-              {employee.isRegistered ? "Yes" : "No"}
-            </Card>
-          </EmployeeBody>
+          {editMode ? (
+            <EmployeeForm onSubmit={handleSubmit}>
+              <Card box_shadow={"0 2px 5px rgba(17,31,77,1)"}>
+                <Label htmlFor="email">Email: </Label>
+                <Input type="email" value={employee.email} name="email" />
+              </Card>
+              <Card box_shadow={"0 2px 5px rgba(17,31,77,1)"}>
+                <Label htmlFor="startDate">Start day: </Label>
+                <Input
+                  type="date"
+                  value={employee.startDate?.split("T")[0]}
+                  name="startDate"
+                />
+              </Card>
+              <Card box_shadow={"0 2px 5px rgba(17,31,77,1)"}>
+                <Label htmlFor="address">Address: </Label>
+                <Input type="text" value={employee.address} name="address" />
+              </Card>
+              <Card box_shadow={"0 2px 5px rgba(17,31,77,1)"}>
+                <Label htmlFor="phoneNumber">Phone Number: </Label>
+                <Input
+                  type="tel"
+                  value={employee.phoneNumber}
+                  name="phoneNumber"
+                />
+              </Card>
+              <Card box_shadow={"0 2px 5px rgba(17,31,77,1)"}>
+                <Label htmlFor="role">Role: </Label>
+                <Input type="text" value={employee.role} name="role" />
+              </Card>
+              <Card box_shadow={"0 2px 5px rgba(17,31,77,1)"}>
+                <Label htmlFor="hourlyRate">Hourly Rate: </Label>
+                <Input
+                  type="number"
+                  value={employee.hourlyRate}
+                  name="hourlyRate"
+                />
+              </Card>
+              <Card box_shadow={"0 2px 5px rgba(17,31,77,1)"}>
+                <strong>Complete Registration:</strong>
+                {employee.isRegistered ? "Yes" : "No"}
+              </Card>
+            </EmployeeForm>
+          ) : (
+            <EmployeeBody>
+              <Card box_shadow={"0 2px 5px rgba(17,31,77,1)"}>
+                <strong>Email:</strong> {employee.email}
+              </Card>
+              <Card box_shadow={"0 2px 5px rgba(17,31,77,1)"}>
+                <strong>Start Day:</strong> {employee.startDate?.split("T")[0]}
+              </Card>
+              <Card box_shadow={"0 2px 5px rgba(17,31,77,1)"}>
+                <strong>Address:</strong> {employee.address}
+              </Card>
+              <Card box_shadow={"0 2px 5px rgba(17,31,77,1)"}>
+                <strong>Phone Number:</strong> {employee.phoneNumber}
+              </Card>
+              <Card box_shadow={"0 2px 5px rgba(17,31,77,1)"}>
+                <strong>Role:</strong> {employee.role}
+              </Card>
+              <Card box_shadow={"0 2px 5px rgba(17,31,77,1)"}>
+                <strong>Hourly Rate:</strong> {employee.hourlyRate}
+              </Card>
+              <Card box_shadow={"0 2px 5px rgba(17,31,77,1)"}>
+                <strong>Complete Registration:</strong>
+                {employee.isRegistered ? "Yes" : "No"}
+              </Card>
+            </EmployeeBody>
+          )}
           {!employee.isRegistered && (
             <ResendButtonContainer>
               <Button onClick={handleResendLink}>

@@ -73,6 +73,40 @@ export const EmployeeBody = styled.div`
   }
 `;
 
+export const EmployeeForm = styled.form`
+  padding-top: 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  gap: 1.5rem; /* Añadir espacio entre elementos si es necesario */
+
+  > * {
+    flex-basis: calc(33.33% - 1.5rem);
+    max-width: calc(33.33% - 1.5rem);
+    min-width: calc(33.33% - 1.5rem);
+    box-sizing: border-box;
+  }
+`;
+
+export const Label = styled.label`
+  font-weight: bold;
+  margin: 0;
+`;
+
+export const Input = styled.input`
+  padding: 0.2rem 0.5rem;
+  font-size: 0.9rem;
+  border-radius: 0.5rem;
+  border: 2px ${Colors.primary} solid;
+  outline: none;
+  width: fit-content;
+
+  &:focus {
+    border: 2px ${Colors.accent} solid;
+    z-index: 1000;
+  }
+`;
+
 export const ResendButtonContainer = styled.div`
   display: flex;
   justify-content: center;
