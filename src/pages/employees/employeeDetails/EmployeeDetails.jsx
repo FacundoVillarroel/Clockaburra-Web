@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Loading from "../../../components/ui/loading/Loading";
 import { LuPenSquare, LuTrash2, LuXCircle } from "react-icons/lu";
+import { DateTime } from "luxon";
 
 import Card from "../../../components/ui/card/Card";
 import logo from "../../../assets/logoClockaburra.png";
@@ -16,6 +17,7 @@ import {
   Label,
   Input,
   EditButton,
+  SubmitButtonContainer,
   DeleteButton,
   ResendButtonContainer,
   Info,
@@ -23,12 +25,13 @@ import {
 
 import DeleteUserModal from "../../../components/deleteUserModal/DeleteUserModal";
 import Button from "../../../components/ui/button/Button";
+import UpdateEmployeeModal from "../../../components/updateEmployeeModal/UpdateEmployeeModal";
 
 const EmployeeDetails = () => {
   const { id } = useParams();
   const [loading, setLoading] = useState(false);
   const [employee, setEmployee] = useState({});
-  const [modalOpen, setModalOpen] = useState(false);
+  const [modalOpen, setModalOpen] = useState("");
   const [editMode, setEditMode] = useState(false);
   const navigate = useNavigate();
 
@@ -83,11 +86,11 @@ const EmployeeDetails = () => {
   };
 
   const onDelete = () => {
-    setModalOpen(true);
+    setModalOpen("delete");
   };
 
   const handleCLose = () => {
-    setModalOpen(false);
+    setModalOpen("");
   };
 
   const handleResendLink = async () => {
@@ -123,9 +126,42 @@ const EmployeeDetails = () => {
     }
   };
 
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    if (name === "hourlyRate") {
+      setEmployee({
+        ...employee,
+        [name]: parseFloat(value),
+      });
+    } else {
+      setEmployee({
+        ...employee,
+        [name]: value,
+      });
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(employee);
+    if (isNaN(employee.hourlyRate)) {
+      return alert("Must enter a valid number in Hourly Rate");
+    }
+    const startDateObj = DateTime.fromISO(employee.startDate);
+    if (startDateObj.toISO() == null) {
+      return alert("Must enter a valid Start Day");
+    }
+    setModalOpen("saveChanges");
+  };
+
+  const handleSaveEmployee = () => {
+    const startDateObj = DateTime.fromISO(employee.startDate);
+    const updatedEmployee = {
+      ...employee,
+      startDate: startDateObj.toISO(),
+    };
+    console.log(updatedEmployee);
+    //close the modal
+    //send fetch to api
   };
 
   return (
@@ -158,7 +194,12 @@ const EmployeeDetails = () => {
             <EmployeeForm onSubmit={handleSubmit}>
               <Card box_shadow={"0 2px 5px rgba(17,31,77,1)"}>
                 <Label htmlFor="email">Email: </Label>
-                <Input type="email" value={employee.email} name="email" />
+                <Input
+                  type="email"
+                  value={employee.email}
+                  name="email"
+                  onChange={handleChange}
+                />
               </Card>
               <Card box_shadow={"0 2px 5px rgba(17,31,77,1)"}>
                 <Label htmlFor="startDate">Start day: </Label>
@@ -166,11 +207,17 @@ const EmployeeDetails = () => {
                   type="date"
                   value={employee.startDate?.split("T")[0]}
                   name="startDate"
+                  onChange={handleChange}
                 />
               </Card>
               <Card box_shadow={"0 2px 5px rgba(17,31,77,1)"}>
                 <Label htmlFor="address">Address: </Label>
-                <Input type="text" value={employee.address} name="address" />
+                <Input
+                  type="text"
+                  value={employee.address}
+                  name="address"
+                  onChange={handleChange}
+                />
               </Card>
               <Card box_shadow={"0 2px 5px rgba(17,31,77,1)"}>
                 <Label htmlFor="phoneNumber">Phone Number: </Label>
@@ -178,11 +225,17 @@ const EmployeeDetails = () => {
                   type="tel"
                   value={employee.phoneNumber}
                   name="phoneNumber"
+                  onChange={handleChange}
                 />
               </Card>
               <Card box_shadow={"0 2px 5px rgba(17,31,77,1)"}>
                 <Label htmlFor="role">Role: </Label>
-                <Input type="text" value={employee.role} name="role" />
+                <Input
+                  type="text"
+                  value={employee.role}
+                  name="role"
+                  onChange={handleChange}
+                />
               </Card>
               <Card box_shadow={"0 2px 5px rgba(17,31,77,1)"}>
                 <Label htmlFor="hourlyRate">Hourly Rate: </Label>
@@ -190,12 +243,16 @@ const EmployeeDetails = () => {
                   type="number"
                   value={employee.hourlyRate}
                   name="hourlyRate"
+                  onChange={handleChange}
                 />
               </Card>
               <Card box_shadow={"0 2px 5px rgba(17,31,77,1)"}>
                 <strong>Complete Registration:</strong>
                 {employee.isRegistered ? "Yes" : "No"}
               </Card>
+              <SubmitButtonContainer>
+                <Button type="submit">Save Changes</Button>
+              </SubmitButtonContainer>
             </EmployeeForm>
           ) : (
             <EmployeeBody>
@@ -230,11 +287,17 @@ const EmployeeDetails = () => {
               </Button>
             </ResendButtonContainer>
           )}
-          {modalOpen && (
+          {modalOpen === "delete" && (
             <DeleteUserModal
               id={id}
               handleCLose={handleCLose}
               handleDelete={handleDelete}
+            />
+          )}
+          {modalOpen === "saveChanges" && (
+            <UpdateEmployeeModal
+              handleSaveEmployee={handleSaveEmployee}
+              setModalOpen={setModalOpen}
             />
           )}
         </RootContainer>

@@ -94,17 +94,24 @@ export const Label = styled.label`
 `;
 
 export const Input = styled.input`
+  box-sizing: border-box;
   padding: 0.2rem 0.5rem;
+  margin-top: 0.2rem;
   font-size: 0.9rem;
   border-radius: 0.5rem;
   border: 2px ${Colors.primary} solid;
   outline: none;
-  width: fit-content;
+  width: 100%;
 
   &:focus {
     border: 2px ${Colors.accent} solid;
-    z-index: 1000;
   }
+`;
+
+export const SubmitButtonContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 export const ResendButtonContainer = styled.div`

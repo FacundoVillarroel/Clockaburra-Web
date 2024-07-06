@@ -19,6 +19,7 @@ const Employees = () => {
       <StyledLink to="list">List of employees</StyledLink>
       <Content>
         <Routes>
+          <Route path="/" element={<EmployeeList />} />
           <Route path="new" element={<EmployeeForm />} />
           <Route path="list" element={<EmployeeList />} />
           <Route path="details/:id" element={<EmployeeDetails />} />
