@@ -1,68 +1,20 @@
 import React, { useEffect, useState, useCallback } from "react";
 
 import Loading from "../../components/ui/loading/Loading";
-import Table from "../../components/ui/table/Table";
 import {
   ShiftsContainer,
   Title,
-  CellContent,
-  CellContainer,
+  ActionBarContainer,
+  ActionBarButtonContainer,
+  AddShiftButton,
 } from "./shifts.styles";
 
 import { getCookie } from "../../utils/cookies";
-
-const renderShiftCell = (value, row) => {
-  return (
-    <CellContainer>
-      <CellContent color={value ? null : "black"}>
-        {value ? `${value.startTime} ${value.endTime}` : "No Shift"}
-      </CellContent>
-    </CellContainer>
-  );
-};
+import ShiftWeeklyView from "../../components/shiftWeeklyView/ShiftWeeklyView";
 
 const Shifts = () => {
   const [loading, setLoading] = useState(false);
   const [employees, setEmployees] = useState([]);
-  const columns = [
-    { header: "Employee", accessor: "employee" },
-    { header: "Role", accessor: "role" },
-    {
-      header: "Mon",
-      accessor: "mon",
-      render: renderShiftCell,
-    },
-    {
-      header: "Tue",
-      accessor: "tue",
-      render: renderShiftCell,
-    },
-    {
-      header: "Wed",
-      accessor: "wed",
-      render: renderShiftCell,
-    },
-    {
-      header: "Thu",
-      accessor: "thu",
-      render: renderShiftCell,
-    },
-    {
-      header: "Fri",
-      accessor: "fri",
-      render: renderShiftCell,
-    },
-    {
-      header: "Sat",
-      accessor: "sat",
-      render: renderShiftCell,
-    },
-    {
-      header: "Sun",
-      accessor: "sun",
-      render: renderShiftCell,
-    },
-  ];
 
   const fetchUsers = useCallback(async () => {
     try {
@@ -98,7 +50,13 @@ const Shifts = () => {
   return (
     <ShiftsContainer>
       <Title>Shifts</Title>
-      {loading ? <Loading /> : <Table columns={columns} data={employees} />}
+      <ActionBarContainer>
+        <ActionBarButtonContainer>Monthly view</ActionBarButtonContainer>
+        <ActionBarButtonContainer>Weekly view</ActionBarButtonContainer>
+        <ActionBarButtonContainer>Filter By</ActionBarButtonContainer>
+        <AddShiftButton>Assing Shift</AddShiftButton>
+      </ActionBarContainer>
+      {loading ? <Loading /> : <ShiftWeeklyView employees={employees} />}
     </ShiftsContainer>
   );
 };

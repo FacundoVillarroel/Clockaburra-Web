@@ -11,25 +11,44 @@ export const Title = styled.h1`
   text-align: center;
 `;
 
-export const CellContainer = styled.div`
+export const ActionBarContainer = styled.div`
+  width: 100%;
+  height: 3rem;
+  box-sizing: border-box;
+  margin-bottom: 2rem;
   display: flex;
-  flex-direction: row;
-  justify-content: center;
   align-items: center;
+  justify-content: flex-start;
+
+  > *:not(:last-child) {
+    margin-right: 3rem;
+  }
+
+  > *:last-child {
+    margin-left: auto;
+  }
 `;
 
-export const CellContent = styled.div`
-  margin: 0;
-  border: 1.3px solid ${(props) => props.color || Colors.secondary};
-  border-radius: 10px;
-  padding: 0.25rem;
+export const ActionBarButtonContainer = styled.div`
+  border-radius: 1rem;
+  padding: 0.5rem;
   display: flex;
-  justify-content: center;
   align-items: center;
-  width: fit-content;
-  align-self: center;
-  font-size: 0.7rem;
-  font-weight: bold;
-  color: ${(props) => props.color || Colors.secondary};
+  justify-content: center;
+  background-color: "white";
+  color: ${Colors.primary};
+  border: 2px solid ${Colors.primary};
+  cursor: pointer;
+`;
+
+export const AddShiftButton = styled.div`
+  border-radius: 1rem;
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: ${Colors.primary};
+  color: white;
+  border: 2px solid white;
   cursor: pointer;
 `;
