@@ -153,15 +153,35 @@ const EmployeeDetails = () => {
     setModalOpen("saveChanges");
   };
 
-  const handleSaveEmployee = () => {
+  const handleSaveEmployee = async (handleLoading) => {
     const startDateObj = DateTime.fromISO(employee.startDate);
     const updatedEmployee = {
       ...employee,
       startDate: startDateObj.toISO(),
     };
-    console.log(updatedEmployee);
-    //close the modal
-    //send fetch to api
+    try {
+      handleLoading(true);
+      const token = getCookie("token");
+      const response = await fetch(`/api/users/${employee.email}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(updatedEmployee),
+      });
+
+      const result = await response.json();
+      handleLoading(false);
+      setModalOpen(false);
+      if (result.updated) {
+        alert("User updated successfully");
+      } else {
+        alert("Error updating user information. please try again later.");
+      }
+    } catch (error) {
+      console.error("EmployeeDetails", error);
+    }
   };
 
   return (
@@ -193,13 +213,7 @@ const EmployeeDetails = () => {
           {editMode ? (
             <EmployeeForm onSubmit={handleSubmit}>
               <Card box_shadow={"0 2px 5px rgba(17,31,77,1)"}>
-                <Label htmlFor="email">Email: </Label>
-                <Input
-                  type="email"
-                  value={employee.email}
-                  name="email"
-                  onChange={handleChange}
-                />
+                <strong>Email:</strong> {employee.email}
               </Card>
               <Card box_shadow={"0 2px 5px rgba(17,31,77,1)"}>
                 <Label htmlFor="startDate">Start day: </Label>
