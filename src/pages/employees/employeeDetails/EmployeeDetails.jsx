@@ -31,6 +31,7 @@ const EmployeeDetails = () => {
   const { id } = useParams();
   const [loading, setLoading] = useState(false);
   const [employee, setEmployee] = useState({});
+  const [employeeUpdate, setEmployeeUpdate] = useState({});
   const [modalOpen, setModalOpen] = useState("");
   const [editMode, setEditMode] = useState(false);
   const navigate = useNavigate();
@@ -46,6 +47,7 @@ const EmployeeDetails = () => {
       });
       const user = await response.json();
       setEmployee(user.user);
+      setEmployeeUpdate(user.user);
       setLoading(false);
     } catch (error) {
       setLoading(false);
@@ -129,13 +131,13 @@ const EmployeeDetails = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     if (name === "hourlyRate") {
-      setEmployee({
-        ...employee,
+      setEmployeeUpdate({
+        ...employeeUpdate,
         [name]: parseFloat(value),
       });
     } else {
-      setEmployee({
-        ...employee,
+      setEmployeeUpdate({
+        ...employeeUpdate,
         [name]: value,
       });
     }
@@ -219,7 +221,7 @@ const EmployeeDetails = () => {
                 <Label htmlFor="startDate">Start day: </Label>
                 <Input
                   type="date"
-                  value={employee.startDate?.split("T")[0]}
+                  value={employeeUpdate.startDate?.split("T")[0]}
                   name="startDate"
                   onChange={handleChange}
                 />
@@ -228,7 +230,7 @@ const EmployeeDetails = () => {
                 <Label htmlFor="address">Address: </Label>
                 <Input
                   type="text"
-                  value={employee.address}
+                  value={employeeUpdate.address}
                   name="address"
                   onChange={handleChange}
                 />
@@ -237,7 +239,7 @@ const EmployeeDetails = () => {
                 <Label htmlFor="phoneNumber">Phone Number: </Label>
                 <Input
                   type="tel"
-                  value={employee.phoneNumber}
+                  value={employeeUpdate.phoneNumber}
                   name="phoneNumber"
                   onChange={handleChange}
                 />
@@ -246,7 +248,7 @@ const EmployeeDetails = () => {
                 <Label htmlFor="role">Role: </Label>
                 <Input
                   type="text"
-                  value={employee.role}
+                  value={employeeUpdate.role}
                   name="role"
                   onChange={handleChange}
                 />
@@ -255,14 +257,14 @@ const EmployeeDetails = () => {
                 <Label htmlFor="hourlyRate">Hourly Rate: </Label>
                 <Input
                   type="number"
-                  value={employee.hourlyRate}
+                  value={employeeUpdate.hourlyRate}
                   name="hourlyRate"
                   onChange={handleChange}
                 />
               </Card>
               <Card box_shadow={"0 2px 5px rgba(17,31,77,1)"}>
                 <strong>Complete Registration:</strong>
-                {employee.isRegistered ? "Yes" : "No"}
+                {employeeUpdate.isRegistered ? "Yes" : "No"}
               </Card>
               <SubmitButtonContainer>
                 <Button type="submit">Save Changes</Button>

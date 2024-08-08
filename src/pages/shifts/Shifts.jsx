@@ -11,9 +11,12 @@ import {
 
 import { getCookie } from "../../utils/cookies";
 import ShiftWeeklyView from "../../components/shiftWeeklyView/ShiftWeeklyView";
+import ShiftMonthlyView from "../../components/shiftMonthlyView/ShiftMonthlyView";
+import DropdownMenu from "../../components/dropdownMenu/DropdownMenu";
 
 const Shifts = () => {
   const [loading, setLoading] = useState(false);
+  const [viewType, setViewType] = useState("weekly");
   const [employees, setEmployees] = useState([]);
 
   const fetchUsers = useCallback(async () => {
@@ -47,16 +50,46 @@ const Shifts = () => {
       }));
   };
 
+  const getViewComponent = () => {
+    if (viewType === "monthly") {
+      return <ShiftMonthlyView employees={employees} />;
+    } else {
+      return <ShiftWeeklyView employees={employees} />;
+    }
+  };
+
   return (
     <ShiftsContainer>
       <Title>Shifts</Title>
       <ActionBarContainer>
-        <ActionBarButtonContainer>Monthly view</ActionBarButtonContainer>
-        <ActionBarButtonContainer>Weekly view</ActionBarButtonContainer>
-        <ActionBarButtonContainer>Filter By</ActionBarButtonContainer>
+        <ActionBarButtonContainer
+          view={viewType === "monthly"}
+          onClick={() => {
+            setViewType("monthly");
+          }}
+        >
+          Monthly view
+        </ActionBarButtonContainer>
+        <ActionBarButtonContainer
+          view={viewType === "weekly"}
+          onClick={() => {
+            setViewType("weekly");
+          }}
+        >
+          Weekly view
+        </ActionBarButtonContainer>
+        <ActionBarButtonContainer>
+          <DropdownMenu
+            label="Roles"
+            items={["Admin", "Manager", "Employee", "Contractor"]}
+          />
+        </ActionBarButtonContainer>
+        <ActionBarButtonContainer>
+          <DropdownMenu label="Departments" items={["Manager", "FOH", "BOF"]} />
+        </ActionBarButtonContainer>
         <AddShiftButton>Assing Shift</AddShiftButton>
       </ActionBarContainer>
-      {loading ? <Loading /> : <ShiftWeeklyView employees={employees} />}
+      {loading ? <Loading /> : getViewComponent()}
     </ShiftsContainer>
   );
 };
