@@ -8,13 +8,13 @@ const renderShiftCell = (value, row) => {
   return (
     <CellContainer>
       <CellContent color={value ? null : "black"}>
-        {value ? `${value.startTime} ${value.endTime}` : "No Shift"}
+        {value ? `${value.startTime} - ${value.endTime}` : "No Shift"}
       </CellContent>
     </CellContainer>
   );
 };
 
-const ShiftWeeklyView = ({ employees }) => {
+const ShiftWeeklyView = ({ data }) => {
   const columns = [
     { header: "Employee", accessor: "employee" },
     { header: "Role", accessor: "role" },
@@ -57,7 +57,7 @@ const ShiftWeeklyView = ({ employees }) => {
 
   return (
     <div>
-      <Table columns={columns} data={employees} />
+      <Table columns={columns} data={data} />
     </div>
   );
 };

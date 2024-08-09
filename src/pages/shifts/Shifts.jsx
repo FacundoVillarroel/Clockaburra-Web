@@ -23,12 +23,12 @@ import {
   dateFormat,
 } from "../../utils/dateHelpers";
 import { DateTime } from "luxon";
+import { createEmployeeShiftArray } from "../../utils/shiftUtils";
 
 const Shifts = () => {
   const [loading, setLoading] = useState(false);
   const [viewType, setViewType] = useState("weekly");
-  const [employees, setEmployees] = useState([]);
-  const [shifts, setShifts] = useState([]);
+  const [data, setData] = useState([]);
   const [roles, setRoles] = useState(rolesList);
   const [departments, setDepartments] = useState(departmentsList);
 
@@ -36,7 +36,12 @@ const Shifts = () => {
     try {
       setLoading(true);
       const token = getCookie("token");
-      const queryString = buildQueryParams({ roles, departments });
+      const rolesList = roles.length ? roles : ["none"];
+      const departmentsList = departments.length ? departments : []; // agregar "none" cuando se agregue departments a los usuarios en db.
+      const queryString = buildQueryParams({
+        roles: rolesList,
+        departments: departmentsList,
+      });
       const response = await fetch(`/api/users?${queryString}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -44,22 +49,15 @@ const Shifts = () => {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       const users = await response.json();
-      // Run in a separated function.
+      // should run in a separated function in future.
       if (!users.length) {
-        setShifts([]);
+        setData([]);
       } else {
         const startDate = DateTime.fromFormat(
           getStartOfWeek(),
           dateFormat
         ).toISO();
         const endDate = DateTime.fromFormat(getEndOfWeek(), dateFormat).toISO();
-        console.log({
-          data: {
-            startDate,
-            endDate,
-            userIds: users.map((user) => user.id),
-          },
-        });
         const shiftQueryString = buildQueryParams({
           userIds: users.map((user) => user.id),
           startDate,
@@ -72,10 +70,14 @@ const Shifts = () => {
           throw new Error(`HTTP error! status: ${answer.status}`);
         }
         const shiftsList = await answer.json();
-        setShifts(shiftsList);
+        if (!shiftsList || !shiftsList?.length) {
+          setData([]);
+        } else {
+          const usersShiftData = createEmployeeShiftArray(users, shiftsList);
+          setData(usersShiftData);
+        }
       }
-      // run in a separated function.
-      setEmployees(formatData(users));
+      // should run in a separated function in future.
       setLoading(false);
     } catch (error) {
       setLoading(false);
@@ -87,36 +89,12 @@ const Shifts = () => {
     fetchData();
   }, [fetchData]);
 
-  const formatData = (data) => {
-    return data
-      .filter((employee) => employee.role !== "employer")
-      .map((employee) => ({
-        employee: `${employee.name} ${employee.surname}`,
-        role: employee.role,
-        mon: { startTime: "18:00", endTime: "22:00" },
-        id: employee.id,
-      }));
-  };
-
   const getViewComponent = () => {
     if (viewType === "monthly") {
-      return <ShiftMonthlyView employees={employees} />;
+      return <ShiftMonthlyView data={data} />;
     } else {
-      return <ShiftWeeklyView employees={employees} />;
+      return <ShiftWeeklyView data={data} />;
     }
-  };
-
-  const handleFilter = async () => {
-    const token = getCookie("token");
-    const response = await fetch(
-      "/api/users?roles=kitchen assistant&departments=kitchen",
-      {
-        headers: { Authorization: `Bearer ${token}` },
-      }
-    );
-    const data = await response.json();
-    const userIds = data.map((user) => user.id);
-    console.log("response", userIds);
   };
 
   const setValues = (identifier, values) => {
@@ -133,7 +111,7 @@ const Shifts = () => {
       <Title>Shifts</Title>
       <ActionBarContainer>
         <ActionBarButtonContainer
-          view={viewType === "monthly"}
+          active={viewType === "monthly" ? "active" : ""}
           onClick={() => {
             setViewType("monthly");
           }}
@@ -141,7 +119,7 @@ const Shifts = () => {
           Monthly view
         </ActionBarButtonContainer>
         <ActionBarButtonContainer
-          view={viewType === "weekly"}
+          active={viewType === "weekly" ? "active" : ""}
           onClick={() => {
             setViewType("weekly");
           }}
@@ -164,7 +142,7 @@ const Shifts = () => {
             checked={departments}
           />
         </ActionBarButtonContainer>
-        <AddShiftButton onClick={handleFilter}>Assing Shift</AddShiftButton>
+        <AddShiftButton>Assing Shift</AddShiftButton>
       </ActionBarContainer>
       {loading ? <Loading /> : getViewComponent()}
     </ShiftsContainer>

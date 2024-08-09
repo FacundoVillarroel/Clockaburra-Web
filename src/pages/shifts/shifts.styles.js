@@ -35,7 +35,7 @@ export const ActionBarButtonContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: ${(props) => (props.view ? Colors.accent : "white")};
+  background-color: ${(props) => (props.active ? Colors.accent : "white")};
   color: ${Colors.primary};
   border: 2px solid ${Colors.primary};
   cursor: pointer;
