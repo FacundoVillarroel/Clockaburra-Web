@@ -9,35 +9,35 @@ import {
   DropdownCheckboxItem,
 } from "./dropdownMenu.styles";
 
-const DropdownMenu = ({ label, items }) => {
+const DropdownMenu = ({ label, items, checked, setValues }) => {
   const [selected, setSelected] = useState(items);
+  const [isAllChecked, setIsAllChecked] = useState(true);
   const [open, setOpen] = useState(false);
 
   const toggleOpen = () => setOpen(!open);
 
   const handleCheckboxChange = (e) => {
     const { name } = e.target;
+    let updatedSelected;
     if (selected.includes(name)) {
-      setSelected((prevValue) => prevValue.filter((item) => item !== name));
+      updatedSelected = selected.filter((item) => item !== name);
     } else {
-      setSelected((prevValue) => [...prevValue, name]);
+      updatedSelected = [...selected, name];
     }
+    setIsAllChecked(updatedSelected.length === items.length);
+    setSelected(updatedSelected);
+    setValues(label, updatedSelected);
   };
 
   const handleSelectAll = () => {
-    if (selected.length === items.length) {
-      setSelected([]);
-    } else {
-      setSelected(items);
-    }
+    const updatedSelected = selected.length === items.length ? [] : items;
+    setIsAllChecked(updatedSelected.length === items.length);
+    setSelected(updatedSelected);
+    setValues(label, updatedSelected);
   };
 
   const getCheckedStatus = (name) => {
     return selected.includes(name);
-  };
-
-  const getAllCheckedStatus = () => {
-    return selected.length === items.length;
   };
 
   return (
@@ -54,7 +54,7 @@ const DropdownMenu = ({ label, items }) => {
             type="checkbox"
             name={label}
             onChange={handleSelectAll}
-            checked={getAllCheckedStatus()}
+            checked={isAllChecked}
           />
           <span>All {label}</span>
         </DropdownCheckboxItem>
