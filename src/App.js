@@ -51,7 +51,7 @@ function App() {
               }
             />
             <Route
-              path="/shifts"
+              path="/shifts/*"
               element={
                 <PrivateRoute>
                   <Shifts />
