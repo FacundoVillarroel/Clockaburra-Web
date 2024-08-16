@@ -72,9 +72,6 @@ export const login = createAsyncThunk(
       if (response.status === 400 || !token) {
         throw new Error("Incorrect email or password");
       }
-      if (user.role !== "employer") {
-        return { user: "employee", token: null };
-      }
       setCookie("token", token, 7); // Token expires in 7 days
       return { user, token };
     } catch (error) {

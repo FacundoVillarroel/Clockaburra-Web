@@ -29,8 +29,15 @@ const LinkToApp = () => {
       hasMounted.current = true;
     } else {
       return () => {
-        if (user === "employee") {
-          dispatch(logout());
+        if (user) {
+          if (
+            user.permissions === "admin" ||
+            user.permissions === "superAdmin" ||
+            user.permissions === "manager"
+          ) {
+          } else {
+            dispatch(logout());
+          }
         }
       };
     }
