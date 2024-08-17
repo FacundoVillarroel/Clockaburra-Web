@@ -29,6 +29,7 @@ function formatShiftsForEmployee(shifts) {
     result[dayOfWeek] = {
       startTime: formatTime(shift.startDate),
       endTime: formatTime(shift.endDate),
+      shiftId: shift.id,
     };
   });
   return result;

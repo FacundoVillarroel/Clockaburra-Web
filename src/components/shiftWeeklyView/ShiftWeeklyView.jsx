@@ -1,4 +1,6 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
+import { DateTime } from "luxon";
 
 import Table from "../ui/table/Table";
 
@@ -14,7 +16,20 @@ const renderShiftCell = (value, row) => {
   );
 };
 
-const ShiftWeeklyView = ({ data }) => {
+const getDayOfWeek = (colIndex, startDate) => {
+  if (colIndex < 2 || colIndex > 8) return null;
+
+  const start = DateTime.fromISO(startDate);
+
+  const daysToAdd = colIndex - 2;
+
+  const resultDate = start.plus({ days: daysToAdd });
+
+  return resultDate.toISO();
+};
+
+const ShiftWeeklyView = ({ data, startDate }) => {
+  const navigate = useNavigate();
   const columns = [
     { header: "Employee", accessor: "employee" },
     { header: "Role", accessor: "role" },
@@ -55,9 +70,27 @@ const ShiftWeeklyView = ({ data }) => {
     },
   ];
 
+  const onCellClick = (cellValue, row, colIndex, rowIndex) => {
+    if (colIndex < 2) {
+      return;
+    }
+    const userId = row.id;
+    const name = row.employee;
+    const shiftId = cellValue ? cellValue.shiftId : null;
+    let date = cellValue ? null : getDayOfWeek(colIndex, startDate);
+
+    const queryParams = new URLSearchParams({
+      userId,
+      name,
+      shiftId,
+      date,
+    }).toString();
+    navigate(`/shifts/updateShift?${queryParams}`);
+  };
+
   return (
     <div>
-      <Table columns={columns} data={data} />
+      <Table columns={columns} data={data} onCellClick={onCellClick} />
     </div>
   );
 };

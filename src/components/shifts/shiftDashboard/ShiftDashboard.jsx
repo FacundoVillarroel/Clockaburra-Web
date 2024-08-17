@@ -32,6 +32,9 @@ const ShiftDashboard = () => {
   const [roles, setRoles] = useState(rolesList);
   const [departments, setDepartments] = useState(departmentsList);
   const [viewType, setViewType] = useState("weekly");
+  const [startDate, setStartDate] = useState(
+    DateTime.fromFormat(getStartOfWeek(), dateFormat).toISO()
+  );
 
   const navigate = useNavigate();
 
@@ -56,10 +59,6 @@ const ShiftDashboard = () => {
       if (!users.length) {
         setData([]);
       } else {
-        const startDate = DateTime.fromFormat(
-          getStartOfWeek(),
-          dateFormat
-        ).toISO();
         const endDate = DateTime.fromFormat(getEndOfWeek(), dateFormat).toISO();
         const shiftQueryString = buildQueryParams({
           userIds: users.map((user) => user.id),
@@ -82,7 +81,7 @@ const ShiftDashboard = () => {
       setLoading(false);
       console.error("EmployeeList", error);
     }
-  }, [roles, departments]);
+  }, [roles, departments, startDate]);
 
   useEffect(() => {
     fetchData();
@@ -92,7 +91,7 @@ const ShiftDashboard = () => {
     if (viewType === "monthly") {
       return <ShiftMonthlyView data={data} />;
     } else {
-      return <ShiftWeeklyView data={data} />;
+      return <ShiftWeeklyView data={data} startDate={startDate} />;
     }
   };
 
@@ -106,7 +105,7 @@ const ShiftDashboard = () => {
   };
 
   const handleNewShift = () => {
-    navigate("/shifts/updateShift");
+    navigate("/shifts/newShift");
   };
 
   return (

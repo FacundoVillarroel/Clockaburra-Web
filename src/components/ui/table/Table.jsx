@@ -1,7 +1,13 @@
 import React from "react";
 import { StyledTable, StyledTh, StyledTd } from "./Table.styles";
 
-const Table = ({ columns, data, onRowClick = () => {}, cursor }) => {
+const Table = ({
+  columns,
+  data,
+  onRowClick = () => {},
+  onCellClick = () => {},
+  cursor,
+}) => {
   return (
     <StyledTable>
       <thead>
@@ -13,9 +19,16 @@ const Table = ({ columns, data, onRowClick = () => {}, cursor }) => {
       </thead>
       <tbody>
         {data.map((row, rowIndex) => (
-          <tr key={rowIndex} onClick={() => onRowClick(row)}>
+          <tr key={rowIndex} onClick={() => onRowClick(row, rowIndex)}>
             {columns.map((col, colIndex) => (
-              <StyledTd cursor={cursor} key={colIndex}>
+              <StyledTd
+                cursor={cursor}
+                key={colIndex}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onCellClick(row[col.accessor], row, colIndex, rowIndex);
+                }}
+              >
                 {col.render
                   ? col.render(row[col.accessor], row)
                   : row[col.accessor]}
