@@ -60,8 +60,8 @@ export const createEmployeeShiftArray = (employees, shifts) => {
   });
 };
 
-export const transformBreaksToISO = (data, breaks) => {
-  const startDate = DateTime.fromISO(data.startDate);
+export const transformBreaksToISO = (date, breaks) => {
+  const startDate = DateTime.fromISO(date);
 
   const transformedBreaks = breaks.map((breakObj) => {
     const breakStart = startDate
@@ -84,4 +84,18 @@ export const transformBreaksToISO = (data, breaks) => {
     };
   });
   return transformedBreaks;
+};
+
+export const revertBreaksFromISO = (transformedBreaks) => {
+  const revertedBreaks = transformedBreaks.map((breakObj) => {
+    const breakStart = DateTime.fromISO(breakObj.breakStart).toFormat("HH:mm");
+    const breakEnd = DateTime.fromISO(breakObj.breakEnd).toFormat("HH:mm");
+
+    return {
+      breakStart,
+      breakEnd,
+    };
+  });
+
+  return revertedBreaks;
 };

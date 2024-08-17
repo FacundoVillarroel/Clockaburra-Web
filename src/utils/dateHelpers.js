@@ -21,7 +21,6 @@ const getStartOfWeek = (date = DateTime.local()) => {
 
 const formatJsDateToLuxonIso = (jsDate) => {
   try {
-    console.log("dateHelper:", jsDate);
     const isoString = jsDate.toISOString();
     const DateTimeObj = DateTime.fromISO(isoString);
     const formattedDate = DateTimeObj.toISO();

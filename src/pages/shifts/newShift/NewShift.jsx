@@ -74,7 +74,7 @@ const NewShift = () => {
         startDate: startDateFormatted,
         endDate: endDateFormatted,
       };
-      const transformedBreaks = transformBreaksToISO(newData, breaks);
+      const transformedBreaks = transformBreaksToISO(newData.startDate, breaks);
       const token = getCookie("token");
 
       const response = await fetch(`/api/shift`, {

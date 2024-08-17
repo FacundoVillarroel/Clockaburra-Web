@@ -16,7 +16,10 @@ import {
   AddBreakButton,
 } from "./updateShift.styles";
 import { formatJsDateToLuxonIso } from "../../../utils/dateHelpers";
-import { transformBreaksToISO } from "../../../utils/shiftUtils";
+import {
+  revertBreaksFromISO,
+  transformBreaksToISO,
+} from "../../../utils/shiftUtils";
 
 const UpdateShift = () => {
   const navigate = useNavigate();
@@ -60,8 +63,12 @@ const UpdateShift = () => {
         },
       });
       const shift = await response.json();
-      setBreaks(shift.breaks);
-      console.log("SHIFT: ", shift);
+      if (shift.breaks.length) {
+        const shiftBreaks = revertBreaksFromISO(shift.breaks);
+        setBreaks(shiftBreaks);
+      }
+      setStartDate(new Date(shift.startDate));
+      setEndDate(new Date(shift.endDate));
       setLoading(false);
     } catch (error) {
       setLoading(false);
@@ -94,29 +101,46 @@ const UpdateShift = () => {
         startDate: startDateFormatted,
         endDate: endDateFormatted,
       };
-      const transformedBreaks = transformBreaksToISO(newData, breaks);
+      const transformedBreaks = transformBreaksToISO(newData.startDate, breaks);
       const reqBody = {
         ...newData,
         userId,
         breaks: transformedBreaks,
       };
       const token = getCookie("token");
-      const response = await fetch(`/api/shift`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(reqBody),
-      });
-      if (!response.ok) {
-        console.error(await response.json());
-        throw new Error(`HTTP error! status: ${response.status}`);
+      const headers = {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      };
+      if (shiftId) {
+        const response = await fetch(`/api/shift/${shiftId}`, {
+          method: "PUT",
+          headers,
+          body: JSON.stringify(reqBody),
+        });
+        if (!response.ok) {
+          console.error(await response.json());
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const shiftModified = await response.json();
+        setLoading(false);
+        navigate("/shifts");
+        return alert(shiftModified.message);
+      } else {
+        const response = await fetch(`/api/shift`, {
+          method: "POST",
+          headers,
+          body: JSON.stringify(reqBody),
+        });
+        if (!response.ok) {
+          console.error(await response.json());
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const shiftCreated = await response.json();
+        setLoading(false);
+        navigate("/shifts");
+        return alert(shiftCreated.message);
       }
-      const shiftCreated = await response.json();
-      setLoading(false);
-      navigate("/shifts");
-      return alert(shiftCreated.message);
     } catch (error) {
       setLoading(false);
       console.error(error);
