@@ -52,7 +52,7 @@ const EmployeeList = () => {
       }));
   };
 
-  const handleRowClick = (row) => {
+  const onCellClick = (cellValue, row, colIndex, rowIndex) => {
     navigate(`/employees/details/${row.id}`);
   };
 
@@ -64,7 +64,7 @@ const EmployeeList = () => {
         <Table
           columns={columns}
           data={employees}
-          onRowClick={handleRowClick}
+          onCellClick={onCellClick}
           cursor={"pointer"}
         />
       )}
