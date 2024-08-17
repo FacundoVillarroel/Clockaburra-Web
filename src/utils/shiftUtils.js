@@ -1,3 +1,5 @@
+import { DateTime } from "luxon";
+
 // Converts a Date to a time string in HH:MM format.
 function formatTime(dateTime) {
   const date = new Date(dateTime);
@@ -36,7 +38,7 @@ function formatShiftsForEmployee(shifts) {
 }
 
 // Create an array of employees with their shifts.
-function createEmployeeShiftArray(employees, shifts) {
+export const createEmployeeShiftArray = (employees, shifts) => {
   const shiftsByUser = groupShiftsByUser(shifts);
 
   return employees.map((employee) => {
@@ -56,8 +58,30 @@ function createEmployeeShiftArray(employees, shifts) {
       id: employee.id,
     };
   });
-}
+};
 
-module.exports = {
-  createEmployeeShiftArray,
+export const transformBreaksToISO = (data, breaks) => {
+  const startDate = DateTime.fromISO(data.startDate);
+
+  const transformedBreaks = breaks.map((breakObj) => {
+    const breakStart = startDate
+      .set({
+        hour: parseInt(breakObj.breakStart.split(":")[0], 10),
+        minute: parseInt(breakObj.breakStart.split(":")[1], 10),
+      })
+      .toISO();
+
+    const breakEnd = startDate
+      .set({
+        hour: parseInt(breakObj.breakEnd.split(":")[0], 10),
+        minute: parseInt(breakObj.breakEnd.split(":")[1], 10),
+      })
+      .toISO();
+
+    return {
+      breakStart,
+      breakEnd,
+    };
+  });
+  return transformedBreaks;
 };

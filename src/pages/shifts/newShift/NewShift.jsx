@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { DateTime } from "luxon";
 import Form from "../../../components/form/Form";
 import Input from "../../../components/input/Input";
 import Loading from "../../../components/ui/loading/Loading";
 import { getCookie } from "../../../utils/cookies";
 import { useNavigate } from "react-router-dom";
+import { transformBreaksToISO } from "../../../utils/shiftUtils";
 
 import {
   FormContainer,
@@ -69,9 +69,12 @@ const NewShift = () => {
       setLoading(true);
       const startDateFormatted = formatJsDateToLuxonIso(data.startDate);
       const endDateFormatted = formatJsDateToLuxonIso(data.endDate);
-      data.startDate = startDateFormatted;
-      data.endDate = endDateFormatted;
-      const transformedBreaks = transformBreaksToISO(data);
+      const newData = {
+        ...data,
+        startDate: startDateFormatted,
+        endDate: endDateFormatted,
+      };
+      const transformedBreaks = transformBreaksToISO(newData, breaks);
       const token = getCookie("token");
 
       const response = await fetch(`/api/shift`, {
@@ -80,7 +83,7 @@ const NewShift = () => {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ ...data, breaks: transformedBreaks }),
+        body: JSON.stringify({ ...newData, breaks: transformedBreaks }),
       });
       if (!response.ok) {
         console.error(await response.json());
@@ -93,32 +96,6 @@ const NewShift = () => {
     } catch (error) {
       console.error(error);
     }
-  };
-
-  const transformBreaksToISO = (data) => {
-    const startDate = DateTime.fromISO(data.startDate);
-
-    const transformedBreaks = breaks.map((breakObj) => {
-      const breakStart = startDate
-        .set({
-          hour: parseInt(breakObj.breakStart.split(":")[0], 10),
-          minute: parseInt(breakObj.breakStart.split(":")[1], 10),
-        })
-        .toISO();
-
-      const breakEnd = startDate
-        .set({
-          hour: parseInt(breakObj.breakEnd.split(":")[0], 10),
-          minute: parseInt(breakObj.breakEnd.split(":")[1], 10),
-        })
-        .toISO();
-
-      return {
-        breakStart,
-        breakEnd,
-      };
-    });
-    return transformedBreaks;
   };
 
   const fetchUsers = async () => {

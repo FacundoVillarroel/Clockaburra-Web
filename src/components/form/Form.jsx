@@ -27,6 +27,7 @@ const Form = ({ onSubmit, fields, children }) => {
   };
 
   const handleDateChange = (name, date) => {
+    console.log("DATE,", date);
     let data = {
       ...formData,
       [name]: date,
@@ -42,6 +43,7 @@ const Form = ({ onSubmit, fields, children }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log("FORM: ", formData);
     onSubmit(formData);
   };
 
