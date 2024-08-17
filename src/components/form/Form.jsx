@@ -27,11 +27,17 @@ const Form = ({ onSubmit, fields, children }) => {
   };
 
   const handleDateChange = (name, date) => {
-    const formattedDate = date ? date.toISOString() : "";
-    setFormData({
+    let data = {
       ...formData,
-      [name]: formattedDate,
-    });
+      [name]: date,
+    };
+    if (name === "startDate" && formData.endDate < date) {
+      data = {
+        ...data,
+        endDate: date,
+      };
+    }
+    setFormData(data);
   };
 
   const handleSubmit = (e) => {
