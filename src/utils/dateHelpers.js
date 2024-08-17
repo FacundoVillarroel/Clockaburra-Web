@@ -1,6 +1,7 @@
 import { DateTime } from "luxon";
 
 const dateFormat = "ccc, dd LLL";
+const dateInputFormat = "'yyyy-LL-dd'T'HH:mm'";
 
 const getEndOfWeek = (date = DateTime.local()) => {
   let dateObj = date;
@@ -18,4 +19,4 @@ const getStartOfWeek = (date = DateTime.local()) => {
   return dateObj.startOf("week").toFormat(dateFormat);
 };
 
-export { getStartOfWeek, getEndOfWeek, dateFormat };
+export { getStartOfWeek, getEndOfWeek, dateFormat, dateInputFormat };
