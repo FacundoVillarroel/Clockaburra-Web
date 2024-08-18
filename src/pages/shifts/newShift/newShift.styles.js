@@ -21,41 +21,6 @@ export const FormDescription = styled.p`
   margin-bottom: 20px;
 `;
 
-export const Label = styled.label`
-  font-size: 14px;
-  font-weight: 600;
-  margin-bottom: 5px;
-  display: block;
-`;
-
-export const Input = styled.input`
-  width: 100%;
-  padding: 10px;
-  font-size: 14px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  margin-bottom: 15px;
-
-  &:focus {
-    border-color: #333;
-    outline: none;
-  }
-`;
-
-export const Select = styled.select`
-  width: 100%;
-  padding: 10px;
-  font-size: 14px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  margin-bottom: 15px;
-
-  &:focus {
-    border-color: #333;
-    outline: none;
-  }
-`;
-
 export const BreaksContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -96,17 +61,9 @@ export const AddBreakButton = styled.button`
   }
 `;
 
-export const SubmitButton = styled.button`
-  padding: 10px 15px;
-  background-color: #000;
-  color: #fff;
-  font-size: 16px;
-  font-weight: bold;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-
-  &:hover {
-    background-color: #333;
-  }
+export const ButtonContainer = styled.div`
+  margin-left: 1.5rem;
+  width: 75%;
+  display: inline-block;
+  justify-content: end;
 `;

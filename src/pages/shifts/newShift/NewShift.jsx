@@ -14,8 +14,10 @@ import {
   BreakInputContainer,
   DeleteBreakButton,
   AddBreakButton,
+  ButtonContainer,
 } from "./newShift.styles";
 import { formatJsDateToLuxonIso } from "../../../utils/dateHelpers";
+import Button from "../../../components/ui/button/Button";
 
 const NewShift = () => {
   const [loading, setLoading] = useState(false);
@@ -129,6 +131,10 @@ const NewShift = () => {
     fetchUsers();
   }, []);
 
+  const onHandleBack = () => {
+    navigate("/shifts");
+  };
+
   return (
     <>
       {loading ? (
@@ -171,6 +177,16 @@ const NewShift = () => {
                 </BreakInputContainer>
               ))}
             </BreaksContainer>
+            <ButtonContainer>
+              <Button
+                bg_color={"#ef0202"}
+                hover_bg_color={"#d10707"}
+                font_size={"1rem"}
+                onClick={onHandleBack}
+              >
+                Go back to shifts
+              </Button>
+            </ButtonContainer>
           </Form>
         </FormContainer>
       )}

@@ -5,21 +5,28 @@ import Form from "../../../components/form/Form";
 import Input from "../../../components/input/Input";
 import Loading from "../../../components/ui/loading/Loading";
 import { getCookie } from "../../../utils/cookies";
+import Button from "../../../components/ui/button/Button";
+import { LuTrash2 } from "react-icons/lu";
 
 import {
   FormContainer,
+  DeleteButtonContainer,
   FormTitle,
   FormDescription,
   BreaksContainer,
   BreakInputContainer,
   DeleteBreakButton,
   AddBreakButton,
+  ButtonContainer,
+  ModalButtonsContainer,
+  ModalTitle,
 } from "./updateShift.styles";
 import { formatJsDateToLuxonIso } from "../../../utils/dateHelpers";
 import {
   revertBreaksFromISO,
   transformBreaksToISO,
 } from "../../../utils/shiftUtils";
+import Modal from "../../../components/ui/modal/Moldal";
 
 const UpdateShift = () => {
   const navigate = useNavigate();
@@ -37,6 +44,7 @@ const UpdateShift = () => {
   const [breaks, setBreaks] = useState([]);
   const [startDate, setStartDate] = useState(new Date(date));
   const [endDate, setEndDate] = useState(new Date(date));
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const fields = [
     {
@@ -153,12 +161,70 @@ const UpdateShift = () => {
     }
   }, [fetchShift, shiftId]);
 
+  const onHandleBack = () => {
+    navigate("/shifts");
+  };
+
+  const onDelete = async () => {
+    try {
+      setLoading(true);
+      const token = getCookie("token");
+      const response = await fetch(`/api/shift/${shiftId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        method: "DELETE",
+      });
+      if (!response.ok) {
+        console.error(await response.json());
+        alert(
+          "An error occurred when trying to delete the shift",
+          "please try again later"
+        );
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const responseMessage = await response.json();
+      alert(responseMessage.message);
+      navigate("/shifts");
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      console.error(error);
+    }
+  };
+
   return (
     <>
       {loading ? (
         <Loading />
       ) : (
         <FormContainer>
+          {isModalOpen ? (
+            <Modal>
+              <ModalTitle>Are you sure to delete this shift?</ModalTitle>
+              <ModalButtonsContainer>
+                <Button
+                  bg_color={"#ef0202"}
+                  hover_bg_color={"#d10707"}
+                  onClick={onDelete}
+                >
+                  Delete
+                </Button>
+                <Button
+                  onClick={() => {
+                    setIsModalOpen(false);
+                  }}
+                >
+                  Cancel
+                </Button>
+              </ModalButtonsContainer>
+            </Modal>
+          ) : null}
+          {shiftId ? (
+            <DeleteButtonContainer onClick={() => setIsModalOpen(true)}>
+              <LuTrash2 color="red" fontSize={30} />
+            </DeleteButtonContainer>
+          ) : null}
           <FormTitle>Update shift</FormTitle>
           <FormDescription>Update shift for {name}</FormDescription>
           <Form onSubmit={handleSubmit} fields={fields}>
@@ -195,6 +261,16 @@ const UpdateShift = () => {
                 </BreakInputContainer>
               ))}
             </BreaksContainer>
+            <ButtonContainer>
+              <Button
+                bg_color={"#ef0202"}
+                hover_bg_color={"#d10707"}
+                font_size={"1rem"}
+                onClick={onHandleBack}
+              >
+                Go back to shifts
+              </Button>
+            </ButtonContainer>
           </Form>
         </FormContainer>
       )}
