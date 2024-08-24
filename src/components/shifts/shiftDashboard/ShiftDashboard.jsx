@@ -9,6 +9,7 @@ import {
   ActionBarContainer,
   ActionBarButtonContainer,
   AddShiftButton,
+  DateSelectorContainer,
 } from "./shiftDashboard.styles";
 
 import ShiftWeeklyView from "../../shiftWeeklyView/ShiftWeeklyView";
@@ -25,6 +26,7 @@ import {
 } from "../../../utils/dateHelpers";
 import departmentsList from "../../../data/departments";
 import rolesList from "../../../data/roles";
+import WeekSelector from "../../weekSelector/WeekSelector";
 
 const ShiftDashboard = () => {
   const [loading, setLoading] = useState(false);
@@ -59,7 +61,10 @@ const ShiftDashboard = () => {
       if (!users.length) {
         setData([]);
       } else {
-        const endDate = DateTime.fromFormat(getEndOfWeek(), dateFormat).toISO();
+        const endDate = DateTime.fromFormat(
+          getEndOfWeek(DateTime.fromISO(startDate)),
+          dateFormat
+        ).toISO();
         const shiftQueryString = buildQueryParams({
           userIds: users.map((user) => user.id),
           startDate,
@@ -146,6 +151,9 @@ const ShiftDashboard = () => {
         </ActionBarButtonContainer>
         <AddShiftButton onClick={handleNewShift}>Add new shift</AddShiftButton>
       </ActionBarContainer>
+      <DateSelectorContainer>
+        <WeekSelector weekSelected={startDate} setWeek={setStartDate} />
+      </DateSelectorContainer>
       {loading ? <Loading /> : getViewComponent()}
     </>
   );

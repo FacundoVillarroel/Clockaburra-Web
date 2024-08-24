@@ -43,6 +43,12 @@ export const AddShiftButton = styled.div`
   justify-content: center;
   background-color: ${Colors.primary};
   color: white;
-  border: 2px solid white;
   cursor: pointer;
+`;
+
+export const DateSelectorContainer = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
 `;
