@@ -17,7 +17,7 @@ import WeekSelector from "../../weekSelector/WeekSelector";
 import {
   dateFormat,
   getStartOfWeek,
-  getEndOfWeek,
+  getEndOfWeekISO,
 } from "../../../utils/dateHelpers";
 import TimesheetWeeklyView from "../timesheetWeeklyView/TimesheetWeeklyView";
 import TimesheetMonthlyView from "../timesheetMonthlyView/TimesheetMonthlyView";
@@ -75,10 +75,7 @@ const TimesheetDashboard = () => {
       if (!users.length) {
         setData([]);
       } else {
-        const endDate = DateTime.fromFormat(
-          getEndOfWeek(DateTime.fromISO(startDate)),
-          dateFormat
-        ).toISO();
+        const endDate = getEndOfWeekISO(DateTime.fromISO(startDate));
         //build query strings
         const timsheetQueryString = buildQueryParams({
           userIds: users.map((user) => user.id),

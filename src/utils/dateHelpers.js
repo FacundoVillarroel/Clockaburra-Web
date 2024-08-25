@@ -11,6 +11,13 @@ const getEndOfWeek = (date = DateTime.local()) => {
   return dateObj.endOf("week").toFormat(dateFormat);
 };
 
+const getEndOfWeekISO = (dateTime = DateTime.local()) => {
+  return dateTime
+    .endOf("week")
+    .set({ hour: 23, minute: 59, second: 59, millisecond: 999 })
+    .toISO();
+};
+
 const getStartOfWeek = (date = DateTime.local()) => {
   let dateObj = date;
   if (typeof dateObj === "string") {
@@ -33,6 +40,7 @@ const formatJsDateToLuxonIso = (jsDate) => {
 export {
   getStartOfWeek,
   getEndOfWeek,
+  getEndOfWeekISO,
   formatJsDateToLuxonIso,
   dateFormat,
   dateInputFormat,

@@ -20,7 +20,7 @@ import { buildQueryParams } from "../../../utils/buildQueryParams";
 import { getCookie } from "../../../utils/cookies";
 import { createEmployeeShiftArray } from "../../../utils/shiftUtils";
 import {
-  getEndOfWeek,
+  getEndOfWeekISO,
   getStartOfWeek,
   dateFormat,
 } from "../../../utils/dateHelpers";
@@ -61,10 +61,7 @@ const ShiftDashboard = () => {
       if (!users.length) {
         setData([]);
       } else {
-        const endDate = DateTime.fromFormat(
-          getEndOfWeek(DateTime.fromISO(startDate)),
-          dateFormat
-        ).toISO();
+        const endDate = getEndOfWeekISO(DateTime.fromISO(startDate));
         //build query strings
         const shiftQueryString = buildQueryParams({
           userIds: users.map((user) => user.id),
