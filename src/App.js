@@ -59,7 +59,7 @@ function App() {
               }
             />
             <Route
-              path="/timesheets"
+              path="/timesheets/*"
               element={
                 <PrivateRoute>
                   <Timesheets />

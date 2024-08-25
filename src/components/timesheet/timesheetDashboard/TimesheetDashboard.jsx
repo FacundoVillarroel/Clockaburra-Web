@@ -1,44 +1,58 @@
-import React, { useEffect, useState, useCallback } from "react";
-import { DateTime } from "luxon";
+import React, { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
-import Loading from "../../ui/loading/Loading";
+import { DateTime } from "luxon";
 
 import {
   Title,
   ActionBarContainer,
   ActionBarButtonContainer,
-  AddShiftButton,
+  AddTimesheetButton,
   DateSelectorContainer,
-} from "./shiftDashboard.styles";
+} from "./timesheetDashboard.styles";
 
-import ShiftWeeklyView from "../../shiftWeeklyView/ShiftWeeklyView";
-import ShiftMonthlyView from "../../shiftMonthlyView/ShiftMonthlyView";
-import DropdownMenu from "../../dropdownMenu/DropdownMenu";
-
-import { buildQueryParams } from "../../../utils/buildQueryParams";
-import { getCookie } from "../../../utils/cookies";
-import { createEmployeeShiftArray } from "../../../utils/shiftUtils";
-import {
-  getEndOfWeek,
-  getStartOfWeek,
-  dateFormat,
-} from "../../../utils/dateHelpers";
 import departmentsList from "../../../data/departments";
 import rolesList from "../../../data/roles";
+import DropdownMenu from "../../dropdownMenu/DropdownMenu";
 import WeekSelector from "../../weekSelector/WeekSelector";
+import {
+  dateFormat,
+  getStartOfWeek,
+  getEndOfWeek,
+} from "../../../utils/dateHelpers";
+import TimesheetWeeklyView from "../timesheetWeeklyView/TimesheetWeeklyView";
+import TimesheetMonthlyView from "../timesheetMonthlyView/TimesheetMonthlyView";
+import Loading from "../../ui/loading/Loading";
+import { getCookie } from "../../../utils/cookies";
+import { buildQueryParams } from "../../../utils/buildQueryParams";
+import { createEmployeeTimesheetArray } from "../../../utils/timesheetUtils";
 
-const ShiftDashboard = () => {
+const TimesheetDashboard = () => {
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState([]);
+  const [viewType, setViewType] = useState("weekly");
   const [roles, setRoles] = useState(rolesList);
   const [departments, setDepartments] = useState(departmentsList);
-  const [viewType, setViewType] = useState("weekly");
   const [startDate, setStartDate] = useState(
     DateTime.fromFormat(getStartOfWeek(), dateFormat).toISO()
   );
 
-  const navigate = useNavigate();
+  const setValues = (identifier, values) => {
+    if (identifier === "Roles") {
+      setRoles(values);
+    }
+    if (identifier === "Departments") {
+      setDepartments(values);
+    }
+  };
+
+  const getViewComponent = () => {
+    if (viewType === "monthly") {
+      return <TimesheetMonthlyView data={data} />;
+    } else {
+      return <TimesheetWeeklyView data={data} startDate={startDate} />;
+    }
+  };
 
   const fetchData = useCallback(async () => {
     try {
@@ -57,7 +71,7 @@ const ShiftDashboard = () => {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       const users = await response.json();
-      // should run in a separated function in future.
+
       if (!users.length) {
         setData([]);
       } else {
@@ -66,26 +80,28 @@ const ShiftDashboard = () => {
           dateFormat
         ).toISO();
         //build query strings
-        const shiftQueryString = buildQueryParams({
+        const timsheetQueryString = buildQueryParams({
           userIds: users.map((user) => user.id),
           startDate,
           endDate,
         });
-        const answer = await fetch(`/api/shift?${shiftQueryString}`, {
+        const answer = await fetch(`/api/timesheet?${timsheetQueryString}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         if (!answer.ok) {
           throw new Error(`HTTP error! status: ${answer.status}`);
         }
-        const shiftsList = await answer.json();
-        const usersShiftData = createEmployeeShiftArray(users, shiftsList);
-        setData(usersShiftData);
+        const timesheetsList = await answer.json();
+        const usersTimesheetData = createEmployeeTimesheetArray(
+          users,
+          timesheetsList
+        );
+        setData(usersTimesheetData);
       }
-      // should run in a separated function in future.
+
       setLoading(false);
     } catch (error) {
       setLoading(false);
-      console.error("EmployeeList", error);
     }
   }, [roles, departments, startDate]);
 
@@ -93,30 +109,10 @@ const ShiftDashboard = () => {
     fetchData();
   }, [fetchData]);
 
-  const getViewComponent = () => {
-    if (viewType === "monthly") {
-      return <ShiftMonthlyView data={data} />;
-    } else {
-      return <ShiftWeeklyView data={data} startDate={startDate} />;
-    }
-  };
-
-  const setValues = (identifier, values) => {
-    if (identifier === "Roles") {
-      setRoles(values);
-    }
-    if (identifier === "Departments") {
-      setDepartments(values);
-    }
-  };
-
-  const handleNewShift = () => {
-    navigate("/shifts/newShift");
-  };
-
+  console.log(data);
   return (
     <>
-      <Title>Shifts</Title>
+      <Title>Timesheets</Title>;
       <ActionBarContainer>
         <ActionBarButtonContainer
           active={viewType === "monthly" ? "active" : ""}
@@ -150,7 +146,13 @@ const ShiftDashboard = () => {
             checked={departments}
           />
         </ActionBarButtonContainer>
-        <AddShiftButton onClick={handleNewShift}>Add new shift</AddShiftButton>
+        <AddTimesheetButton
+          onClick={() => {
+            navigate("/timesheets/new");
+          }}
+        >
+          Add new timesheet
+        </AddTimesheetButton>
       </ActionBarContainer>
       <DateSelectorContainer>
         <WeekSelector weekSelected={startDate} setWeek={setStartDate} />
@@ -160,4 +162,4 @@ const ShiftDashboard = () => {
   );
 };
 
-export default ShiftDashboard;
+export default TimesheetDashboard;

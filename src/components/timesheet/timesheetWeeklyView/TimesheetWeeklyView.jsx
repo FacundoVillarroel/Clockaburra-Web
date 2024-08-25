@@ -1,11 +1,10 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-import Table from "../ui/table/Table";
+import Table from "../../ui/table/Table";
+import { getDayOfWeek, renderShiftCell } from "../../../utils/tableHelpers";
 
-import { renderShiftCell, getDayOfWeek } from "../../utils/tableHelpers";
-
-const ShiftWeeklyView = ({ data, startDate }) => {
+const TimesheetWeeklyView = ({ data, startDate }) => {
   const navigate = useNavigate();
   const columns = [
     { header: "Employee", accessor: "employee" },
@@ -56,16 +55,16 @@ const ShiftWeeklyView = ({ data, startDate }) => {
     }
     const userId = row.id;
     const name = row.employee;
-    const shiftId = cellValue ? cellValue.shiftId : null;
+    const timesheetId = cellValue ? cellValue.timesheetId : null;
     let date = cellValue ? null : getDayOfWeek(colIndex, startDate);
 
     const queryParams = new URLSearchParams({
       userId,
       name,
-      shiftId,
+      timesheetId,
       date,
     }).toString();
-    navigate(`/shifts/updateShift?${queryParams}`);
+    navigate(`/timesheets/update?${queryParams}`);
   };
 
   return (
@@ -80,4 +79,4 @@ const ShiftWeeklyView = ({ data, startDate }) => {
   );
 };
 
-export default ShiftWeeklyView;
+export default TimesheetWeeklyView;
