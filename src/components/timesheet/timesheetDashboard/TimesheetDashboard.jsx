@@ -109,7 +109,6 @@ const TimesheetDashboard = () => {
     fetchData();
   }, [fetchData]);
 
-  console.log(data);
   return (
     <>
       <Title>Timesheets</Title>;
