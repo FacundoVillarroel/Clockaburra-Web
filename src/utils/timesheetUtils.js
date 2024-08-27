@@ -32,6 +32,8 @@ function formatTimesheetsForEmployee(timesheets) {
       startTime: formatTime(timesheet.startDate),
       endTime: formatTime(timesheet.endDate),
       timesheetId: timesheet.id,
+      approved: timesheet.approved,
+      rejected: timesheet.rejected,
     };
   });
   return result;

@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 
 import Table from "../../ui/table/Table";
-import { getDayOfWeek, renderShiftCell } from "../../../utils/tableHelpers";
+import { getDayOfWeek, renderTimesheetCell } from "../../../utils/tableHelpers";
 
 const TimesheetWeeklyView = ({ data, startDate }) => {
   const navigate = useNavigate();
@@ -12,37 +12,37 @@ const TimesheetWeeklyView = ({ data, startDate }) => {
     {
       header: "Mon",
       accessor: "mon",
-      render: renderShiftCell,
+      render: renderTimesheetCell,
     },
     {
       header: "Tue",
       accessor: "tue",
-      render: renderShiftCell,
+      render: renderTimesheetCell,
     },
     {
       header: "Wed",
       accessor: "wed",
-      render: renderShiftCell,
+      render: renderTimesheetCell,
     },
     {
       header: "Thu",
       accessor: "thu",
-      render: renderShiftCell,
+      render: renderTimesheetCell,
     },
     {
       header: "Fri",
       accessor: "fri",
-      render: renderShiftCell,
+      render: renderTimesheetCell,
     },
     {
       header: "Sat",
       accessor: "sat",
-      render: renderShiftCell,
+      render: renderTimesheetCell,
     },
     {
       header: "Sun",
       accessor: "sun",
-      render: renderShiftCell,
+      render: renderTimesheetCell,
     },
   ];
 
@@ -53,6 +53,7 @@ const TimesheetWeeklyView = ({ data, startDate }) => {
     if (colIndex < 2) {
       return;
     }
+    cellValue && console.log(cellValue);
     const userId = row.id;
     const name = row.employee;
     const timesheetId = cellValue ? cellValue.timesheetId : null;

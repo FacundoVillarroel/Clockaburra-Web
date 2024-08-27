@@ -28,8 +28,26 @@ const CellContent = styled.div`
 export const renderShiftCell = (value, row) => {
   return (
     <CellContainer>
-      <CellContent color={value ? null : "black"}>
+      <CellContent color={value ? null : "grey"}>
         {value ? `${value.startTime} - ${value.endTime}` : "No Shift"}
+      </CellContent>
+    </CellContainer>
+  );
+};
+
+export const renderTimesheetCell = (value, row) => {
+  //Color is blue when approved, red when rejected, yellow when needs user action, and grey when no data
+  let color = value
+    ? value.approved
+      ? Colors.primary
+      : value.rejected
+      ? "red"
+      : Colors.accent
+    : "grey";
+  return (
+    <CellContainer>
+      <CellContent color={color}>
+        {value ? `${value.startTime} - ${value.endTime}` : "Not worked"}
       </CellContent>
     </CellContainer>
   );
