@@ -142,7 +142,6 @@ const UpdateTimesheet = () => {
         userId,
         breaks: transformedBreaks,
       };
-      console.log(reqBody);
       const token = getCookie("token");
       const headers = {
         "Content-Type": "application/json",
@@ -173,6 +172,11 @@ const UpdateTimesheet = () => {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         const timesheetCreated = await response.json();
+        await fetch(`/api/timesheet/approve`, {
+          headers,
+          method: "POST",
+          body: JSON.stringify({ id: timesheetCreated.id }),
+        });
         navigate("/timesheets");
         setLoading(false);
         return alert(timesheetCreated.message);

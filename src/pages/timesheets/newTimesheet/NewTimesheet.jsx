@@ -78,13 +78,14 @@ const NewTimesheet = () => {
       };
       const transformedBreaks = transformBreaksToISO(newData.startDate, breaks);
       const token = getCookie("token");
+      const headers = {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      };
 
       const response = await fetch(`/api/timesheet`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
+        headers,
         body: JSON.stringify({ ...newData, breaks: transformedBreaks }),
       });
 
@@ -94,8 +95,12 @@ const NewTimesheet = () => {
       }
 
       const timesheetCreated = await response.json();
+      await fetch(`/api/timesheet/approve`, {
+        headers,
+        method: "POST",
+        body: JSON.stringify({ id: timesheetCreated.id }),
+      });
       setLoading(false);
-      console.log(timesheetCreated);
       navigate("/timesheets");
       return alert(timesheetCreated.message);
     } catch (error) {
