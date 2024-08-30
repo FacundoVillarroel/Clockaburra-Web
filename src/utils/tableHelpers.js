@@ -36,10 +36,10 @@ export const renderShiftCell = (value, row) => {
 };
 
 export const renderTimesheetCell = (value, row) => {
-  //Color is blue when approved, red when rejected, yellow when needs user action, and grey when no data
+  //Color is green when approved, red when rejected, yellow when needs user action, and grey when no data
   let color = value
     ? value.approved
-      ? Colors.primary
+      ? "green"
       : value.rejected
       ? "red"
       : Colors.accent

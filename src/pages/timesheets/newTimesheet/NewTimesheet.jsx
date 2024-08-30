@@ -7,7 +7,7 @@ import Loading from "../../../components/ui/loading/Loading";
 import Form from "../../../components/form/Form";
 import Input from "../../../components/input/Input";
 import Button from "../../../components/ui/button/Button";
-import { formatJsDateToLuxonIso } from "../../../utils/dateHelpers";
+import { formatJsDateToLuxonISO } from "../../../utils/dateHelpers";
 import {
   FormContainer,
   FormTitle,
@@ -69,8 +69,8 @@ const NewTimesheet = () => {
         return alert("Must select an user");
       }
       setLoading(true);
-      const startDateFormatted = formatJsDateToLuxonIso(data.startDate);
-      const endDateFormatted = formatJsDateToLuxonIso(data.endDate);
+      const startDateFormatted = formatJsDateToLuxonISO(data.startDate);
+      const endDateFormatted = formatJsDateToLuxonISO(data.endDate);
       const newData = {
         ...data,
         startDate: startDateFormatted,

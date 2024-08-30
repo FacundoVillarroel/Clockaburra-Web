@@ -21,7 +21,7 @@ import {
   ModalButtonsContainer,
   ModalTitle,
 } from "./updateShift.styles";
-import { formatJsDateToLuxonIso } from "../../../utils/dateHelpers";
+import { formatJsDateToLuxonISO } from "../../../utils/dateHelpers";
 import {
   revertBreaksFromISO,
   transformBreaksToISO,
@@ -102,8 +102,8 @@ const UpdateShift = () => {
   const handleSubmit = async (data) => {
     try {
       setLoading(true);
-      const startDateFormatted = formatJsDateToLuxonIso(data.startDate);
-      const endDateFormatted = formatJsDateToLuxonIso(data.endDate);
+      const startDateFormatted = formatJsDateToLuxonISO(data.startDate);
+      const endDateFormatted = formatJsDateToLuxonISO(data.endDate);
       const newData = {
         ...data,
         startDate: startDateFormatted,
@@ -220,6 +220,7 @@ const UpdateShift = () => {
               </ModalButtonsContainer>
             </Modal>
           ) : null}
+          {/* render Trash icon conditionally */}
           {shiftId ? (
             <DeleteButtonContainer onClick={() => setIsModalOpen(true)}>
               <LuTrash2 color="red" fontSize={30} />

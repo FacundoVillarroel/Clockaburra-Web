@@ -53,7 +53,6 @@ const TimesheetWeeklyView = ({ data, startDate }) => {
     if (colIndex < 2) {
       return;
     }
-    cellValue && console.log(cellValue);
     const userId = row.id;
     const name = row.employee;
     const timesheetId = cellValue ? cellValue.timesheetId : null;

@@ -9,7 +9,7 @@ import {
   StyledDatePicker,
 } from "./form.styles";
 
-const Form = ({ onSubmit, fields, children }) => {
+const Form = ({ onSubmit, fields, children, submitButtonText = "Submit" }) => {
   const [formData, setFormData] = useState(
     fields.reduce((acc, field) => {
       acc[field.name] =
@@ -86,7 +86,7 @@ const Form = ({ onSubmit, fields, children }) => {
         )
       )}
       {children}
-      <Button type="submit">Submit</Button>
+      <Button type="submit">{submitButtonText}</Button>
     </form>
   );
 };

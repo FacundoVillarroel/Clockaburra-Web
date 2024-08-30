@@ -26,7 +26,7 @@ const getStartOfWeek = (date = DateTime.local()) => {
   return dateObj.startOf("week").toFormat(dateFormat);
 };
 
-const formatJsDateToLuxonIso = (jsDate) => {
+const formatJsDateToLuxonISO = (jsDate) => {
   try {
     const isoString = jsDate.toISOString();
     const DateTimeObj = DateTime.fromISO(isoString);
@@ -41,7 +41,7 @@ export {
   getStartOfWeek,
   getEndOfWeek,
   getEndOfWeekISO,
-  formatJsDateToLuxonIso,
+  formatJsDateToLuxonISO,
   dateFormat,
   dateInputFormat,
 };

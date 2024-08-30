@@ -16,7 +16,7 @@ import {
   AddBreakButton,
   ButtonContainer,
 } from "./newShift.styles";
-import { formatJsDateToLuxonIso } from "../../../utils/dateHelpers";
+import { formatJsDateToLuxonISO } from "../../../utils/dateHelpers";
 import Button from "../../../components/ui/button/Button";
 
 const NewShift = () => {
@@ -69,8 +69,8 @@ const NewShift = () => {
         return alert("Must select an user");
       }
       setLoading(true);
-      const startDateFormatted = formatJsDateToLuxonIso(data.startDate);
-      const endDateFormatted = formatJsDateToLuxonIso(data.endDate);
+      const startDateFormatted = formatJsDateToLuxonISO(data.startDate);
+      const endDateFormatted = formatJsDateToLuxonISO(data.endDate);
       const newData = {
         ...data,
         startDate: startDateFormatted,
