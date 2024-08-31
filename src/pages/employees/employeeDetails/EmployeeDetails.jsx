@@ -26,6 +26,7 @@ import {
 import DeleteUserModal from "../../../components/deleteUserModal/DeleteUserModal";
 import Button from "../../../components/ui/button/Button";
 import UpdateEmployeeModal from "../../../components/updateEmployeeModal/UpdateEmployeeModal";
+import Colors from "../../../constants/Colors";
 
 const EmployeeDetails = () => {
   const { id } = useParams();
@@ -91,7 +92,7 @@ const EmployeeDetails = () => {
     setModalOpen("delete");
   };
 
-  const handleCLose = () => {
+  const handleClose = () => {
     setModalOpen("");
   };
 
@@ -130,6 +131,7 @@ const EmployeeDetails = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    console.log(name, value);
     if (name === "hourlyRate") {
       setEmployeeUpdate({
         ...employeeUpdate,
@@ -158,12 +160,13 @@ const EmployeeDetails = () => {
   const handleSaveEmployee = async (handleLoading) => {
     const startDateObj = DateTime.fromISO(employee.startDate);
     const updatedEmployee = {
-      ...employee,
+      ...employeeUpdate,
       startDate: startDateObj.toISO(),
     };
     try {
       handleLoading(true);
       const token = getCookie("token");
+      console.log("update", updatedEmployee);
       const response = await fetch(`/api/users/${employee.email}`, {
         method: "PUT",
         headers: {
@@ -203,13 +206,13 @@ const EmployeeDetails = () => {
               }}
             >
               {editMode ? (
-                <LuXCircle color="white" fontSize={30} />
+                <LuXCircle color={Colors.accent} fontSize={30} />
               ) : (
-                <LuPenSquare color="white" fontSize={30} />
+                <LuPenSquare color={Colors.accent} fontSize={30} />
               )}
             </EditButton>
             <DeleteButton onClick={onDelete}>
-              <LuTrash2 color="white" fontSize={30} />
+              <LuTrash2 color="red" fontSize={30} />
             </DeleteButton>
           </EmployeeHeader>
           {editMode ? (
@@ -306,7 +309,7 @@ const EmployeeDetails = () => {
           {modalOpen === "delete" && (
             <DeleteUserModal
               id={id}
-              handleCLose={handleCLose}
+              handleClose={handleClose}
               handleDelete={handleDelete}
             />
           )}

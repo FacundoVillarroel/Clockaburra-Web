@@ -10,7 +10,7 @@ import {
   ConfirmButton,
 } from "./deleteUserModal.styles";
 
-const DeleteUserModal = ({ id, handleCLose, handleDelete }) => {
+const DeleteUserModal = ({ id, handleClose, handleDelete }) => {
   const [inputValue, setInputValue] = useState("");
 
   const handleInputChange = (e) => {
@@ -19,7 +19,7 @@ const DeleteUserModal = ({ id, handleCLose, handleDelete }) => {
 
   return (
     <Modal>
-      <CloseButton onClick={handleCLose}>&times;</CloseButton>
+      <CloseButton onClick={handleClose}>&times;</CloseButton>
       <Title>Are you sure you want to delete user {id}?</Title>
       <Label htmlFor="userIdInput">To confirm, please enter the user ID:</Label>
       <Input
