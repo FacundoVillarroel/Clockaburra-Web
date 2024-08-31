@@ -1,45 +1,33 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { useNavigate } from "react-router-dom";
-import Table from "../../../components/ui/table/Table";
 import { DateTime } from "luxon";
-import { LuTrash2 } from "react-icons/lu";
 
 import { getCookie } from "../../../utils/cookies";
 import Loading from "../../../components/ui/loading/Loading";
-import DeleteUserModal from "../../../components/deleteUserModal/DeleteUserModal";
-import { IconContainer } from "./employeeList.styles";
+import {
+  ActionBarContainer,
+  ActionBarButtonContainer,
+} from "./employeeList.styles";
+import DropdownMenu from "../../../components/dropdownMenu/DropdownMenu";
+import rolesList from "../../../data/roles";
+import departmentsList from "../../../data/departments";
+import { buildQueryParams } from "../../../utils/buildQueryParams";
+import EmployeesTable from "../../../components/employees/employeesTable/EmployeesTable";
 
 const EmployeeList = () => {
   const [loading, setLoading] = useState(false);
   const [employees, setEmployees] = useState([]);
-  const [userId, setUserId] = useState("");
-  const [modalOpen, setModalOpen] = useState(false);
-  const navigate = useNavigate();
-
-  const columns = [
-    { header: "Name", accessor: "name" },
-    { header: "Surname", accessor: "surname" },
-    { header: "Email", accessor: "email" },
-    { header: "Role", accessor: "role" },
-    { header: "Start Date", accessor: "startDate" },
-    {
-      header: "Delete User",
-      accessor: "id",
-      render: (value, row) => {
-        return (
-          <IconContainer>
-            <LuTrash2 color="red" fontSize={30} />
-          </IconContainer>
-        );
-      },
-    },
-  ];
+  const [roles, setRoles] = useState(rolesList);
+  const [departments, setDepartments] = useState(departmentsList);
 
   const fetchUsers = useCallback(async () => {
     try {
       setLoading(true);
+      const queryString = buildQueryParams({
+        roles: roles.length ? roles : ["none"],
+        departments: departments.length ? departments : ["none"],
+      });
       const token = getCookie("token");
-      const response = await fetch("/api/users/", {
+      const response = await fetch(`/api/users?${queryString}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const users = await response.json();
@@ -49,7 +37,7 @@ const EmployeeList = () => {
       setLoading(false);
       console.error("EmployeeList", error);
     }
-  }, []);
+  }, [roles, departments]);
 
   useEffect(() => {
     fetchUsers();
@@ -68,66 +56,37 @@ const EmployeeList = () => {
       }));
   };
 
-  const onCellClick = (cellValue, row, colIndex, rowIndex) => {
-    if (colIndex === 5) {
-      setUserId(cellValue);
-      return setModalOpen(true);
+  const setFilters = (identifier, values) => {
+    if (identifier === "Roles") {
+      setRoles(values);
     }
-    navigate(`/employees/details/${row.id}`);
-  };
-
-  const handleClose = () => {
-    setModalOpen(false);
-  };
-
-  const handleDelete = async () => {
-    try {
-      setModalOpen(false);
-      setLoading(true);
-      const token = getCookie("token");
-      const response = await fetch(`/api/users/${userId}`, {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      const user = await response.json();
-
-      if (user.deleted) {
-        alert(`user: ${userId}, Deleted succesfully`);
-      } else {
-        alert(`Error deleting user: ${userId}`);
-      }
-      setLoading(false);
-    } catch (error) {
-      setLoading(false);
-      console.error("EmployeeDetails", error);
+    if (identifier === "Departments") {
+      setDepartments(values);
     }
   };
 
   return (
-    <div>
-      {loading ? (
-        <Loading />
-      ) : (
-        <>
-          {modalOpen && (
-            <DeleteUserModal
-              id={userId}
-              handleClose={handleClose}
-              handleDelete={handleDelete}
-            />
-          )}
-          <Table
-            columns={columns}
-            data={employees}
-            onCellClick={onCellClick}
-            cursor={"pointer"}
+    <>
+      <ActionBarContainer>
+        <ActionBarButtonContainer>
+          <DropdownMenu
+            label="Roles"
+            items={rolesList}
+            setValues={setFilters}
+            checked={roles}
           />
-        </>
-      )}
-    </div>
+        </ActionBarButtonContainer>
+        <ActionBarButtonContainer>
+          <DropdownMenu
+            label="Departments"
+            items={departmentsList}
+            setValues={setFilters}
+            checked={departments}
+          />
+        </ActionBarButtonContainer>
+      </ActionBarContainer>
+      {loading ? <Loading /> : <EmployeesTable employees={employees} />}
+    </>
   );
 };
 

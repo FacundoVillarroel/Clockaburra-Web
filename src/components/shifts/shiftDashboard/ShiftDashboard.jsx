@@ -12,8 +12,8 @@ import {
   DateSelectorContainer,
 } from "./shiftDashboard.styles";
 
-import ShiftWeeklyView from "../../shiftWeeklyView/ShiftWeeklyView";
-import ShiftMonthlyView from "../../shiftMonthlyView/ShiftMonthlyView";
+import ShiftWeeklyView from "../shiftWeeklyView/ShiftWeeklyView";
+import ShiftMonthlyView from "../shiftMonthlyView/ShiftMonthlyView";
 import DropdownMenu from "../../dropdownMenu/DropdownMenu";
 
 import { buildQueryParams } from "../../../utils/buildQueryParams";

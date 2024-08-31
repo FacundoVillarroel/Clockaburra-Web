@@ -1,9 +1,9 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-import Table from "../ui/table/Table";
+import Table from "../../ui/table/Table";
 
-import { renderShiftCell, getDayOfWeek } from "../../utils/tableHelpers";
+import { renderShiftCell, getDayOfWeek } from "../../../utils/tableHelpers";
 
 const ShiftWeeklyView = ({ data, startDate }) => {
   const navigate = useNavigate();
