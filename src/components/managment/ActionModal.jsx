@@ -58,7 +58,7 @@ const ActionModal = ({
               handleAction(values);
             }}
           >
-            Update
+            {actionType === "Edit" ? "Update" : "Save"}
           </ConfirmButton>
         </>
       );
