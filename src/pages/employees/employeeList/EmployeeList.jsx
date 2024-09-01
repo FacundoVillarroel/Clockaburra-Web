@@ -17,7 +17,7 @@ const EmployeeList = () => {
   const [loading, setLoading] = useState(false);
   const [employees, setEmployees] = useState([]);
   const [roles, setRoles] = useState(rolesList);
-  const [departments, setDepartments] = useState(departmentsList);
+  const [departments, setDepartments] = useState([]);
 
   const fetchUsers = useCallback(async () => {
     try {
