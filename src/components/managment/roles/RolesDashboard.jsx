@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 import Loading from "../../ui/loading/Loading";
 import Table from "../../ui/table/Table";
@@ -7,11 +8,18 @@ import ActionModal from "../ActionModal";
 import ActionButtons from "../ActionButtons";
 
 import { getCookie } from "../../../utils/cookies";
+import {
+  createRole,
+  deleteRole,
+  updateRole,
+} from "../../../store/reducers/organizationSlice";
 
-const RolesDashboard = ({ roles = [] }) => {
+const RolesDashboard = () => {
   const [loading, setLoading] = useState(false);
   const [modalOpen, setModalOpen] = useState("");
   const [organizationSelected, setOrganizationSelected] = useState({});
+  const { roles } = useSelector((state) => state.organization);
+  const dispatch = useDispatch();
 
   const columns = [
     { header: "Name", accessor: "name" },
@@ -31,110 +39,42 @@ const RolesDashboard = ({ roles = [] }) => {
     },
   ];
 
-  const fetchNew = async (newRole) => {
-    try {
-      setLoading(true);
-      const token = getCookie("token");
-      const response = await fetch(`/api/role`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(newRole),
-      });
-      const roleCreated = await response.json();
-      if (!response.ok) {
-        throw new Error(roleCreated.message);
-      }
-      alert("Role created Successfully");
-      setLoading(false);
-      roles.push({
-        id: roleCreated.id,
-        name: roleCreated.data.name,
-        description: roleCreated.data.description,
-      });
-      setModalOpen("");
-    } catch (error) {
-      alert(error.message);
-      setLoading(false);
-      console.error(error);
-    }
-  };
-
-  const fetchUpdate = async (roleUpdate) => {
-    try {
-      setLoading(true);
-      const token = getCookie("token");
-      const response = await fetch(`/api/role/${organizationSelected.id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(roleUpdate),
-      });
-      const roleUpdated = await response.json();
-      if (!response.ok) {
-        throw new Error(roleUpdated.message);
-      }
-      alert("Role Updated Successfully");
-      setLoading(false);
-      // Find the index of the role to modify
-      const index = roles.findIndex(
-        (role) => role.id === organizationSelected.id
-      );
-      // Modify the role if it is found
-      if (index !== -1) {
-        roles[index] = { ...roles[index], ...roleUpdate };
-      }
-      setModalOpen("");
-    } catch (error) {
-      alert(error.message);
-      setLoading(false);
-      console.error(error);
-    }
-  };
-
-  const fetchDelete = async () => {
-    try {
-      setLoading(true);
-      const token = getCookie("token");
-      const response = await fetch(`/api/role/${organizationSelected.id}`, {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      const roleDeleted = await response.json();
-      if (!response.ok) {
-        throw new Error(roleDeleted.message);
-      }
-      alert("Role deleted Successfully");
-      setLoading(false);
-      // Find the index of the role to remove
-      const index = roles.findIndex(
-        (role) => role.id === organizationSelected.id
-      );
-      // Remove the role if it is found
-      if (index !== -1) {
-        roles.splice(index, 1);
-      }
-      setModalOpen("");
-    } catch (error) {
-      alert(error.message);
-      setLoading(false);
-      console.error(error);
-    }
-  };
-
-  const handleAction = (data) => {
+  const handleAction = async (data) => {
     if (modalOpen === "Edit") {
-      fetchUpdate(data);
+      //Send request for editing
+      try {
+        const token = getCookie("token");
+        await dispatch(
+          updateRole(organizationSelected.id, data, setLoading, token)
+        );
+        alert("Role Updated Successfully");
+        setModalOpen("");
+      } catch (error) {
+        alert(error.message);
+        console.error(error);
+      }
     } else if (modalOpen === "Add new") {
-      fetchNew(data);
+      //Send request for adding new one
+      try {
+        const token = getCookie("token");
+        await dispatch(createRole(data, setLoading, token));
+        alert("Role created Successfully");
+        setModalOpen("");
+      } catch (error) {
+        alert(error.message);
+        console.error(error);
+      }
     } else {
-      fetchDelete();
+      //Send request for deliting
+      try {
+        const token = getCookie("token");
+        await dispatch(deleteRole(organizationSelected.id, setLoading, token));
+        alert("Role deleted Successfully");
+        setModalOpen("");
+      } catch (error) {
+        alert(error.message);
+        console.error(error);
+      }
     }
   };
 

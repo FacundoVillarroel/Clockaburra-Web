@@ -39,8 +39,32 @@ const organizationSlice = createSlice({
         state.departments.splice(index, 1);
       }
     },
-    updateRoles: (state, action) => {
+    getRoles: (state, action) => {
       state.roles = action.payload;
+    },
+    addRole: (state, action) => {
+      state.roles.push(action.payload);
+    },
+    updateRoles: (state, action) => {
+      // Find the index of the role to modify
+      const index = state.roles.findIndex(
+        (role) => role.id === action.payload.id
+      );
+      // Modify the role if it is found
+      if (index !== -1) {
+        state.roles[index] = {
+          ...state.roles[index],
+          ...action.payload,
+        };
+      }
+    },
+    deleteRoles: (state, action) => {
+      // Find the index of the role to remove
+      const index = state.roles.findIndex((role) => role.id === action.payload);
+      // Remove the role if it is found
+      if (index !== -1) {
+        state.roles.splice(index, 1);
+      }
     },
   },
 });
@@ -50,30 +74,47 @@ export const {
   addDepartment,
   updateDepartments,
   deleteDepartments,
+  getRoles,
+  addRole,
   updateRoles,
+  deleteRoles,
 } = organizationSlice.actions;
 
 export default organizationSlice.reducer;
 
-export const fetchDepartments = (setLoading, token) => {
+export const fetchOrganizations = (setLoading, token) => {
   return async (dispatch) => {
     try {
       setLoading(true);
-      const response = await fetch(`/api/department`, {
+      //fetch departments
+      const firstResponse = await fetch(`/api/department`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      if (!response.ok) {
-        throw new Error(await response.json().message);
+      if (!firstResponse.ok) {
+        throw new Error(await firstResponse.json().message);
       }
-      const data = await response.json();
+      const firstData = await firstResponse.json();
+      dispatch(getDepartments(firstData));
+      //fetch roles
+      const secondResponse = await fetch(`/api/role`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (!secondResponse.ok) {
+        throw new Error(await secondResponse.json().message);
+      }
+      const secondData = await secondResponse.json();
       setLoading(false);
-      dispatch(getDepartments(data));
+      dispatch(getRoles(secondData));
+      setLoading(false);
     } catch (error) {
-      dispatch(getDepartments([]));
+      setLoading(false);
       throw new Error(error);
     }
   };
 };
+
+// DEPARTMENTS ACTIONS
+
 export const updateDepartment = (id, update, setLoading, token) => {
   return async (dispatch) => {
     try {
@@ -144,6 +185,86 @@ export const createDepartment = (department, setLoading, token) => {
         description: data.data.description,
       };
       dispatch(addDepartment(newDepartment));
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      throw new Error(error);
+    }
+  };
+};
+
+// ROLES ACTIONS
+
+export const updateRole = (id, update, setLoading, token) => {
+  return async (dispatch) => {
+    try {
+      setLoading(true);
+      const response = await fetch(`/api/role/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(update),
+      });
+      const roleUpdated = await response.json();
+      if (!response.ok) {
+        throw new Error(roleUpdated.message);
+      }
+      dispatch(updateRoles({ id, ...update }));
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      throw new Error(error);
+    }
+  };
+};
+
+export const deleteRole = (id, setLoading, token) => {
+  return async (dispatch) => {
+    try {
+      setLoading(true);
+      const response = await fetch(`/api/role/${id}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const roleDeleted = await response.json();
+      if (!response.ok) {
+        throw new Error(roleDeleted.message);
+      }
+      dispatch(deleteRoles(id));
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      throw new Error(error);
+    }
+  };
+};
+
+export const createRole = (role, setLoading, token) => {
+  return async (dispatch) => {
+    try {
+      setLoading(true);
+      const response = await fetch(`/api/role`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(role),
+      });
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.message);
+      }
+      const newRole = {
+        id: data.id,
+        name: data.data.name,
+        description: data.data.description,
+      };
+      dispatch(addRole(newRole));
       setLoading(false);
     } catch (error) {
       setLoading(false);
