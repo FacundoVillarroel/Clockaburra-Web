@@ -26,7 +26,7 @@ import {
   revertBreaksFromISO,
   transformBreaksToISO,
 } from "../../../utils/shiftUtils";
-import Modal from "../../../components/ui/modal/Moldal";
+import Modal from "../../../components/ui/modal/Modal";
 
 const UpdateShift = () => {
   const navigate = useNavigate();

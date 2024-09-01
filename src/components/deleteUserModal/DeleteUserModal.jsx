@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import Modal from "../ui/modal/Moldal";
+import Modal from "../ui/modal/Modal";
 
 import {
   Title,

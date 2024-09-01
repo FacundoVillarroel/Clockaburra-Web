@@ -34,7 +34,9 @@ const Navbar = () => {
             <CustomNavLink to="/employees">Employees</CustomNavLink>
             <CustomNavLink to="/shifts">Shifts</CustomNavLink>
             <CustomNavLink to="/timesheets">Timesheets</CustomNavLink>
-            <CustomNavLink to="/statistics">Statistics</CustomNavLink>
+            <CustomNavLink to="/manage/roles">
+              Manage Roles & Departments
+            </CustomNavLink>
             <CustomNavLink to="/" onClick={handleLogout}>
               Logout
             </CustomNavLink>

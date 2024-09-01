@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Loading from "../../../components/ui/loading/Loading";
-import Modal from "../../../components/ui/modal/Moldal";
+import Modal from "../../../components/ui/modal/Modal";
 import Button from "../../../components/ui/button/Button";
 import Form from "../../../components/form/Form";
 import Input from "../../../components/input/Input";

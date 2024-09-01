@@ -11,7 +11,7 @@ import Register from "./pages/register/Register";
 import Employees from "./pages/employees/Employees";
 import Shifts from "./pages/shifts/Shifts";
 import Timesheets from "./pages/timesheets/Timesheets";
-import Statistics from "./pages/statistics/Statistics";
+import Manage from "./pages/manage/Manage";
 import Footer from "./components/footer/Footer";
 import PublicRoute from "./components/publicRoute/PublicRoute";
 import AuthProvider from "./components/authProvider/AuthProvider";
@@ -67,10 +67,10 @@ function App() {
               }
             />
             <Route
-              path="/statistics"
+              path="/manage/*"
               element={
                 <PrivateRoute>
-                  <Statistics />
+                  <Manage />
                 </PrivateRoute>
               }
             />
