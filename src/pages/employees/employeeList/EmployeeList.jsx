@@ -8,19 +8,15 @@ import {
   ActionBarButtonContainer,
 } from "./employeeList.styles";
 import DropdownMenu from "../../../components/dropdownMenu/DropdownMenu";
-import rolesList from "../../../data/roles";
-import departmentsList from "../../../data/departments";
 import { buildQueryParams } from "../../../utils/buildQueryParams";
 import EmployeesTable from "../../../components/employees/employeesTable/EmployeesTable";
-import { useSelector } from "react-redux";
 
-const EmployeeList = () => {
+const EmployeeList = ({ rolesList = [], departmentsList = [] }) => {
   const [loading, setLoading] = useState(false);
   const [employees, setEmployees] = useState([]);
   const [roles, setRoles] = useState(rolesList);
   const [departments, setDepartments] = useState(departmentsList);
-  const rolesDepartments = useSelector((state) => state.organization);
-  console.log(rolesDepartments);
+
   const fetchUsers = useCallback(async () => {
     try {
       setLoading(true);
@@ -44,6 +40,18 @@ const EmployeeList = () => {
   useEffect(() => {
     fetchUsers();
   }, [fetchUsers]);
+
+  useEffect(() => {
+    if (rolesList.length) {
+      setRoles(rolesList);
+    }
+  }, [rolesList]);
+
+  useEffect(() => {
+    if (departmentsList.length) {
+      setDepartments(departmentsList);
+    }
+  }, [departmentsList]);
 
   const formatData = (data) => {
     return data

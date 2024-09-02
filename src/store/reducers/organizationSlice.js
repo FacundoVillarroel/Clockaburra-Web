@@ -101,7 +101,6 @@ export default organizationSlice.reducer;
 export const fetchOrganizations = createAsyncThunk(
   "/organization/fetchOrganizations",
   async (token) => {
-    console.log(token);
     try {
       //fetch departments
       const departmentsResponse = await fetch(`/api/department`, {

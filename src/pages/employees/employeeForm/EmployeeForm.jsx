@@ -5,26 +5,33 @@ import { DateTime } from "luxon";
 
 import { EmployeeFormContainer, Title } from "./employeeForm.styles";
 import Loading from "../../../components/ui/loading/Loading";
-
-const fields = [
-  { label: "Email", type: "email", name: "email" },
-  { label: "Name", type: "text", name: "name" },
-  { label: "Surname", type: "text", name: "surname" },
-  {
-    label: "Role",
-    type: "select",
-    name: "role",
-    options: [
-      { label: "Employee", value: "employee" },
-      { label: "Employer", value: "employer" },
-    ],
-  },
-  { label: "Start Date", type: "date", name: "startDate" },
-  { label: "Hourly Rate", type: "number", name: "hourlyRate" },
-];
+import { useSelector } from "react-redux";
 
 const EmployeeForm = () => {
   const [loading, setLoading] = useState(false);
+  const { roles, status } = useSelector((state) => state.organization);
+
+  let options = [{ label: "", value: "" }];
+  if (roles.length) {
+    options = roles.map((role) => ({
+      label: role.name,
+      value: role.name,
+    }));
+  }
+
+  const fields = [
+    { label: "Email", type: "email", name: "email" },
+    { label: "Name", type: "text", name: "name" },
+    { label: "Surname", type: "text", name: "surname" },
+    {
+      label: "Role",
+      type: "select",
+      name: "role",
+      options: options,
+    },
+    { label: "Start Date", type: "date", name: "startDate" },
+    { label: "Hourly Rate", type: "number", name: "hourlyRate" },
+  ];
 
   const handleSubmit = async (formData) => {
     const hasEmptyValue = Object.values(formData).some((value) => !value);
@@ -65,7 +72,7 @@ const EmployeeForm = () => {
     <EmployeeFormContainer>
       <Title>Add a new Employee</Title>
       <div>
-        {loading ? (
+        {loading || status === "loading" ? (
           <Loading />
         ) : (
           <Form onSubmit={handleSubmit} fields={fields} />

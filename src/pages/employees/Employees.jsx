@@ -1,4 +1,5 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { Routes, Route } from "react-router-dom";
 import EmployeeDetails from "./employeeDetails/EmployeeDetails";
 
@@ -12,6 +13,10 @@ import {
 } from "./employees.styles";
 
 const Employees = () => {
+  const { roles, departments } = useSelector((state) => state.organization);
+  const rolesList = roles.map((role) => role.name);
+  const departmentsList = departments.map((department) => department.name);
+
   return (
     <EmployeesContainer>
       <Title>Employees</Title>
@@ -19,9 +24,25 @@ const Employees = () => {
       <StyledLink to="list">List of employees</StyledLink>
       <Content>
         <Routes>
-          <Route path="/" element={<EmployeeList />} />
+          <Route
+            path="/"
+            element={
+              <EmployeeList
+                rolesList={rolesList}
+                departmentsList={departmentsList}
+              />
+            }
+          />
           <Route path="new" element={<EmployeeForm />} />
-          <Route path="list" element={<EmployeeList />} />
+          <Route
+            path="list"
+            element={
+              <EmployeeList
+                rolesList={rolesList}
+                departmentsList={departmentsList}
+              />
+            }
+          />
           <Route path="details/:id" element={<EmployeeDetails />} />
         </Routes>
       </Content>

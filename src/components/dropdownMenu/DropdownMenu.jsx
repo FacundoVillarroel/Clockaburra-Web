@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { LuFilter } from "react-icons/lu";
 import {
   DropdownContainer,
@@ -15,6 +15,12 @@ const DropdownMenu = ({ label, items, checked, setValues }) => {
   const [open, setOpen] = useState(false);
 
   const toggleOpen = () => setOpen(!open);
+
+  useEffect(() => {
+    if (items.length) {
+      setSelected(items);
+    }
+  }, [items]);
 
   const handleCheckboxChange = (e) => {
     const { name } = e.target;
