@@ -12,13 +12,15 @@ import rolesList from "../../../data/roles";
 import departmentsList from "../../../data/departments";
 import { buildQueryParams } from "../../../utils/buildQueryParams";
 import EmployeesTable from "../../../components/employees/employeesTable/EmployeesTable";
+import { useSelector } from "react-redux";
 
 const EmployeeList = () => {
   const [loading, setLoading] = useState(false);
   const [employees, setEmployees] = useState([]);
   const [roles, setRoles] = useState(rolesList);
   const [departments, setDepartments] = useState(departmentsList);
-
+  const rolesDepartments = useSelector((state) => state.organization);
+  console.log(rolesDepartments);
   const fetchUsers = useCallback(async () => {
     try {
       setLoading(true);

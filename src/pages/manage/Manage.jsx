@@ -1,8 +1,6 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import React from "react";
 import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
-import { fetchOrganizations } from "../../store/reducers/organizationSlice";
-import { getCookie } from "../../utils/cookies";
+
 import Departments from "./departments/Departments";
 
 import {
@@ -16,8 +14,6 @@ import Roles from "./roles/Roles";
 const Manage = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const [loading, setLoading] = useState(false);
 
   const structureType =
     location.pathname === "/manage/roles"
@@ -25,11 +21,6 @@ const Manage = () => {
       : location.pathname === "/manage/departments"
       ? "departments"
       : "none";
-
-  useEffect(() => {
-    const token = getCookie("token");
-    dispatch(fetchOrganizations(setLoading, token));
-  }, [dispatch]);
 
   return (
     <ManageContainer>
@@ -49,11 +40,8 @@ const Manage = () => {
         </ActionBarButtonContainer>
       </ActionBarContainer>
       <Routes>
-        <Route path="/roles" element={<Roles loading={loading} />} />
-        <Route
-          path="/departments"
-          element={<Departments loading={loading} />}
-        />
+        <Route path="/roles" element={<Roles />} />
+        <Route path="/departments" element={<Departments />} />
       </Routes>
     </ManageContainer>
   );

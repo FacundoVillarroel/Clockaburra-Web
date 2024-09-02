@@ -1,8 +1,9 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 const initialState = {
   departments: [],
   roles: [],
+  status: "idle",
   error: null,
 };
 
@@ -67,6 +68,21 @@ const organizationSlice = createSlice({
       }
     },
   },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchOrganizations.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(fetchOrganizations.fulfilled, (state, action) => {
+        state.departments = action.payload.departments;
+        state.roles = action.payload.roles;
+        state.status = "succeeded";
+      })
+      .addCase(fetchOrganizations.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.payload;
+      });
+  },
 });
 
 export const {
@@ -82,36 +98,33 @@ export const {
 
 export default organizationSlice.reducer;
 
-export const fetchOrganizations = (setLoading, token) => {
-  return async (dispatch) => {
+export const fetchOrganizations = createAsyncThunk(
+  "/organization/fetchOrganizations",
+  async (token) => {
+    console.log(token);
     try {
-      setLoading(true);
       //fetch departments
-      const firstResponse = await fetch(`/api/department`, {
+      const departmentsResponse = await fetch(`/api/department`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      if (!firstResponse.ok) {
-        throw new Error(await firstResponse.json().message);
+      if (!departmentsResponse.ok) {
+        throw new Error(await departmentsResponse.json().message);
       }
-      const firstData = await firstResponse.json();
-      dispatch(getDepartments(firstData));
+      const departmentData = await departmentsResponse.json();
       //fetch roles
-      const secondResponse = await fetch(`/api/role`, {
+      const rolesResponse = await fetch(`/api/role`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      if (!secondResponse.ok) {
-        throw new Error(await secondResponse.json().message);
+      if (!rolesResponse.ok) {
+        throw new Error(await rolesResponse.json().message);
       }
-      const secondData = await secondResponse.json();
-      setLoading(false);
-      dispatch(getRoles(secondData));
-      setLoading(false);
+      const rolesData = await rolesResponse.json();
+      return { departments: departmentData, roles: rolesData };
     } catch (error) {
-      setLoading(false);
       throw new Error(error);
     }
-  };
-};
+  }
+);
 
 // DEPARTMENTS ACTIONS
 
