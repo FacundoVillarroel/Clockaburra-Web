@@ -18,3 +18,9 @@ export const StyledTd = styled.td`
   border: ${(props) => props.border || "1px solid #ddd"};
   cursor: ${(props) => props.cursor || "default"};
 `;
+
+export const StyledTr = styled.tr`
+  &:hover {
+    background-color: ${(props) => props.hoverbgColor || "#e9e7e7"};
+  }
+`;

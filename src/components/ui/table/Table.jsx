@@ -1,5 +1,5 @@
 import React from "react";
-import { StyledTable, StyledTh, StyledTd } from "./Table.styles";
+import { StyledTable, StyledTr, StyledTh, StyledTd } from "./Table.styles";
 
 const Table = ({
   columns,
@@ -19,7 +19,7 @@ const Table = ({
       </thead>
       <tbody>
         {data.map((row, rowIndex) => (
-          <tr key={rowIndex} onClick={() => onRowClick(row, rowIndex)}>
+          <StyledTr key={rowIndex} onClick={() => onRowClick(row, rowIndex)}>
             {columns.map((col, colIndex) => (
               <StyledTd
                 cursor={cursor}
@@ -34,7 +34,7 @@ const Table = ({
                   : row[col.accessor]}
               </StyledTd>
             ))}
-          </tr>
+          </StyledTr>
         ))}
       </tbody>
     </StyledTable>
