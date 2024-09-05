@@ -1,13 +1,33 @@
 import React from "react";
 import { useSelector } from "react-redux";
 
-import RolesDashboard from "../../../components/managment/roles/RolesDashboard";
 import Loading from "../../../components/ui/loading/Loading";
+import ManageDashboard from "../../../components/managment/dashboard/ManageDashboard";
 
-const Roles = ({ loading }) => {
-  const { status } = useSelector((state) => state.organization);
+import {
+  createRole,
+  deleteRole,
+  updateRole,
+} from "../../../store/reducers/organizationSlice";
 
-  return <div>{status === "loading" ? <Loading /> : <RolesDashboard />}</div>;
+const Roles = () => {
+  const { status, roles } = useSelector((state) => state.organization);
+
+  return (
+    <div>
+      {status === "loading" ? (
+        <Loading />
+      ) : (
+        <ManageDashboard
+          data={roles}
+          entityType="Role"
+          createAction={createRole}
+          deleteAction={deleteRole}
+          updateAction={updateRole}
+        />
+      )}
+    </div>
+  );
 };
 
 export default Roles;

@@ -1,14 +1,32 @@
 import React from "react";
 import { useSelector } from "react-redux";
 
-import DepartmentsDashboard from "../../../components/managment/departments/DepartmentsDashboard";
 import Loading from "../../../components/ui/loading/Loading";
+import ManageDashboard from "../../../components/managment/dashboard/ManageDashboard";
+
+import {
+  createDepartment,
+  deleteDepartment,
+  updateDepartment,
+} from "../../../store/reducers/organizationSlice";
 
 const Departments = () => {
-  const { status } = useSelector((state) => state.organization);
+  const { status, departments } = useSelector((state) => state.organization);
 
   return (
-    <div>{status === "loading" ? <Loading /> : <DepartmentsDashboard />}</div>
+    <div>
+      {status === "loading" ? (
+        <Loading />
+      ) : (
+        <ManageDashboard
+          data={departments}
+          entityType="Department"
+          createAction={createDepartment}
+          deleteAction={deleteDepartment}
+          updateAction={updateDepartment}
+        />
+      )}
+    </div>
   );
 };
 

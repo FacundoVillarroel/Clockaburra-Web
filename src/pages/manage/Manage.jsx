@@ -2,6 +2,7 @@ import React from "react";
 import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
 
 import Departments from "./departments/Departments";
+import Roles from "./roles/Roles";
 
 import {
   ManageContainer,
@@ -9,7 +10,6 @@ import {
   ActionBarContainer,
   ActionBarButtonContainer,
 } from "./manage.styles";
-import Roles from "./roles/Roles";
 
 const Manage = () => {
   const location = useLocation();
