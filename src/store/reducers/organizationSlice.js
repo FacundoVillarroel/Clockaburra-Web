@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { fetchWrapper } from "../../utils/fetchWrapper";
 
 const initialState = {
   departments: [],
@@ -131,20 +132,18 @@ export const updateDepartment = (id, update, setLoading, token) => {
   return async (dispatch) => {
     try {
       setLoading(true);
-      const response = await fetch(`/api/department/${id}`, {
+      const updateDepartment = await fetchWrapper({
+        url: `/api/department/${id}`,
         method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(update),
+        body: update,
+        token,
       });
-      const departmentUpdated = await response.json();
-      if (!response.ok) {
-        throw new Error(departmentUpdated.message);
+      if (updateDepartment.updated) {
+        dispatch(updateDepartments({ id, ...update }));
+        setLoading(false);
+      } else {
+        throw new Error({ message: updateDepartment.message });
       }
-      dispatch(updateDepartments({ id, ...update }));
-      setLoading(false);
     } catch (error) {
       setLoading(false);
       throw new Error(error);
@@ -156,16 +155,11 @@ export const deleteDepartment = (id, setLoading, token) => {
   return async (dispatch) => {
     try {
       setLoading(true);
-      const response = await fetch(`/api/department/${id}`, {
+      await fetchWrapper({
+        url: `/api/department/${id}`,
         method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        token,
       });
-      const departmentDeleted = await response.json();
-      if (!response.ok) {
-        throw new Error(departmentDeleted.message);
-      }
       dispatch(deleteDepartments(id));
       setLoading(false);
     } catch (error) {
@@ -179,24 +173,19 @@ export const createDepartment = (department, setLoading, token) => {
   return async (dispatch) => {
     try {
       setLoading(true);
-      const response = await fetch(`/api/department`, {
+      const newDepartment = await fetchWrapper({
+        url: `/api/department`,
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(department),
+        body: department,
+        token,
       });
-      const data = await response.json();
-      if (!response.ok) {
-        throw new Error(data.message);
-      }
-      const newDepartment = {
-        id: data.id,
-        name: data.data.name,
-        description: data.data.description,
-      };
-      dispatch(addDepartment(newDepartment));
+      dispatch(
+        addDepartment({
+          id: newDepartment.id,
+          name: newDepartment.data.name,
+          description: newDepartment.data.description,
+        })
+      );
       setLoading(false);
     } catch (error) {
       setLoading(false);
@@ -211,19 +200,17 @@ export const updateRole = (id, update, setLoading, token) => {
   return async (dispatch) => {
     try {
       setLoading(true);
-      const response = await fetch(`/api/role/${id}`, {
+      const updatedRole = await fetchWrapper({
+        url: `/api/role/${id}`,
         method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(update),
+        body: update,
+        token,
       });
-      const roleUpdated = await response.json();
-      if (!response.ok) {
-        throw new Error(roleUpdated.message);
+      if (updateRole.updated) {
+        dispatch(updateRoles({ id, ...update }));
+      } else {
+        throw new Error({ message: updatedRole.message });
       }
-      dispatch(updateRoles({ id, ...update }));
       setLoading(false);
     } catch (error) {
       setLoading(false);
@@ -236,16 +223,11 @@ export const deleteRole = (id, setLoading, token) => {
   return async (dispatch) => {
     try {
       setLoading(true);
-      const response = await fetch(`/api/role/${id}`, {
+      await fetchWrapper({
+        url: `/api/role/${id}`,
         method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        token,
       });
-      const roleDeleted = await response.json();
-      if (!response.ok) {
-        throw new Error(roleDeleted.message);
-      }
       dispatch(deleteRoles(id));
       setLoading(false);
     } catch (error) {
@@ -259,24 +241,19 @@ export const createRole = (role, setLoading, token) => {
   return async (dispatch) => {
     try {
       setLoading(true);
-      const response = await fetch(`/api/role`, {
+      const newRole = await fetchWrapper({
+        url: `/api/role`,
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(role),
+        body: role,
+        token,
       });
-      const data = await response.json();
-      if (!response.ok) {
-        throw new Error(data.message);
-      }
-      const newRole = {
-        id: data.id,
-        name: data.data.name,
-        description: data.data.description,
-      };
-      dispatch(addRole(newRole));
+      dispatch(
+        addRole({
+          id: newRole.id,
+          name: newRole.data.name,
+          description: newRole.data.description,
+        })
+      );
       setLoading(false);
     } catch (error) {
       setLoading(false);
