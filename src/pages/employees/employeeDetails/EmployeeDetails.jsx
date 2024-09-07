@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import Loading from "../../../components/ui/loading/Loading";
 import { LuPenSquare, LuTrash2, LuXCircle } from "react-icons/lu";
 import { DateTime } from "luxon";
+import { useSelector } from "react-redux";
 
 import Card from "../../../components/ui/card/Card";
 import logo from "../../../assets/logoClockaburra.png";
@@ -21,6 +22,7 @@ import {
   DeleteButton,
   ResendButtonContainer,
   Info,
+  Select,
 } from "./EmployeeDetails.styles";
 
 import DeleteUserModal from "../../../components/deleteUserModal/DeleteUserModal";
@@ -36,6 +38,23 @@ const EmployeeDetails = () => {
   const [modalOpen, setModalOpen] = useState("");
   const [editMode, setEditMode] = useState(false);
   const navigate = useNavigate();
+
+  const { departments, roles } = useSelector((state) => state.organization);
+
+  let rolesOptions = [{ label: "", value: "" }];
+  if (roles.length) {
+    rolesOptions = roles.map((role) => ({
+      label: role.name,
+      value: role.name,
+    }));
+  }
+  let departmentsOptions = [{ label: "", value: "" }];
+  if (departments.length) {
+    departmentsOptions = departments.map((department) => ({
+      label: department.name,
+      value: department.name,
+    }));
+  }
 
   const fetchUser = useCallback(async () => {
     try {
@@ -249,12 +268,20 @@ const EmployeeDetails = () => {
               </Card>
               <Card box_shadow={"0 2px 5px rgba(17,31,77,1)"}>
                 <Label htmlFor="role">Role: </Label>
-                <Input
-                  type="text"
-                  value={employeeUpdate.role}
+                <Select
                   name="role"
+                  value={employeeUpdate.role}
                   onChange={handleChange}
-                />
+                >
+                  {
+                    //generates options list
+                    rolesOptions.map((option, index) => (
+                      <option key={index} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))
+                  }
+                </Select>
               </Card>
               <Card box_shadow={"0 2px 5px rgba(17,31,77,1)"}>
                 <Label htmlFor="hourlyRate">Hourly Rate: </Label>
@@ -264,6 +291,23 @@ const EmployeeDetails = () => {
                   name="hourlyRate"
                   onChange={handleChange}
                 />
+              </Card>
+              <Card box_shadow={"0 2px 5px rgba(17,31,77,1)"}>
+                <Label htmlFor="department">Department: </Label>
+                <Select
+                  name="department"
+                  value={employeeUpdate.department}
+                  onChange={handleChange}
+                >
+                  {
+                    //generates options list
+                    departmentsOptions.map((option, index) => (
+                      <option key={index} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))
+                  }
+                </Select>
               </Card>
               <Card box_shadow={"0 2px 5px rgba(17,31,77,1)"}>
                 <strong>Complete Registration:</strong>
@@ -292,6 +336,10 @@ const EmployeeDetails = () => {
               </Card>
               <Card box_shadow={"0 2px 5px rgba(17,31,77,1)"}>
                 <strong>Hourly Rate:</strong> {employee.hourlyRate}
+              </Card>
+              <Card box_shadow={"0 2px 5px rgba(17,31,77,1)"}>
+                <strong>Department:</strong>
+                {employee.department}
               </Card>
               <Card box_shadow={"0 2px 5px rgba(17,31,77,1)"}>
                 <strong>Complete Registration:</strong>

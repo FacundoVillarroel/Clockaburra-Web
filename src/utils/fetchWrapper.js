@@ -2,7 +2,7 @@ export const fetchWrapper = async ({
   url,
   method = "GET",
   body = null,
-  token,
+  token = "",
 }) => {
   try {
     const headers = {

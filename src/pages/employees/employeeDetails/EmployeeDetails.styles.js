@@ -107,6 +107,20 @@ export const Input = styled.input`
     border: 2px ${Colors.accent} solid;
   }
 `;
+export const Select = styled.select`
+  box-sizing: border-box;
+  padding: 0.2rem 0.5rem;
+  margin-top: 0.2rem;
+  font-size: 0.9rem;
+  border-radius: 0.5rem;
+  border: 2px ${Colors.primary} solid;
+  outline: none;
+  width: 100%;
+
+  &:focus {
+    border: 2px ${Colors.accent} solid;
+  }
+`;
 
 export const SubmitButtonContainer = styled.div`
   display: flex;
