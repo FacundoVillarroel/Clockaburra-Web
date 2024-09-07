@@ -13,10 +13,14 @@ import {
   LogoText,
   NavLinks,
 } from "./Navbar.styles";
+import { useLocation } from "react-router-dom";
 
 const Navbar = () => {
   const { token } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
+  const location = useLocation();
+
+  const path = location.pathname.split("/")[1];
 
   const handleLogout = () => {
     dispatch(logout());
@@ -31,10 +35,28 @@ const Navbar = () => {
       <NavLinks>
         {token ? (
           <>
-            <CustomNavLink to="/employees">Employees</CustomNavLink>
-            <CustomNavLink to="/shifts">Shifts</CustomNavLink>
-            <CustomNavLink to="/timesheets">Timesheets</CustomNavLink>
-            <CustomNavLink to="/manage/roles">
+            <CustomNavLink
+              to="/employees"
+              color={path === "employees" ? Colors.accent : ""}
+            >
+              Employees
+            </CustomNavLink>
+            <CustomNavLink
+              to="/shifts"
+              color={path === "shifts" ? Colors.accent : ""}
+            >
+              Shifts
+            </CustomNavLink>
+            <CustomNavLink
+              to="/timesheets"
+              color={path === "timesheets" ? Colors.accent : ""}
+            >
+              Timesheets
+            </CustomNavLink>
+            <CustomNavLink
+              to="/manage/roles"
+              color={path === "manage" ? Colors.accent : ""}
+            >
               Manage Roles & Departments
             </CustomNavLink>
             <CustomNavLink to="/" onClick={handleLogout}>
