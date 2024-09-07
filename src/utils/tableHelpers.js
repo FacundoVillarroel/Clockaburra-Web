@@ -35,6 +35,14 @@ export const renderShiftCell = (value, row) => {
   );
 };
 
+export const renderTotalHours = (value, row) => {
+  return (
+    <CellContainer>
+      <strong>{value} Hrs</strong>
+    </CellContainer>
+  );
+};
+
 export const renderTimesheetCell = (value, row) => {
   //Color is green when approved, red when rejected, yellow when needs user action, and grey when no data
   let color = value
@@ -47,7 +55,7 @@ export const renderTimesheetCell = (value, row) => {
   return (
     <CellContainer>
       <CellContent color={color}>
-        {value ? `${value.startTime} - ${value.endTime}` : "Not worked"}
+        {value ? `${value.startTime} - ${value.endTime}` : "Inactive"}
       </CellContent>
     </CellContainer>
   );

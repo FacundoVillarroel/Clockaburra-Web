@@ -2,7 +2,11 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 
 import Table from "../../ui/table/Table";
-import { getDayOfWeek, renderTimesheetCell } from "../../../utils/tableHelpers";
+import {
+  getDayOfWeek,
+  renderTimesheetCell,
+  renderTotalHours,
+} from "../../../utils/tableHelpers";
 
 const TimesheetWeeklyView = ({ data, startDate }) => {
   const navigate = useNavigate();
@@ -44,13 +48,18 @@ const TimesheetWeeklyView = ({ data, startDate }) => {
       accessor: "sun",
       render: renderTimesheetCell,
     },
+    {
+      header: "Total Hours",
+      accessor: "totalHours",
+      render: renderTotalHours,
+    },
   ];
 
   const onCellClick = (cellValue, row, colIndex, rowIndex) => {
     if (colIndex === 0 || colIndex === 1) {
       navigate(`/employees/details/${row.id}`);
     }
-    if (colIndex < 2) {
+    if (colIndex < 2 || colIndex > 8) {
       return;
     }
     const userId = row.id;

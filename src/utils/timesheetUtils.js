@@ -34,6 +34,7 @@ function formatTimesheetsForEmployee(timesheets) {
       timesheetId: timesheet.id,
       approved: timesheet.approved,
       rejected: timesheet.rejected,
+      totalHours: timesheet.workedHours,
     };
   });
   return result;
@@ -47,6 +48,15 @@ export const createEmployeeTimesheetArray = (employees, timesheets) => {
     const employeeTimesheets = formatTimesheetsForEmployee(
       timesheetsByUser[employee.id] || []
     );
+
+    // get total hours by week of each employee
+    let totalHoursSum = 0;
+    Object.values(employeeTimesheets).forEach((timesheet) => {
+      if (!timesheet.rejected) {
+        totalHoursSum += timesheet.totalHours;
+      }
+    });
+
     return {
       employee: `${employee.name} ${employee.surname}`,
       role: employee.role,
@@ -58,6 +68,7 @@ export const createEmployeeTimesheetArray = (employees, timesheets) => {
       sat: employeeTimesheets.sat || null,
       sun: employeeTimesheets.sun || null,
       id: employee.id,
+      totalHours: totalHoursSum,
     };
   });
 };

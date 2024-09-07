@@ -3,7 +3,11 @@ import { useNavigate } from "react-router-dom";
 
 import Table from "../../ui/table/Table";
 
-import { renderShiftCell, getDayOfWeek } from "../../../utils/tableHelpers";
+import {
+  renderShiftCell,
+  getDayOfWeek,
+  renderTotalHours,
+} from "../../../utils/tableHelpers";
 
 const ShiftWeeklyView = ({ data, startDate }) => {
   const navigate = useNavigate();
@@ -45,13 +49,18 @@ const ShiftWeeklyView = ({ data, startDate }) => {
       accessor: "sun",
       render: renderShiftCell,
     },
+    {
+      header: "Total Hours",
+      accessor: "totalHours",
+      render: renderTotalHours,
+    },
   ];
 
   const onCellClick = (cellValue, row, colIndex, rowIndex) => {
     if (colIndex === 0 || colIndex === 1) {
       navigate(`/employees/details/${row.id}`);
     }
-    if (colIndex < 2) {
+    if (colIndex < 2 || colIndex > 8) {
       return;
     }
     const userId = row.id;

@@ -10,8 +10,6 @@ import {
   DateSelectorContainer,
 } from "./timesheetDashboard.styles";
 
-import departmentsList from "../../../data/departments";
-import rolesList from "../../../data/roles";
 import DropdownMenu from "../../dropdownMenu/DropdownMenu";
 import WeekSelector from "../../weekSelector/WeekSelector";
 import {
@@ -26,7 +24,7 @@ import { getCookie } from "../../../utils/cookies";
 import { buildQueryParams } from "../../../utils/buildQueryParams";
 import { createEmployeeTimesheetArray } from "../../../utils/timesheetUtils";
 
-const TimesheetDashboard = () => {
+const TimesheetDashboard = ({ rolesList = [], departmentsList = [] }) => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState([]);
@@ -36,6 +34,18 @@ const TimesheetDashboard = () => {
   const [startDate, setStartDate] = useState(
     DateTime.fromFormat(getStartOfWeek(), dateFormat).toISO()
   );
+
+  useEffect(() => {
+    if (rolesList.length) {
+      setRoles(rolesList);
+    }
+  }, [rolesList]);
+
+  useEffect(() => {
+    if (departmentsList.length) {
+      setDepartments(departmentsList);
+    }
+  }, [departmentsList]);
 
   const setValues = (identifier, values) => {
     if (identifier === "Roles") {
@@ -54,16 +64,34 @@ const TimesheetDashboard = () => {
     }
   };
 
+  const getList = (entity, entityList) => {
+    if (entity.length) {
+      if (entity.length === entityList.length) {
+        return "";
+      } else {
+        return entity;
+      }
+    } else {
+      return ["none"];
+    }
+  };
+
   const fetchData = useCallback(async () => {
     try {
       setLoading(true);
       const token = getCookie("token");
-      const rolesList = roles.length ? roles : ["none"];
-      const departmentsList = departments.length ? departments : ["none"];
-      const queryString = buildQueryParams({
-        roles: rolesList,
-        departments: departmentsList,
+      const rolesArray = getList(roles, rolesList);
+      const departmentsArray = getList(departments, departmentsList);
+      let queryString = buildQueryParams({
+        roles: rolesArray,
+        departments: departmentsArray,
       });
+      if (
+        rolesArray.length === rolesList.length &&
+        departmentsArray.length === departmentsList.length
+      ) {
+        queryString = "";
+      }
       const response = await fetch(`/api/users?${queryString}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -100,7 +128,7 @@ const TimesheetDashboard = () => {
     } catch (error) {
       setLoading(false);
     }
-  }, [roles, departments, startDate]);
+  }, [roles, departments, startDate, departmentsList, rolesList]);
 
   useEffect(() => {
     fetchData();

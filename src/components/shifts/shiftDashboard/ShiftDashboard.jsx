@@ -24,11 +24,9 @@ import {
   getStartOfWeek,
   dateFormat,
 } from "../../../utils/dateHelpers";
-import departmentsList from "../../../data/departments";
-import rolesList from "../../../data/roles";
 import WeekSelector from "../../weekSelector/WeekSelector";
 
-const ShiftDashboard = () => {
+const ShiftDashboard = ({ rolesList = [], departmentsList = [] }) => {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState([]);
   const [roles, setRoles] = useState(rolesList);
@@ -40,15 +38,39 @@ const ShiftDashboard = () => {
 
   const navigate = useNavigate();
 
+  useEffect(() => {
+    if (rolesList.length) {
+      setRoles(rolesList);
+    }
+  }, [rolesList]);
+
+  useEffect(() => {
+    if (departmentsList.length) {
+      setDepartments(departmentsList);
+    }
+  }, [departmentsList]);
+
+  const getList = (entity, entityList) => {
+    if (entity.length) {
+      if (entity.length === entityList.length) {
+        return "";
+      } else {
+        return entity;
+      }
+    } else {
+      return ["none"];
+    }
+  };
+
   const fetchData = useCallback(async () => {
     try {
       setLoading(true);
       const token = getCookie("token");
-      const rolesList = roles.length ? roles : ["none"];
-      const departmentsList = departments.length ? departments : ["none"];
+      const rolesArray = getList(roles, rolesList);
+      const departmentsArray = getList(departments, departmentsList);
       const queryString = buildQueryParams({
-        roles: rolesList,
-        departments: departmentsList,
+        roles: rolesArray,
+        departments: departmentsArray,
       });
       const response = await fetch(`/api/users?${queryString}`, {
         headers: { Authorization: `Bearer ${token}` },
@@ -84,7 +106,7 @@ const ShiftDashboard = () => {
       setLoading(false);
       console.error("EmployeeList", error);
     }
-  }, [roles, departments, startDate]);
+  }, [roles, departments, startDate, departmentsList, rolesList]);
 
   useEffect(() => {
     fetchData();

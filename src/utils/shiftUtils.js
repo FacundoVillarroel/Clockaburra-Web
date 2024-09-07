@@ -32,6 +32,7 @@ function formatShiftsForEmployee(shifts) {
       startTime: formatTime(shift.startDate),
       endTime: formatTime(shift.endDate),
       shiftId: shift.id,
+      totalHours: shift.totalHours,
     };
   });
   return result;
@@ -45,6 +46,13 @@ export const createEmployeeShiftArray = (employees, shifts) => {
     const employeeShifts = formatShiftsForEmployee(
       shiftsByUser[employee.id] || []
     );
+
+    // get total hours by week of each employee
+    let totalHoursSum = 0;
+    Object.values(employeeShifts).forEach((shift) => {
+      totalHoursSum += shift.totalHours;
+    });
+
     return {
       employee: `${employee.name} ${employee.surname}`,
       role: employee.role,
@@ -56,6 +64,7 @@ export const createEmployeeShiftArray = (employees, shifts) => {
       sat: employeeShifts.sat || null,
       sun: employeeShifts.sun || null,
       id: employee.id,
+      totalHours: totalHoursSum,
     };
   });
 };
