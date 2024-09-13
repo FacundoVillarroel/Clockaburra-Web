@@ -9,13 +9,23 @@ import { useSelector } from "react-redux";
 
 const EmployeeForm = () => {
   const [loading, setLoading] = useState(false);
-  const { roles, status } = useSelector((state) => state.organization);
+  const { roles, departments, status } = useSelector(
+    (state) => state.organization
+  );
 
-  let options = [{ label: "", value: "" }];
+  let rolesOptions = [{ label: "", value: "" }];
   if (roles.length) {
-    options = roles.map((role) => ({
+    rolesOptions = roles.map((role) => ({
       label: role.name,
       value: role.name,
+    }));
+  }
+
+  let departmentsOptions = [{ label: "", value: "" }];
+  if (departments.length) {
+    departmentsOptions = departments.map((department) => ({
+      label: department.name,
+      value: department.name,
     }));
   }
 
@@ -27,7 +37,13 @@ const EmployeeForm = () => {
       label: "Role",
       type: "select",
       name: "role",
-      options: options,
+      options: rolesOptions,
+    },
+    {
+      label: "Department",
+      type: "select",
+      name: "department",
+      options: departmentsOptions,
     },
     { label: "Start Date", type: "date", name: "startDate" },
     { label: "Hourly Rate", type: "number", name: "hourlyRate" },
