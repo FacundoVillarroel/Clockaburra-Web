@@ -30,11 +30,7 @@ const LinkToApp = () => {
     } else {
       return () => {
         if (user) {
-          if (
-            user.permissions === "admin" ||
-            user.permissions === "superAdmin" ||
-            user.permissions === "manager"
-          ) {
+          if (user.permissions === "admin") {
           } else {
             dispatch(logout());
           }

@@ -45,6 +45,15 @@ const EmployeeForm = () => {
       name: "department",
       options: departmentsOptions,
     },
+    {
+      label: "Permissions",
+      type: "select",
+      name: "permissions",
+      options: [
+        { label: "User", value: "user" },
+        { label: "Admin", value: "admin" },
+      ],
+    },
     { label: "Start Date", type: "date", name: "startDate" },
     { label: "Hourly Rate", type: "number", name: "hourlyRate" },
   ];

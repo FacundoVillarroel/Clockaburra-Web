@@ -15,11 +15,7 @@ const PrivateRoute = ({ children }) => {
       return <Navigate to="/login" />;
     }
     if (user) {
-      if (
-        user.permissions === "admin" ||
-        user.permissions === "superAdmin" ||
-        user.permissions === "manager"
-      ) {
+      if (user.permissions === "admin") {
       } else {
         return <Navigate to="/app-for-employees-link" />;
       }
