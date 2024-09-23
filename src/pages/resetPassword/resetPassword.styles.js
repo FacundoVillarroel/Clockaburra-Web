@@ -12,6 +12,10 @@ export const ResetContainer = styled.div`
 export const Title = styled.h1`
   text-align: center;
 `;
+export const SubTitle = styled.h5`
+  text-align: start;
+  color: grey;
+`;
 
 export const Form = styled.form`
   display: flex;
