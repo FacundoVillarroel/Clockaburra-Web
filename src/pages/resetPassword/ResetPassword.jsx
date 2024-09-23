@@ -1,5 +1,6 @@
 import React from "react";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Button from "../../components/ui/button/Button";
 import Loading from "../../components/ui/loading/Loading";
 
@@ -16,16 +17,26 @@ import {
 const ResetPassword = () => {
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setEmail(e.target.value);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       setLoading(true);
-      console.log("Email sent to: ", email);
+      const queryParams = encodeURIComponent(email);
+      const response = await fetch(
+        `/api/auth/send-link-reset-password?email=${queryParams}`
+      );
+      const data = await response.json();
+      alert(data.message);
+      if (data.ok) {
+        alert("Please check you email for further instructions.");
+        navigate("/");
+      }
       setLoading(false);
     } catch (error) {
       console.error("ResetPassword.jsx:", error);
