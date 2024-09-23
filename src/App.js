@@ -17,6 +17,7 @@ import PublicRoute from "./components/publicRoute/PublicRoute";
 import AuthProvider from "./components/authProvider/AuthProvider";
 import LinkToApp from "./pages/linkToApp/LinkToApp";
 import EmailValidation from "./pages/emailValidation/EmailValidation";
+import ResetPassword from "./pages/resetPassword/ResetPassword";
 
 function App() {
   return (
@@ -39,6 +40,14 @@ function App() {
               element={
                 <PublicRoute>
                   <Register />
+                </PublicRoute>
+              }
+            />
+            <Route
+              path="/reset-password"
+              element={
+                <PublicRoute>
+                  <ResetPassword />
                 </PublicRoute>
               }
             />

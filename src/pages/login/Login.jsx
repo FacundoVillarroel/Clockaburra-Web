@@ -87,7 +87,9 @@ const Login = () => {
       )}
       <ErrorText>{getText()}</ErrorText>
       <LinksContainer>
-        <ForgotPasswordLink href="#">Forgot password?</ForgotPasswordLink>
+        <ForgotPasswordLink to="/reset-password">
+          Forgot password?
+        </ForgotPasswordLink>
         <NewMemberLink to="/register">New member?</NewMemberLink>
       </LinksContainer>
     </LoginContainer>
