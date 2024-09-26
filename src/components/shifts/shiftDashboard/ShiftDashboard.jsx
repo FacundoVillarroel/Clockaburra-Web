@@ -25,6 +25,7 @@ import {
   dateFormat,
 } from "../../../utils/dateHelpers";
 import WeekSelector from "../../weekSelector/WeekSelector";
+import MonthSelector from "../../monthSelector/MonthSelector";
 
 const ShiftDashboard = ({ rolesList = [], departmentsList = [] }) => {
   const [loading, setLoading] = useState(false);
@@ -172,7 +173,11 @@ const ShiftDashboard = ({ rolesList = [], departmentsList = [] }) => {
         <AddShiftButton onClick={handleNewShift}>Add new shift</AddShiftButton>
       </ActionBarContainer>
       <DateSelectorContainer>
-        <WeekSelector weekSelected={startDate} setWeek={setStartDate} />
+        {viewType === "weekly" ? (
+          <WeekSelector weekSelected={startDate} setWeek={setStartDate} />
+        ) : (
+          <MonthSelector monthSelected={startDate} setMonth={setStartDate} />
+        )}
       </DateSelectorContainer>
       {loading ? <Loading /> : getViewComponent()}
     </>
