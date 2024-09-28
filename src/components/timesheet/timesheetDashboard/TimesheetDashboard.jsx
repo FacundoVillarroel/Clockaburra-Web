@@ -12,13 +12,19 @@ import {
 
 import DropdownMenu from "../../dropdownMenu/DropdownMenu";
 import WeekSelector from "../../weekSelector/WeekSelector";
-import { getStartOfWeekISO, getEndOfWeekISO } from "../../../utils/dateHelpers";
+import {
+  getStartOfWeekISO,
+  getEndOfWeekISO,
+  getStartOfMonthISO,
+  getEndOfMonthISO,
+} from "../../../utils/dateHelpers";
 import TimesheetWeeklyView from "../timesheetWeeklyView/TimesheetWeeklyView";
 import TimesheetMonthlyView from "../timesheetMonthlyView/TimesheetMonthlyView";
 import Loading from "../../ui/loading/Loading";
 import { getCookie } from "../../../utils/cookies";
 import { buildQueryParams } from "../../../utils/buildQueryParams";
 import { createEmployeeTimesheetArray } from "../../../utils/timesheetUtils";
+import MonthSelector from "../../monthSelector/MonthSelector";
 
 const TimesheetDashboard = ({ rolesList = [], departmentsList = [] }) => {
   const navigate = useNavigate();
@@ -97,7 +103,10 @@ const TimesheetDashboard = ({ rolesList = [], departmentsList = [] }) => {
       if (!users.length) {
         setData([]);
       } else {
-        const endDate = getEndOfWeekISO(DateTime.fromISO(startDate));
+        const endDate =
+          viewType === "weekly"
+            ? getEndOfWeekISO(DateTime.fromISO(startDate))
+            : getEndOfMonthISO(DateTime.fromISO(startDate));
         //build query strings
         const timsheetQueryString = buildQueryParams({
           userIds: users.map((user) => user.id),
@@ -122,7 +131,7 @@ const TimesheetDashboard = ({ rolesList = [], departmentsList = [] }) => {
     } catch (error) {
       setLoading(false);
     }
-  }, [roles, departments, startDate, departmentsList, rolesList]);
+  }, [roles, departments, startDate, departmentsList, rolesList, viewType]);
 
   useEffect(() => {
     fetchData();
@@ -136,6 +145,7 @@ const TimesheetDashboard = ({ rolesList = [], departmentsList = [] }) => {
           active={viewType === "monthly" ? "active" : ""}
           onClick={() => {
             setViewType("monthly");
+            setStartDate(getStartOfMonthISO());
           }}
         >
           Monthly view
@@ -144,6 +154,7 @@ const TimesheetDashboard = ({ rolesList = [], departmentsList = [] }) => {
           active={viewType === "weekly" ? "active" : ""}
           onClick={() => {
             setViewType("weekly");
+            setStartDate(getStartOfWeekISO());
           }}
         >
           Weekly view
@@ -173,7 +184,11 @@ const TimesheetDashboard = ({ rolesList = [], departmentsList = [] }) => {
         </AddTimesheetButton>
       </ActionBarContainer>
       <DateSelectorContainer>
-        <WeekSelector weekSelected={startDate} setWeek={setStartDate} />
+        {viewType === "weekly" ? (
+          <WeekSelector weekSelected={startDate} setWeek={setStartDate} />
+        ) : (
+          <MonthSelector monthSelected={startDate} setMonth={setStartDate} />
+        )}
       </DateSelectorContainer>
       {loading ? <Loading /> : getViewComponent()}
     </>

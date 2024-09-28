@@ -1,19 +1,30 @@
 import React from "react";
 
-import styled from "styled-components";
+import Table from "../../ui/table/Table";
 
-const Containter = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  padding-top: 5rem;
-`;
+import {
+  renderTotalHours,
+  renderTotalWorkingDays,
+} from "../../../utils/tableHelpers";
 
-const TimesheetMonthlyView = () => {
+const TimesheetMonthlyView = ({ data, startDate }) => {
+  const columns = [
+    { header: "Employee", accessor: "employee" },
+    { header: "Role", accessor: "role" },
+    {
+      header: "Working Days",
+      accessor: "workingDays",
+      render: renderTotalWorkingDays,
+    },
+    { header: "Total Hours", accessor: "totalHours", render: renderTotalHours },
+  ];
+
+  const onRowClick = () => {};
+
   return (
-    <Containter>
-      Not available for the moment, we are updating this feature for the moment
-    </Containter>
+    <div>
+      <Table columns={columns} data={data} onRowClick={onRowClick} />
+    </div>
   );
 };
 

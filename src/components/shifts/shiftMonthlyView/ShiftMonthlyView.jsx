@@ -23,12 +23,7 @@ const ShiftMonthlyView = ({ data, startDate }) => {
 
   return (
     <div>
-      <Table
-        columns={columns}
-        data={data}
-        onRowClick={onRowClick}
-        cursor="pointer"
-      />
+      <Table columns={columns} data={data} onRowClick={onRowClick} />
     </div>
   );
 };

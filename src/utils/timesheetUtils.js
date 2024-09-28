@@ -51,9 +51,11 @@ export const createEmployeeTimesheetArray = (employees, timesheets) => {
 
     // get total hours by week of each employee
     let totalHoursSum = 0;
+    let totalTimesheetstSum = 0;
     Object.values(employeeTimesheets).forEach((timesheet) => {
       if (!timesheet.rejected) {
         totalHoursSum += timesheet.totalHours;
+        totalTimesheetstSum += 1;
       }
     });
 
@@ -69,6 +71,7 @@ export const createEmployeeTimesheetArray = (employees, timesheets) => {
       sun: employeeTimesheets.sun || null,
       id: employee.id,
       totalHours: totalHoursSum,
+      workingDays: totalTimesheetstSum,
     };
   });
 };
