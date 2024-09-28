@@ -43,6 +43,14 @@ export const renderTotalHours = (value, row) => {
   );
 };
 
+export const renderTotalWorkingDays = (value, row) => {
+  return (
+    <CellContainer>
+      <strong>{value} Days</strong>
+    </CellContainer>
+  );
+};
+
 export const renderTimesheetCell = (value, row) => {
   //Color is green when approved, red when rejected, yellow when needs user action, and grey when no data
   let color = value

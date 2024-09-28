@@ -21,8 +21,9 @@ import { getCookie } from "../../../utils/cookies";
 import { createEmployeeShiftArray } from "../../../utils/shiftUtils";
 import {
   getEndOfWeekISO,
-  getStartOfWeek,
-  dateFormat,
+  getStartOfWeekISO,
+  getStartOfMonthISO,
+  getEndOfMonthISO,
 } from "../../../utils/dateHelpers";
 import WeekSelector from "../../weekSelector/WeekSelector";
 import MonthSelector from "../../monthSelector/MonthSelector";
@@ -33,9 +34,7 @@ const ShiftDashboard = ({ rolesList = [], departmentsList = [] }) => {
   const [roles, setRoles] = useState(rolesList);
   const [departments, setDepartments] = useState(departmentsList);
   const [viewType, setViewType] = useState("weekly");
-  const [startDate, setStartDate] = useState(
-    DateTime.fromFormat(getStartOfWeek(), dateFormat).toISO()
-  );
+  const [startDate, setStartDate] = useState(getStartOfWeekISO());
 
   const navigate = useNavigate();
 
@@ -83,31 +82,34 @@ const ShiftDashboard = ({ rolesList = [], departmentsList = [] }) => {
       // should run in a separated function in future.
       if (!users.length) {
         setData([]);
-      } else {
-        const endDate = getEndOfWeekISO(DateTime.fromISO(startDate));
-        //build query strings
-        const shiftQueryString = buildQueryParams({
-          userIds: users.map((user) => user.id),
-          startDate,
-          endDate,
-        });
-        const answer = await fetch(`/api/shift?${shiftQueryString}`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        if (!answer.ok) {
-          throw new Error(`HTTP error! status: ${answer.status}`);
-        }
-        const shiftsList = await answer.json();
-        const usersShiftData = createEmployeeShiftArray(users, shiftsList);
-        setData(usersShiftData);
+        return setLoading(false);
       }
+      const endDate =
+        viewType === "weekly"
+          ? getEndOfWeekISO(DateTime.fromISO(startDate))
+          : getEndOfMonthISO(DateTime.fromISO(startDate));
+      //build query strings
+      const shiftQueryString = buildQueryParams({
+        userIds: users.map((user) => user.id),
+        startDate,
+        endDate,
+      });
+      const answer = await fetch(`/api/shift?${shiftQueryString}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (!answer.ok) {
+        throw new Error(`HTTP error! status: ${answer.status}`);
+      }
+      const shiftsList = await answer.json();
+      const usersShiftData = createEmployeeShiftArray(users, shiftsList);
+      setData(usersShiftData);
       // should run in a separated function in future.
       setLoading(false);
     } catch (error) {
       setLoading(false);
       console.error("EmployeeList", error);
     }
-  }, [roles, departments, startDate, departmentsList, rolesList]);
+  }, [roles, departments, startDate, departmentsList, rolesList, viewType]);
 
   useEffect(() => {
     fetchData();
@@ -142,6 +144,7 @@ const ShiftDashboard = ({ rolesList = [], departmentsList = [] }) => {
           active={viewType === "monthly" ? "active" : ""}
           onClick={() => {
             setViewType("monthly");
+            setStartDate(getStartOfMonthISO());
           }}
         >
           Monthly view
@@ -150,6 +153,7 @@ const ShiftDashboard = ({ rolesList = [], departmentsList = [] }) => {
           active={viewType === "weekly" ? "active" : ""}
           onClick={() => {
             setViewType("weekly");
+            setStartDate(getStartOfWeekISO());
           }}
         >
           Weekly view

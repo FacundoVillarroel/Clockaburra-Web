@@ -47,10 +47,12 @@ export const createEmployeeShiftArray = (employees, shifts) => {
       shiftsByUser[employee.id] || []
     );
 
-    // get total hours by week of each employee
+    // get total hours by week of each employee & amount of shifts
     let totalHoursSum = 0;
+    let totalShiftSum = 0;
     Object.values(employeeShifts).forEach((shift) => {
       totalHoursSum += shift.totalHours;
+      totalShiftSum += 1;
     });
 
     return {
@@ -65,6 +67,7 @@ export const createEmployeeShiftArray = (employees, shifts) => {
       sun: employeeShifts.sun || null,
       id: employee.id,
       totalHours: totalHoursSum,
+      workingDays: totalShiftSum,
     };
   });
 };

@@ -12,11 +12,7 @@ import {
 
 import DropdownMenu from "../../dropdownMenu/DropdownMenu";
 import WeekSelector from "../../weekSelector/WeekSelector";
-import {
-  dateFormat,
-  getStartOfWeek,
-  getEndOfWeekISO,
-} from "../../../utils/dateHelpers";
+import { getStartOfWeekISO, getEndOfWeekISO } from "../../../utils/dateHelpers";
 import TimesheetWeeklyView from "../timesheetWeeklyView/TimesheetWeeklyView";
 import TimesheetMonthlyView from "../timesheetMonthlyView/TimesheetMonthlyView";
 import Loading from "../../ui/loading/Loading";
@@ -31,9 +27,7 @@ const TimesheetDashboard = ({ rolesList = [], departmentsList = [] }) => {
   const [viewType, setViewType] = useState("weekly");
   const [roles, setRoles] = useState(rolesList);
   const [departments, setDepartments] = useState(departmentsList);
-  const [startDate, setStartDate] = useState(
-    DateTime.fromFormat(getStartOfWeek(), dateFormat).toISO()
-  );
+  const [startDate, setStartDate] = useState(getStartOfWeekISO);
 
   useEffect(() => {
     if (rolesList.length) {
