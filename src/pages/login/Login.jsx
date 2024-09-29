@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { login } from "../../store/reducers/authSlice";
+import { googleLogin, login } from "../../store/reducers/authSlice";
 
 import Button from "../../components/ui/button/Button";
 import Loading from "../../components/ui/loading/Loading";
@@ -15,6 +15,7 @@ import {
   NewMemberLink,
   ErrorText,
 } from "./login.styles";
+import GoogleLoginButton from "../../components/googleLoginButton/GoogleLoginButton";
 
 const initialValues = {
   email: "",
@@ -60,6 +61,20 @@ const Login = () => {
     }
   };
 
+  const handleSuccess = async (credentialResponse) => {
+    const accessToken = credentialResponse.credential;
+    try {
+      dispatch(googleLogin(accessToken));
+      setIsSubmitted(true);
+    } catch (error) {
+      console.error("Login.jsx:", error);
+    }
+  };
+
+  const handleError = (error) => {
+    console.log("Error", error);
+  };
+
   return (
     <LoginContainer>
       <Title>Login</Title>
@@ -85,6 +100,10 @@ const Login = () => {
           <Button type="submit">Login</Button>
         </Form>
       )}
+      <GoogleLoginButton
+        handleSuccess={handleSuccess}
+        handleError={handleError}
+      />
       <ErrorText>{getText()}</ErrorText>
       <LinksContainer>
         <ForgotPasswordLink to="/reset-password">

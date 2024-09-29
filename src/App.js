@@ -2,6 +2,7 @@ import React from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Provider } from "react-redux";
 import { store } from "./store/store";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 
 import PrivateRoute from "./components/privateRoute/PrivateRoute";
 import Header from "./components/header/Header";
@@ -21,76 +22,78 @@ import ResetPassword from "./pages/resetPassword/ResetPassword";
 
 function App() {
   return (
-    <Provider store={store}>
-      <BrowserRouter>
-        <AuthProvider>
-          <Header />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route
-              path="/login"
-              element={
-                <PublicRoute>
-                  <Login />
-                </PublicRoute>
-              }
-            />
-            <Route
-              path="/register"
-              element={
-                <PublicRoute>
-                  <Register />
-                </PublicRoute>
-              }
-            />
-            <Route
-              path="/reset-password/*"
-              element={
-                <PublicRoute>
-                  <ResetPassword />
-                </PublicRoute>
-              }
-            />
-            <Route
-              path="/employees/*"
-              element={
-                <PrivateRoute>
-                  <Employees />
-                </PrivateRoute>
-              }
-            />
-            <Route
-              path="/shifts/*"
-              element={
-                <PrivateRoute>
-                  <Shifts />
-                </PrivateRoute>
-              }
-            />
-            <Route
-              path="/timesheets/*"
-              element={
-                <PrivateRoute>
-                  <Timesheets />
-                </PrivateRoute>
-              }
-            />
-            <Route
-              path="/manage/*"
-              element={
-                <PrivateRoute>
-                  <Manage />
-                </PrivateRoute>
-              }
-            />
-            <Route path="/app-for-employees-link" element={<LinkToApp />} />
-            <Route path="/validation" element={<EmailValidation />} />
-            <Route path="*" element={<Navigate to="/" />} />
-          </Routes>
-          <Footer />
-        </AuthProvider>
-      </BrowserRouter>
-    </Provider>
+    <GoogleOAuthProvider clientId={process.env.REACT_APP_CLIENT_ID}>
+      <Provider store={store}>
+        <BrowserRouter>
+          <AuthProvider>
+            <Header />
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route
+                path="/login"
+                element={
+                  <PublicRoute>
+                    <Login />
+                  </PublicRoute>
+                }
+              />
+              <Route
+                path="/register"
+                element={
+                  <PublicRoute>
+                    <Register />
+                  </PublicRoute>
+                }
+              />
+              <Route
+                path="/reset-password/*"
+                element={
+                  <PublicRoute>
+                    <ResetPassword />
+                  </PublicRoute>
+                }
+              />
+              <Route
+                path="/employees/*"
+                element={
+                  <PrivateRoute>
+                    <Employees />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/shifts/*"
+                element={
+                  <PrivateRoute>
+                    <Shifts />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/timesheets/*"
+                element={
+                  <PrivateRoute>
+                    <Timesheets />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/manage/*"
+                element={
+                  <PrivateRoute>
+                    <Manage />
+                  </PrivateRoute>
+                }
+              />
+              <Route path="/app-for-employees-link" element={<LinkToApp />} />
+              <Route path="/validation" element={<EmailValidation />} />
+              <Route path="*" element={<Navigate to="/" />} />
+            </Routes>
+            <Footer />
+          </AuthProvider>
+        </BrowserRouter>
+      </Provider>
+    </GoogleOAuthProvider>
   );
 }
 

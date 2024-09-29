@@ -7,6 +7,7 @@ export const StyledButton = styled.button`
   color: ${(props) => props.color || "#fff"};
   padding: ${(props) => props.padding || ".6rem 1.4rem"};
   margin: ${(props) => props.margin || "0px"};
+  width: ${(props) => props.width || "auto"};
   border: none;
   border-radius: ${(props) => props.border_radius || ".4rem"};
   font-size: ${(props) => props.font_size || "1.2rem"};

@@ -33,6 +33,18 @@ const authSlice = createSlice({
         state.status = "failed";
         state.error = action.payload;
       })
+      .addCase(googleLogin.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(googleLogin.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.token = action.payload.token;
+        state.user = action.payload.user;
+      })
+      .addCase(googleLogin.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.payload;
+      })
       .addCase(validateToken.pending, (state) => {
         state.status = "loading";
       })
@@ -62,6 +74,34 @@ export const login = createAsyncThunk(
           "Content-Type": "application/json",
         },
         body: JSON.stringify(credentials),
+      });
+      const user = await response.json();
+      const token =
+        response.headers.get("Authorization")?.split(" ")[1] || null;
+      if (response.status === 403) {
+        throw new Error("Failed to authenticate token");
+      }
+      if (response.status === 400 || !token) {
+        throw new Error("Incorrect email or password");
+      }
+      setCookie("token", token, 7); // Token expires in 7 days
+      return { user, token };
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+export const googleLogin = createAsyncThunk(
+  "auth/googleLogin",
+  async (accessToken, { rejectWithValue }) => {
+    try {
+      const response = await fetch("/api/auth/googleLogin", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ accessToken }),
       });
       const user = await response.json();
       const token =
