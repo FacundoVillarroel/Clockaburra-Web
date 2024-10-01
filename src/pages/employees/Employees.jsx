@@ -17,8 +17,6 @@ const Employees = () => {
   const rolesList = roles.map((role) => role.name);
   const departmentsList = departments.map((department) => department.name);
 
-  console.log(roles, departments);
-
   return (
     <EmployeesContainer>
       <Title>Employees</Title>

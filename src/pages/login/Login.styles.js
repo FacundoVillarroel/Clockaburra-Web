@@ -25,6 +25,12 @@ export const Input = styled.input`
   border-radius: 3px;
 `;
 
+export const GoogleButtonContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  margin: 1.6rem 0rem;
+`;
+
 export const LinksContainer = styled.div`
   display: flex;
   justify-content: space-between;

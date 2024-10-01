@@ -10,6 +10,7 @@ import {
   Title,
   Form,
   Input,
+  GoogleButtonContainer,
   LinksContainer,
   ForgotPasswordLink,
   NewMemberLink,
@@ -100,10 +101,12 @@ const Login = () => {
           <Button type="submit">Login</Button>
         </Form>
       )}
-      <GoogleLoginButton
-        handleSuccess={handleSuccess}
-        handleError={handleError}
-      />
+      <GoogleButtonContainer>
+        <GoogleLoginButton
+          handleSuccess={handleSuccess}
+          handleError={handleError}
+        />
+      </GoogleButtonContainer>
       <ErrorText>{getText()}</ErrorText>
       <LinksContainer>
         <ForgotPasswordLink to="/reset-password">

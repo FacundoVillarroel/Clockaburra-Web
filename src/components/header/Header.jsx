@@ -10,12 +10,8 @@ const Header = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const role = user?.role;
-    if (
-      role === "Assistant manager" ||
-      role === "Manager" ||
-      role === "Admin"
-    ) {
+    const permissions = user?.permissions;
+    if (permissions === "admin") {
       dispatch(fetchOrganizations(token));
     }
   }, [user, dispatch, token]);
