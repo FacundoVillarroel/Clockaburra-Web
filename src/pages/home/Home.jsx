@@ -1,8 +1,16 @@
-// Import necessary libraries and components
 import React from "react";
-import Button from "../../components/ui/button/Button";
+import {
+  LuUsers,
+  LuClock,
+  LuCalendar,
+  LuSmartphone,
+  LuRefreshCw,
+  LuUserPlus,
+} from "react-icons/lu";
+import { useNavigate } from "react-router-dom";
 
-import Card from "../../components/ui/card/Card";
+import Button from "../../components/ui/button/Button";
+import Colors from "../../constants/Colors";
 
 import {
   Container,
@@ -11,47 +19,82 @@ import {
   SubHeadline,
   FeaturesSection,
   Feature,
+  FeatureIcon,
   FeatureTitle,
   FeatureDescription,
 } from "./home.styles";
 
-const Home = () => {
+export default function Home() {
+  const navigate = useNavigate();
+
+  const features = [
+    {
+      icon: <LuCalendar size={32} color={Colors.secondary} />,
+      title: "Shift Scheduling Made Simple",
+      description:
+        "Effortlessly create, edit, and manage employee shifts with an intuitive interface designed for efficiency. Whether it's weekly or monthly scheduling, your team is always covered.",
+    },
+    {
+      icon: <LuClock size={32} color={Colors.secondary} />,
+      title: "Timesheet Management",
+      description:
+        "Monitor and manage employee hours with detailed timesheet tracking. View work hours, overtime, and breaks for individuals or your entire team on a weekly or monthly basis.",
+    },
+    {
+      icon: <LuUsers size={32} color={Colors.secondary} />,
+      title: "User Permissions & Role Assignment",
+      description:
+        "Tailor access for different team members. Assign custom permissions for managers, supervisors, and employees, ensuring the right people have control over scheduling and timesheets.",
+    },
+    {
+      icon: <LuSmartphone size={32} color={Colors.secondary} />,
+      title: "Mobile Access for Employees",
+      description:
+        "Employees can view their shifts, clock in, and manage their timesheets directly from the mobile app. Real-time updates ensure everyone stays on the same page.",
+    },
+    {
+      icon: <LuRefreshCw size={32} color={Colors.secondary} />,
+      title: "Real-Time Clock-In/Clock-Out Sync",
+      description:
+        "Employees can clock in, start breaks, and clock out through the mobile app. All time entries are instantly synced, giving you up-to-date timesheet data without manual entry.",
+    },
+    {
+      icon: <LuUserPlus size={32} color={Colors.secondary} />,
+      title: "Employee Registration & Onboarding",
+      description:
+        "Register new employees in minutes, setting them up with appropriate roles and permissions. Simplify onboarding by ensuring all new hires are ready to go from day one.",
+    },
+  ];
+
+  const handleClick = () => {
+    navigate("/employees");
+  };
+
   return (
     <Container>
       <Header>
-        <Card
-          padding={"2rem 16rem"}
-          box_shadow={"0 2px 5px rgba(17,31,77,0.1);"}
+        <Headline>Welcome to Clockaburra</Headline>
+        <SubHeadline>
+          Revolutionize your workforce management with our all-in-one solution
+        </SubHeadline>
+        <Button
+          onClick={handleClick}
+          bg_color={Colors.accent}
+          color={Colors.primary}
+          hover_bg_color={Colors.darkerAccent}
         >
-          <Headline>Welcome to Clockaburra</Headline>
-          <SubHeadline>
-            Your ultimate timesheet management solution.
-          </SubHeadline>
-          <Button>Get Started</Button>
-        </Card>
+          <strong>Get Started</strong>
+        </Button>
       </Header>
       <FeaturesSection>
-        <Feature>
-          <FeatureTitle>Easy Time Tracking</FeatureTitle>
-          <FeatureDescription>
-            Track your working hours effortlessly and accurately.
-          </FeatureDescription>
-        </Feature>
-        <Feature>
-          <FeatureTitle>Detailed Reports</FeatureTitle>
-          <FeatureDescription>
-            Generate comprehensive reports for better insights.
-          </FeatureDescription>
-        </Feature>
-        <Feature>
-          <FeatureTitle>Mobile Friendly</FeatureTitle>
-          <FeatureDescription>
-            Access and manage your timesheets on the go.
-          </FeatureDescription>
-        </Feature>
+        {features.map((feature, index) => (
+          <Feature key={index}>
+            <FeatureIcon>{feature.icon}</FeatureIcon>
+            <FeatureTitle>{feature.title}</FeatureTitle>
+            <FeatureDescription>{feature.description}</FeatureDescription>
+          </Feature>
+        ))}
       </FeaturesSection>
     </Container>
   );
-};
-
-export default Home;
+}
