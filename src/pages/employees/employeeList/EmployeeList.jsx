@@ -95,7 +95,11 @@ const EmployeeList = ({ rolesList = [], departmentsList = [] }) => {
           />
         </ActionBarButtonContainer>
       </ActionBarContainer>
-      {loading ? <Loading /> : <EmployeesTable employees={employees} />}
+      {loading ? (
+        <Loading />
+      ) : (
+        <EmployeesTable employees={employees} setEmployees={setEmployees} />
+      )}
     </>
   );
 };

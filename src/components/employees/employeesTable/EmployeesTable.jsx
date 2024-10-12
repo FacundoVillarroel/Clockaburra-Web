@@ -9,7 +9,7 @@ import Loading from "../../ui/loading/Loading";
 
 import { getCookie } from "../../../utils/cookies";
 
-const EmployeesTable = ({ employees }) => {
+const EmployeesTable = ({ employees, setEmployees }) => {
   const [loading, setLoading] = useState(false);
   const [userId, setUserId] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
@@ -58,6 +58,7 @@ const EmployeesTable = ({ employees }) => {
 
       if (user.deleted) {
         alert(`user: ${userId}, Deleted succesfully`);
+        setEmployees(employees.filter((employee) => employee.id !== userId));
       } else {
         alert(`Error deleting user: ${userId}`);
       }

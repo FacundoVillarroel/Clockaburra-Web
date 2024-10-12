@@ -6,6 +6,7 @@ import { DateTime } from "luxon";
 import { EmployeeFormContainer, Title } from "./employeeForm.styles";
 import Loading from "../../../components/ui/loading/Loading";
 import { useSelector } from "react-redux";
+import { newUserValidation } from "../../../utils/newUserValidation";
 
 const EmployeeForm = () => {
   const [loading, setLoading] = useState(false);
@@ -59,9 +60,13 @@ const EmployeeForm = () => {
   ];
 
   const handleSubmit = async (formData) => {
-    const hasEmptyValue = Object.values(formData).some((value) => !value);
-    if (hasEmptyValue) {
-      return alert("There are empty values on the form");
+    const errors = newUserValidation(
+      formData,
+      rolesOptions,
+      departmentsOptions
+    );
+    if (errors.length > 0) {
+      return alert(errors.join("\n"));
     }
     const token = getCookie("token");
     let startDate = DateTime.fromISO(formData.startDate);
