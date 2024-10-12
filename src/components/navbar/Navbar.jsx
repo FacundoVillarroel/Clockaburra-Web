@@ -16,7 +16,7 @@ import {
 import { useLocation } from "react-router-dom";
 
 const Navbar = () => {
-  const { token } = useSelector((state) => state.auth);
+  const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const location = useLocation();
 
@@ -33,7 +33,7 @@ const Navbar = () => {
         <LogoText>Clockaburra</LogoText>
       </LogoContainer>
       <NavLinks>
-        {token ? (
+        {user && user.permissions === "admin" ? (
           <>
             <CustomNavLink
               to="/employees"

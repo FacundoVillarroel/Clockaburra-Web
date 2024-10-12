@@ -17,6 +17,7 @@ import {
   ButtonLink,
   ScreenshotGrid,
   Screenshot,
+  AlertMessage,
 } from "./linkToApp.styles";
 
 const LinkToApp = () => {
@@ -65,6 +66,12 @@ const LinkToApp = () => {
             <Screenshot src={screenshot2} alt="App Screenshot" />
             <Screenshot src={screenshot3} alt="App Screenshot" />
           </ScreenshotGrid>
+
+          <AlertMessage>
+            This site is not accessible on screens smaller than 1024px or on
+            mobile devices. To enjoy the best experience, please download our
+            app for Android or iPhone.
+          </AlertMessage>
         </Content>
       </Container>
     </Wrapper>

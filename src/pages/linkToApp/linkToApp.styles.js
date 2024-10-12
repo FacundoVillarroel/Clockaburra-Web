@@ -113,3 +113,13 @@ export const Screenshot = styled.img`
   border-radius: 8px;
   box-shadow: 0px 4px 6px ${Colors.primary};
 `;
+
+export const AlertMessage = styled.div`
+  background-color: #f8d7da;
+  color: #721c24;
+  padding: 15px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  font-size: 16px;
+  text-align: center;
+`;

@@ -19,6 +19,7 @@ import AuthProvider from "./components/authProvider/AuthProvider";
 import LinkToApp from "./pages/linkToApp/LinkToApp";
 import EmailValidation from "./pages/emailValidation/EmailValidation";
 import ResetPassword from "./pages/resetPassword/ResetPassword";
+import ScreenSizeRedirect from "./components/screenSizeRedirect/ScreenSizeRedirect";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
       <Provider store={store}>
         <BrowserRouter>
           <AuthProvider>
+            <ScreenSizeRedirect />
             <Header />
             <Routes>
               <Route
