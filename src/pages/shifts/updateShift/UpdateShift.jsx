@@ -1,8 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
-import Form from "../../../components/form/Form";
-import Input from "../../../components/input/Input";
 import Loading from "../../../components/ui/loading/Loading";
 import { getCookie } from "../../../utils/cookies";
 import Button from "../../../components/ui/button/Button";
@@ -13,11 +11,6 @@ import {
   DeleteButtonContainer,
   FormTitle,
   FormDescription,
-  BreaksContainer,
-  BreakInputContainer,
-  DeleteBreakButton,
-  AddBreakButton,
-  ButtonContainer,
   ModalButtonsContainer,
   ModalTitle,
 } from "./updateShift.styles";
@@ -27,6 +20,7 @@ import {
   transformBreaksToISO,
 } from "../../../utils/shiftUtils";
 import Modal from "../../../components/ui/modal/Modal";
+import ShiftForm from "../../../components/shifts/shiftForm/ShiftForm";
 
 const UpdateShift = () => {
   const navigate = useNavigate();
@@ -91,7 +85,7 @@ const UpdateShift = () => {
     setBreaks(updatedBreaks);
   };
 
-  const addBreak = () => {
+  const onAddBreak = () => {
     setBreaks([...breaks, { breakStart: "00:00", breakEnd: "00:00" }]);
   };
 
@@ -161,10 +155,6 @@ const UpdateShift = () => {
     }
   }, [fetchShift, shiftId]);
 
-  const onHandleBack = () => {
-    navigate("/shifts");
-  };
-
   const onDelete = async () => {
     try {
       setLoading(true);
@@ -228,51 +218,14 @@ const UpdateShift = () => {
           ) : null}
           <FormTitle>Update shift</FormTitle>
           <FormDescription>Update shift for {name}</FormDescription>
-          <Form onSubmit={handleSubmit} fields={fields}>
-            <BreaksContainer>
-              <FormDescription>Breaks</FormDescription>
-              <AddBreakButton type="button" onClick={addBreak}>
-                Add Break
-              </AddBreakButton>
-              {breaks.map((breakItem, index) => (
-                <BreakInputContainer key={index}>
-                  <Input
-                    label="Break Start"
-                    type="time"
-                    name="breakStart"
-                    step="900"
-                    value={breakItem.breakStart}
-                    onChange={(e) => handleBreakChange(index, e)}
-                  />
-                  <Input
-                    label="Break End"
-                    type="time"
-                    name="breakEnd"
-                    step="900"
-                    value={breakItem.breakEnd}
-                    min={breakItem.breakStart}
-                    onChange={(e) => handleBreakChange(index, e)}
-                  />
-                  <DeleteBreakButton
-                    type="button"
-                    onClick={() => deleteBreak(index)}
-                  >
-                    Delete
-                  </DeleteBreakButton>
-                </BreakInputContainer>
-              ))}
-            </BreaksContainer>
-            <ButtonContainer>
-              <Button
-                bg_color={"#ef0202"}
-                hover_bg_color={"#d10707"}
-                font_size={"1rem"}
-                onClick={onHandleBack}
-              >
-                Go back to shifts
-              </Button>
-            </ButtonContainer>
-          </Form>
+          <ShiftForm
+            handleSubmit={handleSubmit}
+            fields={fields}
+            onAddBreak={onAddBreak}
+            breaks={breaks}
+            handleBreakChange={handleBreakChange}
+            deleteBreak={deleteBreak}
+          />
         </FormContainer>
       )}
     </>

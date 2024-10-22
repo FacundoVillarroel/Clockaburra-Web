@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../../store/reducers/authSlice";
 
@@ -21,9 +21,16 @@ import {
 } from "./linkToApp.styles";
 
 const LinkToApp = () => {
+  const [userName, setUserName] = useState("");
   const hasMounted = useRef(false);
   const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (user) {
+      setUserName(user.userName);
+    }
+  }, [user]);
 
   useEffect(() => {
     if (!hasMounted.current) {
@@ -31,8 +38,7 @@ const LinkToApp = () => {
     } else {
       return () => {
         if (user) {
-          if (user.permissions === "admin") {
-          } else {
+          if (user.permissions !== "admin") {
             dispatch(logout());
           }
         }
@@ -47,8 +53,8 @@ const LinkToApp = () => {
           <div>
             <Heading>Download Our App</Heading>
             <Paragraph>
-              Experience the best way to manage your tasks and stay organized on
-              the go.
+              {userName && `Hello ${userName}! `}Experience the best way to
+              manage your tasks and stay organized on the go.
             </Paragraph>
           </div>
           <FlexContainer>
