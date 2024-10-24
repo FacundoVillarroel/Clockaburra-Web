@@ -9,16 +9,11 @@ import { LuTrash2 } from "react-icons/lu";
 import {
   FormContainer,
   DeleteButtonContainer,
-  FormTitle,
-  FormDescription,
   ModalButtonsContainer,
   ModalTitle,
 } from "./updateShift.styles";
-import { formatJsDateToLuxonISO } from "../../../utils/dateHelpers";
-import {
-  revertBreaksFromISO,
-  transformBreaksToISO,
-} from "../../../utils/shiftUtils";
+
+import { revertBreaksFromISO } from "../../../utils/shiftUtils";
 import Modal from "../../../components/ui/modal/Modal";
 import ShiftForm from "../../../components/shifts/shiftForm/ShiftForm";
 
@@ -77,77 +72,6 @@ const UpdateShift = () => {
       console.error(error);
     }
   }, [shiftId]);
-
-  const handleBreakChange = (index, e) => {
-    const { name, value } = e.target;
-    const updatedBreaks = [...breaks];
-    updatedBreaks[index][name] = value;
-    setBreaks(updatedBreaks);
-  };
-
-  const onAddBreak = () => {
-    setBreaks([...breaks, { breakStart: "00:00", breakEnd: "00:00" }]);
-  };
-
-  const deleteBreak = (index) => {
-    setBreaks(breaks.filter((_, i) => i !== index));
-  };
-
-  const handleSubmit = async (data) => {
-    try {
-      setLoading(true);
-      const startDateFormatted = formatJsDateToLuxonISO(data.startDate);
-      const endDateFormatted = formatJsDateToLuxonISO(data.endDate);
-      const newData = {
-        ...data,
-        startDate: startDateFormatted,
-        endDate: endDateFormatted,
-      };
-      const transformedBreaks = transformBreaksToISO(newData.startDate, breaks);
-      const reqBody = {
-        ...newData,
-        userId,
-        breaks: transformedBreaks,
-      };
-      const token = getCookie("token");
-      const headers = {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      };
-      if (shiftId) {
-        const response = await fetch(`/api/shift/${shiftId}`, {
-          method: "PUT",
-          headers,
-          body: JSON.stringify(reqBody),
-        });
-        if (!response.ok) {
-          console.error(await response.json());
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const shiftModified = await response.json();
-        setLoading(false);
-        navigate("/shifts");
-        return alert(shiftModified.message);
-      } else {
-        const response = await fetch(`/api/shift`, {
-          method: "POST",
-          headers,
-          body: JSON.stringify(reqBody),
-        });
-        if (!response.ok) {
-          console.error(await response.json());
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const shiftCreated = await response.json();
-        setLoading(false);
-        navigate("/shifts");
-        return alert(shiftCreated.message);
-      }
-    } catch (error) {
-      setLoading(false);
-      console.error(error);
-    }
-  };
 
   useEffect(() => {
     if (shiftId !== "null" && shiftId) {
@@ -216,15 +140,15 @@ const UpdateShift = () => {
               <LuTrash2 color="red" fontSize={30} />
             </DeleteButtonContainer>
           ) : null}
-          <FormTitle>Update shift</FormTitle>
-          <FormDescription>Update shift for {name}</FormDescription>
           <ShiftForm
-            handleSubmit={handleSubmit}
+            title={"Update shift"}
+            description={`Update shift for ${name}`}
+            setLoading={setLoading}
             fields={fields}
-            onAddBreak={onAddBreak}
             breaks={breaks}
-            handleBreakChange={handleBreakChange}
-            deleteBreak={deleteBreak}
+            setBreaks={setBreaks}
+            userId={userId}
+            shiftId={shiftId}
           />
         </FormContainer>
       )}
