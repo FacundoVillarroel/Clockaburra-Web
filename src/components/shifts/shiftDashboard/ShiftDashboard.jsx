@@ -72,7 +72,6 @@ const ShiftDashboard = ({ rolesList = [], departmentsList = [] }) => {
         roles: rolesArray,
         departments: departmentsArray,
       });
-      console.log(`/api/users?${queryString}`);
       const response = await fetch(`/api/users?${queryString}`, {
         headers: { Authorization: `Bearer ${token}` },
       });

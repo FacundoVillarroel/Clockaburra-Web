@@ -13,7 +13,6 @@ import {
   ModalTitle,
 } from "./updateShift.styles";
 
-import { revertBreaksFromISO } from "../../../utils/shiftUtils";
 import Modal from "../../../components/ui/modal/Modal";
 import ShiftForm from "../../../components/shifts/shiftForm/ShiftForm";
 
@@ -30,9 +29,11 @@ const UpdateShift = () => {
     queryParams.get("date") === "null" ? null : queryParams.get("date");
 
   const [loading, setLoading] = useState(false);
+  const [shiftData, setShiftData] = useState({
+    startDate: new Date(date),
+    endDate: new Date(date),
+  });
   const [breaks, setBreaks] = useState([]);
-  const [startDate, setStartDate] = useState(new Date(date));
-  const [endDate, setEndDate] = useState(new Date(date));
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const fields = [
@@ -40,13 +41,13 @@ const UpdateShift = () => {
       label: "Start Date",
       type: "datetime-local",
       name: "startDate",
-      value: startDate,
+      value: shiftData.startDate,
     },
     {
       label: "End Date",
       type: "datetime-local",
       name: "endDate",
-      value: endDate,
+      value: shiftData.endDate,
     },
   ];
 
@@ -60,12 +61,11 @@ const UpdateShift = () => {
         },
       });
       const shift = await response.json();
-      if (shift.breaks.length) {
-        const shiftBreaks = revertBreaksFromISO(shift.breaks);
-        setBreaks(shiftBreaks);
-      }
-      setStartDate(new Date(shift.startDate));
-      setEndDate(new Date(shift.endDate));
+      setShiftData({
+        startDate: new Date(shift.startDate),
+        endDate: new Date(shift.endDate),
+        breaks: shift.breaks,
+      });
       setLoading(false);
     } catch (error) {
       setLoading(false);
@@ -149,6 +149,7 @@ const UpdateShift = () => {
             setBreaks={setBreaks}
             userId={userId}
             shiftId={shiftId}
+            shiftData={shiftData}
           />
         </FormContainer>
       )}

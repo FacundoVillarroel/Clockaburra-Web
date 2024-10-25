@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getCookie } from "../../../utils/cookies";
 
@@ -6,7 +6,10 @@ import Form from "../../form/Form";
 import Input from "../../input/Input";
 import Button from "../../ui/button/Button";
 import { formatJsDateToLuxonISO } from "../../../utils/dateHelpers";
-import { transformBreaksToISO } from "../../../utils/shiftUtils";
+import {
+  transformBreaksToISO,
+  revertBreaksFromISO,
+} from "../../../utils/shiftUtils";
 
 import {
   FormTitle,
@@ -17,18 +20,19 @@ import {
   ButtonContainer,
   DeleteBreakButton,
 } from "./shiftForm.styles";
+import { useEffect } from "react";
 
 const ShiftForm = ({
   title,
   description,
   setLoading,
   fields,
-  breaks,
-  setBreaks,
   userId = null,
   shiftId = null,
+  shiftData = {},
 }) => {
   const navigate = useNavigate();
+  const [breaks, setBreaks] = useState([]);
 
   const handleBreakChange = (index, e) => {
     const { name, value } = e.target;
@@ -103,6 +107,13 @@ const ShiftForm = ({
       console.error("ShiftForm", error);
     }
   };
+
+  useEffect(() => {
+    if (shiftData.breaks?.length) {
+      const shiftBreaks = revertBreaksFromISO(shiftData.breaks);
+      setBreaks(shiftBreaks);
+    }
+  }, [shiftData.breaks]);
 
   return (
     <>

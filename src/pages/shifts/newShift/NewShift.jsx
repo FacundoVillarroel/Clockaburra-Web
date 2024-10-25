@@ -8,7 +8,6 @@ import ShiftForm from "../../../components/shifts/shiftForm/ShiftForm";
 
 const NewShift = () => {
   const [loading, setLoading] = useState(false);
-  const [breaks, setBreaks] = useState([]);
   const [users, setUsers] = useState([]);
 
   const startDate = new Date();
@@ -76,8 +75,6 @@ const NewShift = () => {
             description={"Add new shift for an employee"}
             setLoading={setLoading}
             fields={fields}
-            breaks={breaks}
-            setBreaks={setBreaks}
           />
         </FormContainer>
       )}
