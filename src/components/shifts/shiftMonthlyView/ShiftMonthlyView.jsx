@@ -6,6 +6,7 @@ import {
   renderTotalHours,
   renderTotalWorkingDays,
 } from "../../../utils/tableHelpers";
+import EmptyState from "../../emptyState/EmptyState";
 
 const ShiftMonthlyView = ({ data, startDate }) => {
   const columns = [
@@ -23,7 +24,11 @@ const ShiftMonthlyView = ({ data, startDate }) => {
 
   return (
     <div>
-      <Table columns={columns} data={data} onRowClick={onRowClick} />
+      {data.length ? (
+        <Table columns={columns} data={data} onRowClick={onRowClick} />
+      ) : (
+        <EmptyState message="No employees match your criteria" />
+      )}
     </div>
   );
 };

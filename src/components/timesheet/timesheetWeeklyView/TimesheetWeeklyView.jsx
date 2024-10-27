@@ -7,6 +7,7 @@ import {
   renderTimesheetCell,
   renderTotalHours,
 } from "../../../utils/tableHelpers";
+import EmptyState from "../../emptyState/EmptyState";
 
 const TimesheetWeeklyView = ({ data, startDate }) => {
   const navigate = useNavigate();
@@ -78,12 +79,16 @@ const TimesheetWeeklyView = ({ data, startDate }) => {
 
   return (
     <div>
-      <Table
-        columns={columns}
-        data={data}
-        onCellClick={onCellClick}
-        cursor={"pointer"}
-      />
+      {data.length ? (
+        <Table
+          columns={columns}
+          data={data}
+          onCellClick={onCellClick}
+          cursor={"pointer"}
+        />
+      ) : (
+        <EmptyState message="No employees match your criteria" />
+      )}
     </div>
   );
 };

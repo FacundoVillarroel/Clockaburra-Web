@@ -8,6 +8,7 @@ import DeleteUserModal from "../../deleteUserModal/DeleteUserModal";
 import Loading from "../../ui/loading/Loading";
 
 import { getCookie } from "../../../utils/cookies";
+import EmptyState from "../../emptyState/EmptyState";
 
 const EmployeesTable = ({ employees, setEmployees }) => {
   const [loading, setLoading] = useState(false);
@@ -86,12 +87,16 @@ const EmployeesTable = ({ employees, setEmployees }) => {
               handleDelete={handleDelete}
             />
           )}
-          <Table
-            columns={columns}
-            data={employees}
-            onCellClick={onCellClick}
-            cursor={"pointer"}
-          />
+          {employees.length ? (
+            <Table
+              columns={columns}
+              data={employees}
+              onCellClick={onCellClick}
+              cursor={"pointer"}
+            />
+          ) : (
+            <EmptyState message="No employees match your criteria" />
+          )}
         </>
       )}
     </>

@@ -8,6 +8,7 @@ import {
   getDayOfWeek,
   renderTotalHours,
 } from "../../../utils/tableHelpers";
+import EmptyState from "../../emptyState/EmptyState";
 
 const ShiftWeeklyView = ({ data, startDate }) => {
   const navigate = useNavigate();
@@ -76,15 +77,18 @@ const ShiftWeeklyView = ({ data, startDate }) => {
     }).toString();
     navigate(`/shifts/updateShift?${queryParams}`);
   };
-
   return (
     <div>
-      <Table
-        columns={columns}
-        data={data}
-        onCellClick={onCellClick}
-        cursor={"pointer"}
-      />
+      {data.length ? (
+        <Table
+          columns={columns}
+          data={data}
+          onCellClick={onCellClick}
+          cursor={"pointer"}
+        />
+      ) : (
+        <EmptyState message="No employees match your criteria" />
+      )}
     </div>
   );
 };
