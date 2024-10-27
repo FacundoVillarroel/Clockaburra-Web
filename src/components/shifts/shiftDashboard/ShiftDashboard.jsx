@@ -19,6 +19,7 @@ import DropdownMenu from "../../dropdownMenu/DropdownMenu";
 import { buildQueryParams } from "../../../utils/buildQueryParams";
 import { getCookie } from "../../../utils/cookies";
 import { createEmployeeShiftArray } from "../../../utils/shiftUtils";
+import { fetchWrapper } from "../../../utils/fetchWrapper";
 import {
   getEndOfWeekISO,
   getStartOfWeekISO,
@@ -63,51 +64,47 @@ const ShiftDashboard = ({ rolesList = [], departmentsList = [] }) => {
   };
 
   const fetchData = useCallback(async () => {
+    setLoading(true);
     try {
-      setLoading(true);
       const token = getCookie("token");
-      const rolesArray = getList(roles, rolesList);
-      const departmentsArray = getList(departments, departmentsList);
+
       const queryString = buildQueryParams({
-        roles: rolesArray,
-        departments: departmentsArray,
+        roles: getList(roles, rolesList),
+        departments: getList(departments, departmentsList),
       });
-      const response = await fetch(`/api/users?${queryString}`, {
-        headers: { Authorization: `Bearer ${token}` },
+
+      const users = await fetchWrapper({
+        url: `/api/users?${queryString}`,
+        token,
       });
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      const users = await response.json();
-      // should run in a separated function in future.
+
       if (!users.length) {
         setData([]);
-        return setLoading(false);
+        setLoading(false);
+        return;
       }
+
       const endDate =
         viewType === "weekly"
           ? getEndOfWeekISO(DateTime.fromISO(startDate))
           : getEndOfMonthISO(DateTime.fromISO(startDate));
-      //build query strings
+
       const shiftQueryString = buildQueryParams({
         userIds: users.map((user) => user.id),
         startDate,
         endDate,
       });
-      const answer = await fetch(`/api/shift?${shiftQueryString}`, {
-        headers: { Authorization: `Bearer ${token}` },
+
+      const shiftsList = await fetchWrapper({
+        url: `/api/shift?${shiftQueryString}`,
+        token,
       });
-      if (!answer.ok) {
-        throw new Error(`HTTP error! status: ${answer.status}`);
-      }
-      const shiftsList = await answer.json();
-      const usersShiftData = createEmployeeShiftArray(users, shiftsList);
-      setData(usersShiftData);
-      // should run in a separated function in future.
-      setLoading(false);
+
+      setData(createEmployeeShiftArray(users, shiftsList));
     } catch (error) {
-      setLoading(false);
       console.error("EmployeeList", error);
+    } finally {
+      setLoading(false);
     }
   }, [roles, departments, startDate, departmentsList, rolesList, viewType]);
 

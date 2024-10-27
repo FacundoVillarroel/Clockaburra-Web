@@ -25,6 +25,7 @@ import { getCookie } from "../../../utils/cookies";
 import { buildQueryParams } from "../../../utils/buildQueryParams";
 import { createEmployeeTimesheetArray } from "../../../utils/timesheetUtils";
 import MonthSelector from "../../monthSelector/MonthSelector";
+import { fetchWrapper } from "../../../utils/fetchWrapper";
 
 const TimesheetDashboard = ({ rolesList = [], departmentsList = [] }) => {
   const navigate = useNavigate();
@@ -77,58 +78,46 @@ const TimesheetDashboard = ({ rolesList = [], departmentsList = [] }) => {
   };
 
   const fetchData = useCallback(async () => {
+    setLoading(true);
     try {
-      setLoading(true);
       const token = getCookie("token");
-      const rolesArray = getList(roles, rolesList);
-      const departmentsArray = getList(departments, departmentsList);
-      let queryString = buildQueryParams({
-        roles: rolesArray,
-        departments: departmentsArray,
+
+      const queryString = buildQueryParams({
+        roles: getList(roles, rolesList),
+        departments: getList(departments, departmentsList),
       });
-      if (
-        rolesArray.length === rolesList.length &&
-        departmentsArray.length === departmentsList.length
-      ) {
-        queryString = "";
-      }
-      const response = await fetch(`/api/users?${queryString}`, {
-        headers: { Authorization: `Bearer ${token}` },
+
+      const users = await fetchWrapper({
+        url: `/api/users?${queryString}`,
+        token,
       });
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      const users = await response.json();
 
       if (!users.length) {
         setData([]);
-      } else {
-        const endDate =
-          viewType === "weekly"
-            ? getEndOfWeekISO(DateTime.fromISO(startDate))
-            : getEndOfMonthISO(DateTime.fromISO(startDate));
-        //build query strings
-        const timsheetQueryString = buildQueryParams({
-          userIds: users.map((user) => user.id),
-          startDate,
-          endDate,
-        });
-        const answer = await fetch(`/api/timesheet?${timsheetQueryString}`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        if (!answer.ok) {
-          throw new Error(`HTTP error! status: ${answer.status}`);
-        }
-        const timesheetsList = await answer.json();
-        const usersTimesheetData = createEmployeeTimesheetArray(
-          users,
-          timesheetsList
-        );
-        setData(usersTimesheetData);
+        setLoading(false);
+        return;
       }
 
-      setLoading(false);
+      const endDate =
+        viewType === "weekly"
+          ? getEndOfWeekISO(DateTime.fromISO(startDate))
+          : getEndOfMonthISO(DateTime.fromISO(startDate));
+
+      const timesheetQueryString = buildQueryParams({
+        userIds: users.map((user) => user.id),
+        startDate,
+        endDate,
+      });
+
+      const timesheetsList = await fetchWrapper({
+        url: `/api/timesheet?${timesheetQueryString}`,
+        token,
+      });
+
+      setData(createEmployeeTimesheetArray(users, timesheetsList));
     } catch (error) {
+      console.error("Error fetching data:", error);
+    } finally {
       setLoading(false);
     }
   }, [roles, departments, startDate, departmentsList, rolesList, viewType]);
