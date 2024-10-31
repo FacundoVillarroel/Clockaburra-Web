@@ -24,14 +24,17 @@ const CompleteRegistrationForm = ({ token, user }) => {
     }
     try {
       setLoading(true);
-      const response = await fetch(`/api/auth/register`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ ...formData, email: user.userId }),
-      });
+      const response = await fetch(
+        `${process.env.REACT_APP_BACKEND_URL}/auth/register`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ ...formData, email: user.userId }),
+        }
+      );
 
       const result = await response.json();
 

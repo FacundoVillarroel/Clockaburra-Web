@@ -104,17 +104,23 @@ export const fetchOrganizations = createAsyncThunk(
   async (token) => {
     try {
       //fetch departments
-      const departmentsResponse = await fetch(`/api/department`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const departmentsResponse = await fetch(
+        `${process.env.REACT_APP_BACKEND_URL}/department`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
       if (!departmentsResponse.ok) {
         throw new Error(await departmentsResponse.json().message);
       }
       const departmentData = await departmentsResponse.json();
       //fetch roles
-      const rolesResponse = await fetch(`/api/role`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const rolesResponse = await fetch(
+        `${process.env.REACT_APP_BACKEND_URL}/role`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
       if (!rolesResponse.ok) {
         throw new Error(await rolesResponse.json().message);
       }
@@ -133,7 +139,7 @@ export const updateDepartment = (id, update, setLoading, token) => {
     try {
       setLoading(true);
       const updateDepartment = await fetchWrapper({
-        url: `/api/department/${id}`,
+        url: `${process.env.REACT_APP_BACKEND_URL}/department/${id}`,
         method: "PUT",
         body: update,
         token,
@@ -156,7 +162,7 @@ export const deleteDepartment = (id, setLoading, token) => {
     try {
       setLoading(true);
       await fetchWrapper({
-        url: `/api/department/${id}`,
+        url: `${process.env.REACT_APP_BACKEND_URL}/department/${id}`,
         method: "DELETE",
         token,
       });
@@ -174,7 +180,7 @@ export const createDepartment = (department, setLoading, token) => {
     try {
       setLoading(true);
       const newDepartment = await fetchWrapper({
-        url: `/api/department`,
+        url: `${process.env.REACT_APP_BACKEND_URL}/department`,
         method: "POST",
         body: department,
         token,
@@ -201,7 +207,7 @@ export const updateRole = (id, update, setLoading, token) => {
     try {
       setLoading(true);
       const updatedRole = await fetchWrapper({
-        url: `/api/role/${id}`,
+        url: `${process.env.REACT_APP_BACKEND_URL}/role/${id}`,
         method: "PUT",
         body: update,
         token,
@@ -224,7 +230,7 @@ export const deleteRole = (id, setLoading, token) => {
     try {
       setLoading(true);
       await fetchWrapper({
-        url: `/api/role/${id}`,
+        url: `${process.env.REACT_APP_BACKEND_URL}/role/${id}`,
         method: "DELETE",
         token,
       });
@@ -242,7 +248,7 @@ export const createRole = (role, setLoading, token) => {
     try {
       setLoading(true);
       const newRole = await fetchWrapper({
-        url: `/api/role`,
+        url: `${process.env.REACT_APP_BACKEND_URL}/role`,
         method: "POST",
         body: role,
         token,

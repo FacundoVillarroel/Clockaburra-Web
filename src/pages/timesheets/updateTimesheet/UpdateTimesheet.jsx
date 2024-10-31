@@ -66,11 +66,14 @@ const UpdateTimesheet = () => {
     try {
       setLoading(true);
       const token = getCookie("token");
-      const response = await fetch(`/api/timesheet/${timesheetId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await fetch(
+        `${process.env.REACT_APP_BACKEND_URL}/timesheet/${timesheetId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       const timesheet = await response.json();
       if (timesheet.breaks.length) {
         const timesheetBreaks = revertBreaksFromISO(timesheet.breaks);
@@ -104,14 +107,17 @@ const UpdateTimesheet = () => {
     try {
       setLoading(true);
       const token = getCookie("token");
-      const response = await fetch(`/api/timesheet/reject`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ id: timesheetId }),
-      });
+      const response = await fetch(
+        `${process.env.REACT_APP_BACKEND_URL}/timesheet/reject`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ id: timesheetId }),
+        }
+      );
       if (!response.ok) {
         console.error(await response.json());
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -148,11 +154,14 @@ const UpdateTimesheet = () => {
         Authorization: `Bearer ${token}`,
       };
       if (timesheetId) {
-        const response = await fetch(`/api/timesheet/${timesheetId}`, {
-          method: "PUT",
-          headers,
-          body: JSON.stringify(reqBody),
-        });
+        const response = await fetch(
+          `${process.env.REACT_APP_BACKEND_URL}/timesheet/${timesheetId}`,
+          {
+            method: "PUT",
+            headers,
+            body: JSON.stringify(reqBody),
+          }
+        );
         if (!response.ok) {
           console.error(await response.json());
           throw new Error(`HTTP error! status: ${response.status}`);
@@ -162,17 +171,20 @@ const UpdateTimesheet = () => {
         navigate("/timesheets");
         return alert(timesheetUpdated.message);
       } else {
-        const response = await fetch(`/api/timesheet`, {
-          method: "POST",
-          headers,
-          body: JSON.stringify(reqBody),
-        });
+        const response = await fetch(
+          `${process.env.REACT_APP_BACKEND_URL}/timesheet`,
+          {
+            method: "POST",
+            headers,
+            body: JSON.stringify(reqBody),
+          }
+        );
         if (!response.ok) {
           console.error(await response.json());
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         const timesheetCreated = await response.json();
-        await fetch(`/api/timesheet/approve`, {
+        await fetch(`${process.env.REACT_APP_BACKEND_URL}/timesheet/approve`, {
           headers,
           method: "POST",
           body: JSON.stringify({ id: timesheetCreated.id }),

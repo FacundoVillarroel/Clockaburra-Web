@@ -38,7 +38,7 @@ export const renderShiftCell = (value, row) => {
 export const renderTotalHours = (value, row) => {
   return (
     <CellContainer>
-      <strong>{value} Hrs</strong>
+      <strong>{value.toFixed(2)} Hrs</strong>
     </CellContainer>
   );
 };

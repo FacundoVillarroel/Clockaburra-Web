@@ -82,7 +82,9 @@ const ShiftForm = ({
         Authorization: `Bearer ${token}`,
       };
       // Determine URL and HTTP method based on shiftId
-      const url = shiftId ? `/api/shift/${shiftId}` : `/api/shift`;
+      const url = shiftId
+        ? `${process.env.REACT_APP_BACKEND_URL}/shift/${shiftId}`
+        : `${process.env.REACT_APP_BACKEND_URL}/shift`;
       const method = shiftId ? "PUT" : "POST";
 
       // Perform the API request

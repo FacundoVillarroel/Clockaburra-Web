@@ -41,14 +41,17 @@ const ResetPassword = () => {
       setLoading(true);
       const queryParams = encodeURIComponent(email);
       if (token) {
-        const response = await fetch(`/api/users/reset-password`, {
-          method: "put",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ token, password }),
-        });
+        const response = await fetch(
+          `${process.env.REACT_APP_BACKEND_URL}/users/reset-password`,
+          {
+            method: "put",
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ token, password }),
+          }
+        );
         const data = await response.json();
         alert(data.message);
         if (data.updated) {
@@ -56,7 +59,7 @@ const ResetPassword = () => {
         }
       } else {
         const response = await fetch(
-          `/api/auth/send-link-reset-password?email=${queryParams}`
+          `${process.env.REACT_APP_BACKEND_URL}/auth/send-link-reset-password?email=${queryParams}`
         );
         const data = await response.json();
         alert(data.message);

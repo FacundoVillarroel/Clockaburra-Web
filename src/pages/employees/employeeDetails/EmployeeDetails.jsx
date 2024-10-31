@@ -60,11 +60,14 @@ const EmployeeDetails = () => {
     try {
       const token = getCookie("token");
       setLoading(true);
-      const response = await fetch(`/api/users/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await fetch(
+        `${process.env.REACT_APP_BACKEND_URL}/users/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       const user = await response.json();
       setEmployee(user.user);
       setEmployeeUpdate(user.user);
@@ -85,12 +88,15 @@ const EmployeeDetails = () => {
       setModalOpen(false);
       setLoading(true);
       const token = getCookie("token");
-      const response = await fetch(`/api/users/${id}`, {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await fetch(
+        `${process.env.REACT_APP_BACKEND_URL}/users/${id}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       const user = await response.json();
 
@@ -119,17 +125,20 @@ const EmployeeDetails = () => {
     try {
       setLoading(true);
       const token = getCookie("token");
-      const response = await fetch(`/api/users/resend-validation-link/${id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          name: employee.name,
-          role: employee.role,
-        }),
-      });
+      const response = await fetch(
+        `${process.env.REACT_APP_BACKEND_URL}/users/resend-validation-link/${id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            name: employee.name,
+            role: employee.role,
+          }),
+        }
+      );
       const result = await response.json();
       if (result.ok) {
         alert("Validation link sent to user email successfully");
@@ -186,14 +195,17 @@ const EmployeeDetails = () => {
       handleLoading(true);
       const token = getCookie("token");
       console.log("update", updatedEmployee);
-      const response = await fetch(`/api/users/${employee.email}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(updatedEmployee),
-      });
+      const response = await fetch(
+        `${process.env.REACT_APP_BACKEND_URL}/users/${employee.email}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(updatedEmployee),
+        }
+      );
 
       const result = await response.json();
       handleLoading(false);

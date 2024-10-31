@@ -55,11 +55,14 @@ const UpdateShift = () => {
     try {
       setLoading(true);
       const token = getCookie("token");
-      const response = await fetch(`/api/shift/${shiftId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await fetch(
+        `${process.env.REACT_APP_BACKEND_URL}/shift/${shiftId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       const shift = await response.json();
       setShiftData({
         startDate: new Date(shift.startDate),
@@ -83,12 +86,15 @@ const UpdateShift = () => {
     try {
       setLoading(true);
       const token = getCookie("token");
-      const response = await fetch(`/api/shift/${shiftId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        method: "DELETE",
-      });
+      const response = await fetch(
+        `${process.env.REACT_APP_BACKEND_URL}/shift/${shiftId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          method: "DELETE",
+        }
+      );
       if (!response.ok) {
         console.error(await response.json());
         alert(

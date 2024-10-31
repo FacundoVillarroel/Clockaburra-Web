@@ -75,15 +75,18 @@ const EmployeeForm = () => {
 
     try {
       setLoading(true);
-      const response = await fetch("/api/users", {
-        method: "POST",
+      const response = await fetch(
+        `${process.env.REACT_APP_BACKEND_URL}/users`,
+        {
+          method: "POST",
 
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(formData),
-      });
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(formData),
+        }
+      );
 
       const result = await response.json();
       if (response.ok) {

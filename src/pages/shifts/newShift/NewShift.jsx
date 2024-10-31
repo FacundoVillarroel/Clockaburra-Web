@@ -37,9 +37,12 @@ const NewShift = () => {
     try {
       setLoading(true);
       const token = getCookie("token");
-      const response = await fetch(`/api/users`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const response = await fetch(
+        `${process.env.REACT_APP_BACKEND_URL}/users`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }

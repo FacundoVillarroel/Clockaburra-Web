@@ -74,7 +74,7 @@ const ShiftDashboard = ({ rolesList = [], departmentsList = [] }) => {
       });
 
       const users = await fetchWrapper({
-        url: `/api/users?${queryString}`,
+        url: `${process.env.REACT_APP_BACKEND_URL}/users?${queryString}`,
         token,
       });
 
@@ -96,7 +96,7 @@ const ShiftDashboard = ({ rolesList = [], departmentsList = [] }) => {
       });
 
       const shiftsList = await fetchWrapper({
-        url: `/api/shift?${shiftQueryString}`,
+        url: `${process.env.REACT_APP_BACKEND_URL}/shift?${shiftQueryString}`,
         token,
       });
 

@@ -25,9 +25,12 @@ const EmployeeList = ({ rolesList = [], departmentsList = [] }) => {
         departments: departments.length ? departments : ["none"],
       });
       const token = getCookie("token");
-      const response = await fetch(`/api/users?${queryString}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const response = await fetch(
+        `${process.env.REACT_APP_BACKEND_URL}/users?${queryString}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
       const users = await response.json();
       setEmployees(formatData(users));
       setLoading(false);

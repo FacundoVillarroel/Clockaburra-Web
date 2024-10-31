@@ -25,7 +25,7 @@ const EmailValidation = () => {
       const validateToken = async () => {
         try {
           const response = await fetch(
-            `http://localhost:8080/auth/validation?token=${token}`
+            `${process.env.REACT_APP_BACKEND_URL}/auth/validation?token=${token}`
           );
           const result = await response.json();
           setValidationResult(result);

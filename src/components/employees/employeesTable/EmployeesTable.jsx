@@ -48,12 +48,15 @@ const EmployeesTable = ({ employees, setEmployees }) => {
       setModalOpen(false);
       setLoading(true);
       const token = getCookie("token");
-      const response = await fetch(`/api/users/${userId}`, {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await fetch(
+        `${process.env.REACT_APP_BACKEND_URL}/users/${userId}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       const user = await response.json();
 

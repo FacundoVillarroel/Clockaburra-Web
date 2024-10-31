@@ -83,11 +83,14 @@ const NewTimesheet = () => {
         Authorization: `Bearer ${token}`,
       };
 
-      const response = await fetch(`/api/timesheet`, {
-        method: "POST",
-        headers,
-        body: JSON.stringify({ ...newData, breaks: transformedBreaks }),
-      });
+      const response = await fetch(
+        `${process.env.REACT_APP_BACKEND_URL}/timesheet`,
+        {
+          method: "POST",
+          headers,
+          body: JSON.stringify({ ...newData, breaks: transformedBreaks }),
+        }
+      );
 
       if (!response.ok) {
         console.error(await response.json());
@@ -95,7 +98,7 @@ const NewTimesheet = () => {
       }
 
       const timesheetCreated = await response.json();
-      await fetch(`/api/timesheet/approve`, {
+      await fetch(`${process.env.REACT_APP_BACKEND_URL}/timesheet/approve`, {
         headers,
         method: "POST",
         body: JSON.stringify({ id: timesheetCreated.id }),
@@ -113,9 +116,12 @@ const NewTimesheet = () => {
     try {
       setLoading(true);
       const token = getCookie("token");
-      const response = await fetch(`/api/users`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const response = await fetch(
+        `${process.env.REACT_APP_BACKEND_URL}/users`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }

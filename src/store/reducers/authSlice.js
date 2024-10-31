@@ -68,13 +68,16 @@ export const login = createAsyncThunk(
   "auth/login",
   async (credentials, { rejectWithValue }) => {
     try {
-      const response = await fetch(`/api/auth/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(credentials),
-      });
+      const response = await fetch(
+        `${process.env.REACT_APP_BACKEND_URL}/auth/login`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(credentials),
+        }
+      );
       const user = await response.json();
       const token =
         response.headers.get("Authorization")?.split(" ")[1] || null;
@@ -96,13 +99,16 @@ export const googleLogin = createAsyncThunk(
   "auth/googleLogin",
   async (accessToken, { rejectWithValue }) => {
     try {
-      const response = await fetch("/api/auth/googleLogin", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ accessToken }),
-      });
+      const response = await fetch(
+        `${process.env.REACT_APP_BACKEND_URL}/auth/googleLogin`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ accessToken }),
+        }
+      );
       const user = await response.json();
       const token =
         response.headers.get("Authorization")?.split(" ")[1] || null;
@@ -129,12 +135,15 @@ export const validateToken = createAsyncThunk(
     }
 
     try {
-      const response = await fetch("/api/auth/me", {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await fetch(
+        `${process.env.REACT_APP_BACKEND_URL}/auth/me`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Token is invalid");

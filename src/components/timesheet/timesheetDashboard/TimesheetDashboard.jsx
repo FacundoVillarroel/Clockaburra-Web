@@ -88,7 +88,7 @@ const TimesheetDashboard = ({ rolesList = [], departmentsList = [] }) => {
       });
 
       const users = await fetchWrapper({
-        url: `/api/users?${queryString}`,
+        url: `${process.env.REACT_APP_BACKEND_URL}/users?${queryString}`,
         token,
       });
 
@@ -110,7 +110,7 @@ const TimesheetDashboard = ({ rolesList = [], departmentsList = [] }) => {
       });
 
       const timesheetsList = await fetchWrapper({
-        url: `/api/timesheet?${timesheetQueryString}`,
+        url: `${process.env.REACT_APP_BACKEND_URL}/timesheet?${timesheetQueryString}`,
         token,
       });
 
