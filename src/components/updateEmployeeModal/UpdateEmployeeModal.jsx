@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import Modal from "../ui/modal/Modal";
 import Button from "../ui/button/Button";
 
-import { Title, ButtonsContainer } from "./UpdateEmployeeModal.styles.js";
+import { Title, ButtonsContainer } from "./UpdateEmployeeModalStyles.js";
 import Loading from "../ui/loading/Loading";
 
 const UpdateEmployeeModal = ({ setModalOpen, handleSaveEmployee }) => {

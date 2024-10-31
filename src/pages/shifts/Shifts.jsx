@@ -1,7 +1,7 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 
-import { ShiftsContainer } from "./shifts.styles.js";
+import { ShiftsContainer } from "./shiftsStyles.js";
 
 import ShiftDashboard from "../../components/shifts/shiftDashboard/ShiftDashboard";
 import NewShift from "./newShift/NewShift";

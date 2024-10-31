@@ -1,6 +1,6 @@
 import React from "react";
 
-import { StyledCard } from "./Cart.styles.js";
+import { StyledCard } from "./CartStyles.js";
 
 const Card = ({ children, ...props }) => {
   return <StyledCard {...props}>{children}</StyledCard>;

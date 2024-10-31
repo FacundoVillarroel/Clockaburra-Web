@@ -8,7 +8,7 @@ import {
   ActionBarButtonContainer,
   AddTimesheetButton,
   DateSelectorContainer,
-} from "./timesheetDashboard.styles.js";
+} from "./timesheetDashboardstyles.js";
 
 import DropdownMenu from "../../dropdownMenu/DropdownMenu";
 import WeekSelector from "../../weekSelector/WeekSelector";

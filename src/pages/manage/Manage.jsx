@@ -9,7 +9,7 @@ import {
   Title,
   ActionBarContainer,
   ActionBarButtonContainer,
-} from "./manage.styles.js";
+} from "./manageStyles.js";
 
 const Manage = () => {
   const location = useLocation();

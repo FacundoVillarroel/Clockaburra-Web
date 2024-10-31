@@ -1,7 +1,7 @@
 import React from "react";
 
 import Button from "../ui/button/Button";
-import { IconContainer } from "./actionButtons.styles.js";
+import { IconContainer } from "./actionButtonsStyles.js";
 
 const ActionButtons = ({ organization, setOrganization, setModalOpen }) => {
   const handleEdit = () => {

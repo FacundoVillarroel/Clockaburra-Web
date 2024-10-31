@@ -6,7 +6,7 @@ import TimesheetDashboard from "../../components/timesheet/timesheetDashboard/Ti
 import NewTimesheet from "./newTimesheet/NewTimesheet";
 import UpdateTimesheet from "./updateTimesheet/UpdateTimesheet";
 
-import { TimesheetsContainer } from "./timesheets.styles.js";
+import { TimesheetsContainer } from "./timesheetsStyles.js";
 
 const Timesheets = () => {
   const { roles, departments } = useSelector((state) => state.organization);

@@ -19,7 +19,7 @@ import {
   BreakInputContainer,
   ButtonContainer,
   DeleteBreakButton,
-} from "./shiftForm.styles.js";
+} from "./shiftFormStyles.js";
 import { useEffect } from "react";
 
 const ShiftForm = ({

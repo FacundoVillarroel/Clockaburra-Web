@@ -1,6 +1,6 @@
 import React from "react";
 
-import { ModalContent, ModalOverlay } from "./Modal.styles.js";
+import { ModalContent, ModalOverlay } from "./ModalStyles.js";
 
 const Modal = ({ children, ...props }) => {
   return (

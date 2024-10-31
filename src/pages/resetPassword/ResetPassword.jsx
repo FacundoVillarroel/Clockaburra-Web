@@ -15,7 +15,7 @@ import {
   LinksContainer,
   LoginLink,
   NewMemberLink,
-} from "./resetPassword.styles.js";
+} from "./resetPasswordStyles.js";
 
 const ResetPassword = () => {
   const [loading, setLoading] = useState(false);

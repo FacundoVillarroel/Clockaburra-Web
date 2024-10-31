@@ -10,7 +10,7 @@ import {
   ActionBarButtonContainer,
   AddShiftButton,
   DateSelectorContainer,
-} from "./shiftDashboard.styles.js";
+} from "./shiftDashboardStyles.js";
 
 import ShiftWeeklyView from "../shiftWeeklyView/ShiftWeeklyView";
 import ShiftMonthlyView from "../shiftMonthlyView/ShiftMonthlyView";

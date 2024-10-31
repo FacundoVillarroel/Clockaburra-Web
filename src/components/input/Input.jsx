@@ -5,7 +5,7 @@ import {
   Label,
   StyledInput,
   StyledSelect,
-} from "./input.styles.js";
+} from "./inputStyles.js";
 
 const Input = ({
   label,

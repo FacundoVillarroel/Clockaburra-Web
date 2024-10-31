@@ -17,7 +17,7 @@ import {
   DeleteBreakButton,
   AddBreakButton,
   ButtonContainer,
-} from "./newTimesheet.styles.js";
+} from "./newTimesheetStyles.js";
 
 const NewTimesheet = () => {
   const [loading, setLoading] = useState(false);

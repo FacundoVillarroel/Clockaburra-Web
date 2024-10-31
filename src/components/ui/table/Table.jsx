@@ -1,5 +1,5 @@
 import React from "react";
-import { StyledTable, StyledTr, StyledTh, StyledTd } from "./Table.styles.js";
+import { StyledTable, StyledTr, StyledTh, StyledTd } from "./TableStyles.js";
 
 const Table = ({
   columns,

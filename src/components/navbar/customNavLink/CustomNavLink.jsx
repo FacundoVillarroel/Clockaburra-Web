@@ -1,6 +1,6 @@
 import React from "react";
 
-import { StyledNavLink, ChildrenContainer } from "./CustomNavLink.styles.js";
+import { StyledNavLink, ChildrenContainer } from "./CustomNavLinkStyles.js";
 
 const CustomNavLink = ({ to, onClick, children, ...props }) => {
   return (

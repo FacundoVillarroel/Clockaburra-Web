@@ -18,7 +18,7 @@ import {
   ScreenshotGrid,
   Screenshot,
   AlertMessage,
-} from "./linkToApp.styles.js";
+} from "./linkToAppStyles.js";
 
 const LinkToApp = () => {
   const [userName, setUserName] = useState("");

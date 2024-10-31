@@ -11,7 +11,7 @@ import {
   DeleteButtonContainer,
   ModalButtonsContainer,
   ModalTitle,
-} from "./updateShift.styles.js";
+} from "./updateShiftStyles.js";
 
 import Modal from "../../../components/ui/modal/Modal";
 import ShiftForm from "../../../components/shifts/shiftForm/ShiftForm";

@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Form from "../form/Form";
 import Loading from "../ui/loading/Loading";
 
-import { RootContainer, Title } from "./completeRegistrationForm.styles.js";
+import { RootContainer, Title } from "./completeRegistrationFormStyles.js";
 
 const fields = [
   { label: "Password", type: "password", name: "password" },
