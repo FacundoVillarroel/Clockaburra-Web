@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Table from "../../ui/table/Table";
 
 import { LuTrash2 } from "react-icons/lu";
-import { IconContainer } from "./emplolyeesTable.styles";
+import { IconContainer } from "./emplolyeesTable.styles.js";
 import DeleteUserModal from "../../deleteUserModal/DeleteUserModal";
 import Loading from "../../ui/loading/Loading";
 

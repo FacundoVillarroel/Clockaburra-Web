@@ -6,7 +6,7 @@ import Loading from "../../../components/ui/loading/Loading";
 import {
   ActionBarContainer,
   ActionBarButtonContainer,
-} from "./employeeList.styles";
+} from "./employeeList.styles.js";
 import DropdownMenu from "../../../components/dropdownMenu/DropdownMenu";
 import { buildQueryParams } from "../../../utils/buildQueryParams";
 import EmployeesTable from "../../../components/employees/employeesTable/EmployeesTable";

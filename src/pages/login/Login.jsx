@@ -15,7 +15,7 @@ import {
   ForgotPasswordLink,
   NewMemberLink,
   ErrorText,
-} from "./login.styles";
+} from "./login.styles.js";
 import GoogleLoginButton from "../../components/googleLoginButton/GoogleLoginButton";
 
 const initialValues = {

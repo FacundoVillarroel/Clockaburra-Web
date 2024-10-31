@@ -8,7 +8,7 @@ import {
   Label,
   Input,
   ConfirmButton,
-} from "./deleteUserModal.styles";
+} from "./deleteUserModal.styles.js";
 
 const DeleteUserModal = ({ id, handleClose, handleDelete }) => {
   const [inputValue, setInputValue] = useState("");

@@ -9,7 +9,7 @@ import {
   Label,
   Input,
   ControlArrow,
-} from "./monthSelector.styles";
+} from "./monthSelector.styles.js";
 
 const MonthSelector = ({ monthSelected, setMonth }) => {
   const getMonthInputValue = (isoDate) => {

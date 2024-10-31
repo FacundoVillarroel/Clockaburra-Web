@@ -10,7 +10,7 @@ import {
   Title,
   StyledLink,
   Content,
-} from "./employees.styles";
+} from "./employees.styles.js";
 
 const Employees = () => {
   const { roles, departments } = useSelector((state) => state.organization);

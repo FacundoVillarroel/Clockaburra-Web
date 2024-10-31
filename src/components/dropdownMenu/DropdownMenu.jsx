@@ -7,7 +7,7 @@ import {
   DropdownLabel,
   DropdownSeparator,
   DropdownCheckboxItem,
-} from "./dropdownMenu.styles";
+} from "./dropdownMenu.styles.js";
 
 const DropdownMenu = ({ label, items, checked, setValues }) => {
   const [selected, setSelected] = useState(items);

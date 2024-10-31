@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import logo from "../../../img/logoClockaburra.png";
 
-import { RootContainer, Image, Text } from "./Loading.styles";
+import { RootContainer, Image, Text } from "./Loading.styles.js";
 
 const Loading = ({ propStyles = {} }) => {
   const spinValue = useRef(null);

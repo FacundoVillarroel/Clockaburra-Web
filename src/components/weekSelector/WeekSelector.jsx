@@ -7,7 +7,7 @@ import {
   Label,
   Input,
   ControlArrow,
-} from "./weekSelector.styles";
+} from "./weekSelector.styles.js";
 import Colors from "../../constants/Colors";
 
 const WeekSelector = ({ weekSelected, setWeek }) => {

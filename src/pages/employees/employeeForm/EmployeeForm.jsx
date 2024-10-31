@@ -3,7 +3,7 @@ import Form from "../../../components/form/Form";
 import { getCookie } from "../../../utils/cookies";
 import { DateTime } from "luxon";
 
-import { EmployeeFormContainer, Title } from "./employeeForm.styles";
+import { EmployeeFormContainer, Title } from "./employeeForm.styles.js";
 import Loading from "../../../components/ui/loading/Loading";
 import { useSelector } from "react-redux";
 import { newUserValidation } from "../../../utils/newUserValidation";

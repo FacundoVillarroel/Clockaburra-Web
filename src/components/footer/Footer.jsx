@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Div, FooterContainer } from "./Footer.styles";
+import { Div, FooterContainer } from "./Footer.styles.js";
 
 const Footer = () => {
   return (

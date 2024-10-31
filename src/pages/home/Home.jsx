@@ -22,7 +22,7 @@ import {
   FeatureIcon,
   FeatureTitle,
   FeatureDescription,
-} from "./home.styles";
+} from "./home.styles.js";
 
 export default function Home() {
   const navigate = useNavigate();

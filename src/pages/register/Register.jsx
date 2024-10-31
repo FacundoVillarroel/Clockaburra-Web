@@ -8,7 +8,7 @@ import {
   Form,
   Input,
   NewMemberLink,
-} from "./register.styles";
+} from "./register.styles.js";
 
 const Register = () => {
   const handleSubmit = (e) => {

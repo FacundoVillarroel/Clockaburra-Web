@@ -6,7 +6,7 @@ import {
   StyledAlertCircle,
   MessageTitle,
   MessageText,
-} from "./emptyState.styles";
+} from "./emptyState.styles.js";
 
 const EmptyState = ({ message = "There's nothing to see here" }) => {
   return (

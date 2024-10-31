@@ -7,7 +7,7 @@ import {
   FormControl,
   StyledInput,
   StyledDatePicker,
-} from "./form.styles";
+} from "./form.styles.js";
 
 const Form = ({ onSubmit, fields, children, submitButtonText = "Submit" }) => {
   const [formData, setFormData] = useState(

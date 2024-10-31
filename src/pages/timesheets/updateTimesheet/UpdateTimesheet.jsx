@@ -24,7 +24,7 @@ import {
   ButtonContainer,
   ModalButtonsContainer,
   ModalTitle,
-} from "./updateTimesheet.styles";
+} from "./updateTimesheet.styles.js";
 import { formatJsDateToLuxonISO } from "../../../utils/dateHelpers";
 
 const UpdateTimesheet = () => {

@@ -8,7 +8,7 @@ import {
   Title,
   ContentContainer,
   Subtitle,
-} from "./emailValidation.styles";
+} from "./emailValidation.styles.js";
 
 const useQuery = () => {
   return new URLSearchParams(useLocation().search);

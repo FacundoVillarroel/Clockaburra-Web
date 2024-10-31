@@ -12,7 +12,7 @@ import {
   LogoImage,
   LogoText,
   NavLinks,
-} from "./Navbar.styles";
+} from "./Navbar.styles.js";
 import { useLocation } from "react-router-dom";
 
 const Navbar = () => {

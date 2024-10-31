@@ -3,7 +3,7 @@ import Navbar from "../navbar/Navbar";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchOrganizations } from "../../store/reducers/organizationSlice";
 
-import { HeaderContainer } from "./Header.styles";
+import { HeaderContainer } from "./Header.styles.js";
 
 const Header = () => {
   const { user, token } = useSelector((state) => state.auth);

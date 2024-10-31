@@ -23,7 +23,7 @@ import {
   ResendButtonContainer,
   Info,
   Select,
-} from "./EmployeeDetails.styles";
+} from "./EmployeeDetails.styles.js";
 
 import DeleteUserModal from "../../../components/deleteUserModal/DeleteUserModal";
 import Button from "../../../components/ui/button/Button";

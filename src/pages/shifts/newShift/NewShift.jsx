@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Loading from "../../../components/ui/loading/Loading";
 import { getCookie } from "../../../utils/cookies";
 
-import { FormContainer } from "./newShift.styles";
+import { FormContainer } from "./newShift.styles.js";
 
 import ShiftForm from "../../../components/shifts/shiftForm/ShiftForm";
 

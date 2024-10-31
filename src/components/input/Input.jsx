@@ -1,6 +1,11 @@
 import React from "react";
 
-import { FormControl, Label, StyledInput, StyledSelect } from "./input.styles";
+import {
+  FormControl,
+  Label,
+  StyledInput,
+  StyledSelect,
+} from "./input.styles.js";
 
 const Input = ({
   label,

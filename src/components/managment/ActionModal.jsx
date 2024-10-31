@@ -8,7 +8,7 @@ import {
   Label,
   Input,
   ConfirmButton,
-} from "./actionModal.styles";
+} from "./actionModal.styles.js";
 
 const ActionModal = ({
   actionType,
