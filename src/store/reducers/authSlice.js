@@ -80,6 +80,7 @@ export const login = createAsyncThunk(
       );
       const user = await response.json();
       console.log(user);
+      console.log("HEADERS", response.headers.get("Authorization"));
       const token =
         response.headers.get("Authorization")?.split(" ")[1] || null;
       console.log(token);
