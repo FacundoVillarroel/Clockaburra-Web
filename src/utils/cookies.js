@@ -23,5 +23,5 @@ export const getCookie = (name) => {
 };
 
 export const eraseCookie = (name) => {
-  document.cookie = name + "=; Max-Age=-99999999;";
+  document.cookie = `${name}=; Max-Age=0; path=/; SameSite=None; Secure`;
 };
