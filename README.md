@@ -174,6 +174,14 @@ The goal was to design a scalable interface capable of consuming a shared REST A
 
 Developing this project allowed me to improve my understanding of application architecture, authentication flows, global state management and communication between frontend and backend services.
 
+## Related Projects
+
+- **[Clockaburra REST API](https://github.com/FacundoVillarroel/Clockaburra-RESTful-API)** → Backend REST API powering the platform.
+
+- **[Clockaburra Web](https://github.com/FacundoVillarroel/Clockaburra-Web)** → Web application for administrators and managers.
+
+- **[Clockaburra Mobile](https://github.com/FacundoVillarroel/Clockaburra-App)** → Native mobile application for employees.
+
 ## Author
 
 **Facundo Villarroel**
