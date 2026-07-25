@@ -1,102 +1,189 @@
-
 # Clockaburra Web
-A modern, responsive web application serving as the frontend for the Clockaburra platform. Built with React and integrated with the Clockaburra RESTful API, it offers a seamless user experience for managing time-related functionalities.​
+<p align="center">
+  <img src="./src/assets/dashboard-preview.png" width="900" alt="Clockaburra Dashboard">
+</p>
+Frontend application for the Clockaburra employee management platform.
 
-## Table of Contents
-- [Overview](#overview)
-- [Features](#features)
-- [Technologies Used](#technologies-used)
-- [Installation](#installation)
-- [Configuration](#configuration)
-- [Running Locally](#running-locally)
-- [Available Scripts](#available-scripts)
-- [Project Structure](#project-structure)
-- [Contributing](#contributing)
-- [Author](#author)
-- [Contact](#contact)
+Clockaburra Web is the main client application of the Clockaburra ecosystem, providing an intuitive interface for managing employees, departments, shifts and attendance records. The application communicates with the Clockaburra REST API and was designed following a component-based architecture focused on maintainability and reusability.
 
-## Overview
-Clockaburra Web serves as the user interface for the Clockaburra platform, allowing users to interact with the system's functionalities through a clean and intuitive design. It communicates with the Clockaburra RESTful API to perform operations such as user authentication, data retrieval, and management.​
+Built with **React**, **Redux Toolkit**, **React Router**, **Styled Components** and **Firebase Authentication**.
 
 ## Features
-- Responsive design optimized for various devices
-- User authentication and authorization
-- Integration with Clockaburra RESTful API
-- Real-time data updates
-- Form validations and error handling
-- Modular and maintainable codebase​
 
-## Technologies Used
-- **Frontend Framework:** React
-- **State Management:** Redux
-- **Routing:** React Router
-- **Styling:** CSS Modules
-- **HTTP Client:** Axios
+- 👥 Employee management through an intuitive interface.
+- 🏢 Department administration.
+- 🗓️ Shift scheduling.
+- ⏱️ Employee attendance tracking.
+- 🔐 Secure authentication with Firebase and Google OAuth.
+- 📱 Responsive layout for different screen sizes.
+- 🔄 Integration with the Clockaburra REST API.
 
-## Installation
-1. Clone the repository:
+- ## Tech Stack
 
-```bash
-git clone https://github.com/FacundoVillarroel/Clockaburra-Web.git
-cd Clockaburra-Web
-```
+| Category | Technologies |
+|----------|--------------|
+| **Framework** | React |
+| **State Management** | Redux Toolkit · React Redux |
+| **Routing** | React Router DOM |
+| **Styling** | Styled Components |
+| **Authentication** | Firebase Authentication · Google OAuth |
+| **Date & Time** | Luxon · React Datepicker |
+| **Icons** | React Icons |
 
-2. Install dependencies:
+## Architecture
 
-```bash
-npm install
-```
+### Component-Based Architecture
 
-## Configuration
-### Environment Variables:
-Create a `.env` file in the root directory and add the following:
+The application follows a component-based architecture that promotes reusability, separation of concerns and maintainability.
 
-```env
-REACT_APP_API_URL=http://localhost:3000/api
-```
+The project is organized into reusable UI components, application pages, Redux slices, services and utilities, making it easier to extend and maintain as the application grows.
 
-Adjust the `REACT_APP_API_URL` to match the URL of your Clockaburra RESTful API.
+### Design Decisions
 
-## Running Locally
-To start the development server:​
+Some of the design decisions implemented in this project include:
 
-```bash
-npm start
-```
+- Reusable UI components.
+- Global state management with Redux Toolkit.
+- Protected routes using Firebase Authentication.
+- Separation between presentation and API communication.
+- Responsive layouts for desktop and mobile devices.
+- Shared REST API with the backend application.
 
-The application will run at `http://localhost:3000/` by default.​
+### Project Structure
 
-## Available Scripts
-- **Start Development Server:**
-
-```bash
-npm start
-```
-
-## Project Structure
-```
-Clockaburra-Web/
+```text
+Clockaburra-Web
+│
 ├── public/
-│   └── index.html
-├── src/
-│   ├── assets/
-│   ├── components/
-│   ├── pages/
-│   ├── services/
-│   ├── store/
-│   ├── App.js
-│   └── index.js
-├── .env
+│
+├── src
+│   ├── assets/          # Images, icons and static resources
+│   ├── components/      # Reusable UI components
+│   ├── layouts/         # Shared application layouts
+│   ├── pages/           # Application pages
+│   ├── routes/          # Route definitions
+│   ├── services/        # API communication layer
+│   ├── store/           # Redux store configuration
+│   ├── slices/          # Redux Toolkit slices
+│   ├── styles/          # Global styles and themes
+│   ├── utils/           # Shared helper functions
+│   ├── App.jsx
+│   └── main.jsx
+│
 ├── package.json
+├── vite.config.js
 └── README.md
 ```
 
+### Folder Overview
+
+| Folder | Responsibility |
+|---------|----------------|
+| **components** | Reusable UI components shared across the application. |
+| **pages** | Main application screens rendered by the router. |
+| **layouts** | Shared layouts used by multiple pages. |
+| **routes** | Application routing configuration. |
+| **services** | Handles communication with the REST API. |
+| **store** | Redux store configuration. |
+| **slices** | Redux Toolkit slices responsible for application state. |
+| **styles** | Global styles and theme configuration. |
+| **assets** | Static resources such as images and icons. |
+| **utils** | Shared utility functions. |
+
+
+## State Management
+
+Global application state is managed using **Redux Toolkit**.
+
+State is organized into independent slices, allowing different application domains to remain isolated while sharing a centralized store.
+
+This approach simplifies state updates, improves maintainability and makes the application easier to scale as new features are introduced.
+
+## API Integration
+
+The application communicates with the Clockaburra REST API through a dedicated service layer.
+
+This separation keeps UI components independent from API implementation details, making it easier to maintain, test and evolve the application while sharing the same backend with the mobile client.
+
+## Authentication
+
+Authentication is handled using **Firebase Authentication**.
+
+Protected routes ensure that only authenticated users can access the application's private areas, while JWT tokens are used to securely communicate with the backend API.
+
+## Getting Started
+
+### Requirements
+
+Before running the project, make sure you have:
+
+- Node.js 20+
+- npm
+- Clockaburra REST API running
+- Firebase project configured
+
+---
+
+### Installation
+
+```bash
+git clone https://github.com/FacundoVillarroel/Clockaburra-Web.git
+
+cd Clockaburra-Web
+
+npm install
+```
+
+---
+
+### Environment Variables
+
+Create a `.env` file.
+
+Example:
+
+```env
+REACT_APP_API_URL=http://localhost:8080
+
+REACT_APP_API_KEY=your_firebase_api_key
+
+REACT_APP_FIREBASE_AUTH_DOMAIN=your_firebase_auth_domain
+
+REACT_APP_FIREBASE_PROJECT_ID=your_firebase_project_id
+```
+> **Note:** The complete list of environment variables depends on your Firebase and Mailjet configuration.
+---
+
+### Running
+
+```bash
+npm run dev
+```
+
+The application will be available at:
+
+```
+The application will run at `http://localhost:3000/` by default.​
+```
+
+## Why I Built This Project
+
+Clockaburra Web was created to explore how a modern frontend application can be structured beyond building individual pages.
+
+The goal was to design a scalable interface capable of consuming a shared REST API while keeping the code organized through reusable components, centralized state management and clear separation of responsibilities.
+
+Developing this project allowed me to improve my understanding of application architecture, authentication flows, global state management and communication between frontend and backend services.
+
 ## Author
-Facundo Villarroel
 
-[GitHub](https://github.com/FacundoVillarroel)
+**Facundo Villarroel**
 
-## Contact
-For questions or suggestions pleasecontact:​
+Full Stack Software Development with a strong interest in software architecture and scalable backend systems.
+- GitHub: https://github.com/FacundoVillarroel
+- LinkedIn: https://www.linkedin.com/in/villarroelfacundo/
 
-Email: facu.villarroel96@gmail.com
+---
+
+## License
+
+This project is licensed under the MIT License.
