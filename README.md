@@ -1,12 +1,14 @@
 # Clockaburra Web
-<p align="center">
-  <img src="./src/assets/dashboard-preview.png" width="900" alt="Clockaburra Dashboard">
-</p>
+
 Frontend application for the Clockaburra employee management platform.
 
 Clockaburra Web is the main client application of the Clockaburra ecosystem, providing an intuitive interface for managing employees, departments, shifts and attendance records. The application communicates with the Clockaburra REST API and was designed following a component-based architecture focused on maintainability and reusability.
 
 Built with **React**, **Redux Toolkit**, **React Router**, **Styled Components** and **Firebase Authentication**.
+
+<p align="center">
+  <img src="./src/assets/dashboard-preview.png" width="900" alt="Clockaburra Dashboard">
+</p>
 
 ## Features
 
