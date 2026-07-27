@@ -9,7 +9,7 @@ const PublicRoute = ({ children }) => {
     return <Navigate to="/app-for-employees-link" />;
   }
 
-  return !token ? children : <Navigate to="/employees" />;
+  return !token ? children : <Navigate to="/shifts" />;
 };
 
 export default PublicRoute;

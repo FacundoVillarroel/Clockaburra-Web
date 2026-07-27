@@ -138,15 +138,6 @@ const ShiftDashboard = ({ rolesList = [], departmentsList = [] }) => {
       <Title>Shifts</Title>
       <ActionBarContainer>
         <ActionBarButtonContainer
-          active={viewType === "monthly" ? "active" : ""}
-          onClick={() => {
-            setViewType("monthly");
-            setStartDate(getStartOfMonthISO());
-          }}
-        >
-          Monthly view
-        </ActionBarButtonContainer>
-        <ActionBarButtonContainer
           active={viewType === "weekly" ? "active" : ""}
           onClick={() => {
             setViewType("weekly");
@@ -154,6 +145,15 @@ const ShiftDashboard = ({ rolesList = [], departmentsList = [] }) => {
           }}
         >
           Weekly view
+        </ActionBarButtonContainer>
+        <ActionBarButtonContainer
+          active={viewType === "monthly" ? "active" : ""}
+          onClick={() => {
+            setViewType("monthly");
+            setStartDate(getStartOfMonthISO());
+          }}
+        >
+          Monthly view
         </ActionBarButtonContainer>
         <ActionBarButtonContainer>
           <DropdownMenu

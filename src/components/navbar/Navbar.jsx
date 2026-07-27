@@ -36,12 +36,6 @@ const Navbar = () => {
         {user && user.permissions === "admin" ? (
           <>
             <CustomNavLink
-              to="/employees"
-              color={path === "employees" ? Colors.accent : ""}
-            >
-              Employees
-            </CustomNavLink>
-            <CustomNavLink
               to="/shifts"
               color={path === "shifts" ? Colors.accent : ""}
             >
@@ -52,6 +46,12 @@ const Navbar = () => {
               color={path === "timesheets" ? Colors.accent : ""}
             >
               Timesheets
+            </CustomNavLink>
+            <CustomNavLink
+              to="/employees"
+              color={path === "employees" ? Colors.accent : ""}
+            >
+              Employees
             </CustomNavLink>
             <CustomNavLink
               to="/manage/roles"

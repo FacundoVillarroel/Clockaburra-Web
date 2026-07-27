@@ -67,7 +67,7 @@ export default function Home() {
   ];
 
   const handleClick = () => {
-    navigate("/employees");
+    navigate("/shifts");
   };
 
   return (
