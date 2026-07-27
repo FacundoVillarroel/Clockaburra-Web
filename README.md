@@ -6,6 +6,12 @@ Clockaburra Web is the main client application of the Clockaburra ecosystem, pro
 
 Built with **React**, **Redux Toolkit**, **React Router**, **Styled Components** and **Firebase Authentication**.
 
+## Product Demo
+
+Explore the complete Clockaburra ecosystem in this short product walkthrough.
+
+🎥 [Product Walkthrough](https://www.youtube.com/watch?v=IoPG2P4DQTI)
+
 <p align="center">
   <img src="./src/assets/dashboard-preview.png" width="900" alt="Clockaburra Dashboard">
 </p>
